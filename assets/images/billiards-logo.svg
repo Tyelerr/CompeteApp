@@ -1,0 +1,26 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Pool table outline -->
+  <rect x="4" y="10" width="32" height="20" rx="3" fill="#1a5d1a" stroke="#2d7d2d" stroke-width="1.5"/>
+  
+  <!-- Table pockets -->
+  <circle cx="6" cy="12" r="1.5" fill="#000"/>
+  <circle cx="34" cy="12" r="1.5" fill="#000"/>
+  <circle cx="6" cy="28" r="1.5" fill="#000"/>
+  <circle cx="34" cy="28" r="1.5" fill="#000"/>
+  <circle cx="20" cy="12" r="1.2" fill="#000"/>
+  <circle cx="20" cy="28" r="1.2" fill="#000"/>
+  
+  <!-- Pool balls -->
+  <circle cx="14" cy="20" r="3" fill="#FFD700" stroke="#FFA500" stroke-width="0.5"/>
+  <circle cx="22" cy="18" r="3" fill="#FF4444" stroke="#CC0000" stroke-width="0.5"/>
+  <circle cx="26" cy="22" r="3" fill="#4444FF" stroke="#0000CC" stroke-width="0.5"/>
+  
+  <!-- Ball numbers -->
+  <text x="14" y="22" text-anchor="middle" fill="#000" font-family="Arial, sans-serif" font-size="3" font-weight="bold">1</text>
+  <text x="22" y="20" text-anchor="middle" fill="#FFF" font-family="Arial, sans-serif" font-size="3" font-weight="bold">3</text>
+  <text x="26" y="24" text-anchor="middle" fill="#FFF" font-family="Arial, sans-serif" font-size="3" font-weight="bold">2</text>
+  
+  <!-- Cue stick -->
+  <line x1="8" y1="16" x2="32" y2="24" stroke="#8B4513" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="30" y1="23" x2="32" y2="24" stroke="#654321" stroke-width="2" stroke-linecap="round"/>
+</svg>
