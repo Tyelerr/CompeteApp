@@ -525,3 +525,21 @@ export const GetPhoneNumbersFromTournamentsByVenue = async(venue:string)=>{
     return { data: null, error }
   }
 }
+
+
+export const FetchTheTournamentsForLoggedUser = async ( user: ICAUserData )=>{
+  try{
+    const { data, error } = await supabase
+      .from('tournaments')
+      .select('*')
+      // .like('venue', `%${venue}%`)
+      .eq('uuid', user.id)
+      .limit(20)
+      .order('created_at', {ascending: false})
+      ;
+    return { data, error };
+  } 
+  catch(error){
+    return { data: null, error }
+  }
+}

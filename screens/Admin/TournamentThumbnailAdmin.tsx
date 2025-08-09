@@ -10,6 +10,7 @@ import { UpdateTournament } from "../../ApiSupabase/CrudTournament"
 import { useContextAuth } from "../../context/ContextAuth"
 import { useEffect, useState } from "react"
 import ScreenBilliardModalTournament from "../Billiard/ScreenBilliardModalTournament"
+import { getLocalTimestampWithoutTimezone } from "../../hooks/hooks"
 
 export default function TournamentThumbnailAdmin(
   {
@@ -65,7 +66,10 @@ export default function TournamentThumbnailAdmin(
 
     // // console.log('tournament for editing: ', tournament);
 
-    const {data, error} = await UpdateTournament( tournament, {status:ETournamentStatuses.Deleted} );
+    const {data, error} = await UpdateTournament( tournament, {
+      status:ETournamentStatuses.Deleted,
+      deleted_at: getLocalTimestampWithoutTimezone(new Date())
+    } );
 
     // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
 
@@ -205,7 +209,7 @@ export default function TournamentThumbnailAdmin(
             null
           }
           {
-            tournament.status===ETournamentStatuses.Deleted
+            /*tournament.status===ETournamentStatuses.Deleted
             ?
             <>
             <View style={{
@@ -226,7 +230,7 @@ export default function TournamentThumbnailAdmin(
             </View>
             </>
             :
-            null
+            null*/
           }
         </View>
         :
@@ -255,6 +259,27 @@ export default function TournamentThumbnailAdmin(
           color: BaseColors.othertexts
         }
       ]}>Tournament Date: {(new Date(tournament.start_date)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</Text>
+
+      {
+        tournament.status === ETournamentStatuses.Deleted
+        ?
+        <Text style={[
+          {
+            color: BaseColors.danger
+          }
+        ]}>
+          Deleting Date: {
+            tournament.deleted_at!=='' && tournament.deleted_at!==null && tournament.deleted_at!==undefined
+            ?
+            (new Date(tournament.deleted_at)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+            :
+            '-'
+          }
+        </Text>
+        :
+        null
+      }
+
       <Text style={StyleTournamentsAdmin.p}>
         Location: {tournament.venue}
       </Text>
@@ -287,6 +312,54 @@ export default function TournamentThumbnailAdmin(
         }
       </Text>
     </View>
+    {
+      tournament.status === ETournamentStatuses.Pending?
+      <View style={[
+        {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'stretch',
+          marginTop: BasePaddingsMargins.formInputMarginLess
+        }
+      ]}>
+        <View style={[{width: '47%'}]}>
+          <LFButton label="Approve" type="primary" size="small" onPress={()=>{
+            ___ApproveTournament()
+          }} />
+        </View>
+        <View style={[{width: '47%'}]}>
+          <LFButton label="Deny" type="danger" size="small" onPress={()=>{
+            ___DeleteTournament()
+          }} />
+        </View>
+      </View>
+      :
+      null
+    }
+    {
+      tournament.status === ETournamentStatuses.Deleted?
+      <View style={[
+        {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'stretch',
+          marginTop: BasePaddingsMargins.formInputMarginLess
+        }
+      ]}>
+        <View style={[{width: '47%'}]}>
+          <LFButton label="Restore To Pending" type="primary" size="small" onPress={()=>{
+            ___MakePendingTournament()
+          }} />
+        </View>
+        <View style={[{width: '47%'}]}>
+          <LFButton label="Restore To Approved" type="success" size="small" onPress={()=>{
+            ___ApproveTournament()
+          }} />
+        </View>
+      </View>
+      :
+      null
+    }
   </UIPanel>
 
 

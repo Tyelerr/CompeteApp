@@ -9,12 +9,12 @@ export enum EIGameTypes{
   BankPool = 'bank-pool'
 }
 export const GameTypes = [
-  {label:'8-Ball', value:EIGameTypes.Ball8},
-  {label:'9-Ball', value:EIGameTypes.Ball9},
-  {label:'10-Ball', value:EIGameTypes.Ball10},
-  {label:'One Pocket', value:EIGameTypes.OnePocket},
-  {label:'Straight Pool', value:EIGameTypes.StraightPool},
-  {label:'Bank Pool', value:EIGameTypes.BankPool},
+  {label:'8-Ball', value:EIGameTypes.Ball8 as string},
+  {label:'9-Ball', value:EIGameTypes.Ball9 as string},
+  {label:'10-Ball', value:EIGameTypes.Ball10 as string},
+  {label:'One Pocket', value:EIGameTypes.OnePocket as string},
+  {label:'Straight Pool', value:EIGameTypes.StraightPool as string},
+  {label:'Bank Pool', value:EIGameTypes.BankPool as string},
 ];
 
 export enum ETournamentFormat{
@@ -111,7 +111,9 @@ export interface ITournament{
   profiles: ICAUserData,
 
   // POINT(lat lng)
-  point_location: string
+  point_location: string,
+
+  deleted_at: string,
 }
 
 export interface ILikedTournament{

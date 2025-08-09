@@ -282,9 +282,9 @@ export default function ScreenBilliardModalFilters(
               ]}
             />
 
-            <View style={[
+            {/*<View style={[
               StyleZ.hr
-            ]} />
+            ]} />*/}
 
 
             <View style={[

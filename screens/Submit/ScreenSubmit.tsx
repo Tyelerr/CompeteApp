@@ -4,8 +4,8 @@ import UIPanel from "../../components/UI/UIPanel";
 import { BaseColors, BasePaddingsMargins, TextsSizes } from "../../hooks/Template";
 import { StyleZ } from "../../assets/css/styles";
 import LFInput from "../../components/LoginForms/LFInput";
-import { EInputValidation } from "../../components/LoginForms/Interface";
-import { EIGameTypes, GameTypes, ItemsTableSizes, ITournament, TimeItems, TournametFormats } from "../../hooks/InterfacesGlobal";
+import { EInputValidation, IPickerOption } from "../../components/LoginForms/Interface";
+import { EIGameTypes, GameTypes, ICAUserData, ItemsTableSizes, ITournament, TimeItems, TournametFormats } from "../../hooks/InterfacesGlobal";
 import UICalendar, { convertLocalJsDateToMysql } from "../../components/UI/UIDateTime/UICalendar";
 import { getCurrentTimezone } from "../../hooks/hooks";
 import LFCheckBox from "../../components/LoginForms/LFCheckBox";
@@ -16,7 +16,7 @@ import ThumbnailSelector from "../../components/ThumbnailSelector/ThumbnailSelec
 import LFButton from "../../components/LoginForms/Button/LFButton";
 import { IFormInputValidation, TheFormIsValid } from "../../hooks/Validations";
 import { useContextAuth } from "../../context/ContextAuth";
-import { CreateTournament, GetPhoneNumbersFromTournamentsByVenue } from "../../ApiSupabase/CrudTournament";
+import { CreateTournament, FetchTheTournamentsForLoggedUser, GetPhoneNumbersFromTournamentsByVenue } from "../../ApiSupabase/CrudTournament";
 import ModalInfoMessage from "../../components/UI/UIModal/ModalInfoMessage";
 import { useNavigation } from "@react-navigation/native";
 import LFInputEquipment from "../../components/LoginForms/LFInputEquipment";
@@ -76,6 +76,35 @@ export default function ScreenSubmit(){
 
   const navigation = useNavigation();
 
+
+  const [old_tournaments, set_old_tournaments] = 
+  useState<ITournament[]>([]);
+  const [items_past_tournaments, set_items_past_tournaments] = 
+  useState<IPickerOption[]>([]);
+  const [old_tournamentByKey, set_old_tournamentByKey] = useState<ITournament | null>(null);
+  const ___LoadPastTournaments = async ()=>{
+    const {
+      data, error
+    } = await FetchTheTournamentsForLoggedUser( user as ICAUserData );
+    const pastTournamentsItems:IPickerOption[] = [];
+    if(data){
+      // have past tournaments
+      data.map((obj: ITournament, key:number)=>{
+        pastTournamentsItems.push({
+          label: `${obj.tournament_name}, ID:${obj.id_unique_number}`,
+          value: key
+        });
+      })
+      set_old_tournaments( data as ITournament[] );
+      set_items_past_tournaments( pastTournamentsItems );
+    }
+    else{
+      // no past tournaments
+    }
+  }
+  useEffect(()=>{
+    ___LoadPastTournaments();
+  }, []);
 
   const _validationsArray:IFormInputValidation[] = [
 
@@ -243,17 +272,86 @@ export default function ScreenSubmit(){
           <View style={StyleZ.loginForm}>
 
 
-            {/*<View>
+            <View style={[
+              {
+                marginBottom: BasePaddingsMargins.loginFormInputHolderMargin
+              }
+            ]}>
               <LFInput
+                label="Past Tournaments"
                 typeInput="dropdown"
-                items={}
+                items={items_past_tournaments}
+                placeholder="Select Past Tournament"
+                marginBottomInit={BasePaddingsMargins.m10}
+                // defaultValue="Select Past Tournament"
+                onChangeText={(keytext)=>{
+                  console.log('keytext:', keytext);
+                  if(keytext!=='' && !isNaN(Number(keytext))){
+                    set_old_tournamentByKey( old_tournaments[ Number(keytext) ] );
+                    console.log('It is adding the tournament old');
+                  }
+                  else{
+                    set_old_tournamentByKey(null);
+                  }
+                }}
               />
-            </View>*/}
+              {
+                old_tournamentByKey!==null?
+                  <LFButton type="primary" label={`Append The Details From: ${old_tournamentByKey?.tournament_name}, ID: ${old_tournamentByKey?.id_unique_number}`} onPress={()=>{
+                    
+                    console.log('old_tournamentByKey:', old_tournamentByKey);
+                    set_tournamentName( old_tournamentByKey?.tournament_name as string );
+                    console.log('old_tournamentByKey?.game_type:', old_tournamentByKey?.game_type);
+                    set_gameType( old_tournamentByKey?.game_type as string );
+                    set_tournamentFormat( old_tournamentByKey?.format as string );
+
+                    set_description( old_tournamentByKey.description );
+                    set_equipment( old_tournamentByKey.equipment );
+                    set_custom_equipment( old_tournamentByKey.custom_equipment );
+
+                    set_gameSpot( old_tournamentByKey.game_spot );
+                    // set_date( old_tournamentByKey. );
+                    
+                    // you must get the time if the client need this
+                    // console.log(`old_tournamentByKey.strart_time: ${old_tournamentByKey.start_date}`);
+                    // set_time( old_tournamentByKey.strart_time );
+
+                    set_reportsToFargo( old_tournamentByKey.reports_to_fargo );
+                    set_isOpenTournament( old_tournamentByKey.is_open_tournament );
+                    set_recurringTournament( old_tournamentByKey.is_recurring );
+
+                    set_race( old_tournamentByKey.race_details );
+                    set_tableSize( old_tournamentByKey.table_size );
+                    set_numberOfTables( old_tournamentByKey.number_of_tables.toString() );
+                    set_maximumFargo( old_tournamentByKey.max_fargo.toString() );
+                    
+                    // this is still not programmed the client should say what it is
+                    // set_requiredFargoGames( old_tournamentByKey );
+                    
+                    set_tournamentFee( old_tournamentByKey.tournament_fee.toString() );
+
+                    set_venue( old_tournamentByKey.venue );
+                    set_venueLat( old_tournamentByKey.venue_lat );
+                    set_venueLng( old_tournamentByKey.venue_lng );
+                    set_venueAddress( old_tournamentByKey.address );
+                    set_phone_number( old_tournamentByKey.phone );
+
+                    set_tournametn_thumbnail_type( old_tournamentByKey.thumbnail_type );
+
+                    set_tournametn_thumbnail_url( old_tournamentByKey.thumbnail_url );
+
+                  }} />
+                  :
+                  null
+              }
+            </View>
 
             <LFInput 
               pingValidation={pingValidation}
-              keyboardType="default" label="*Tournament Director's Name"
+              keyboardType="default" 
+              label="*Tournament Director's Name"
               placeholder="Enter director's name..."
+              marginBottomInit={BasePaddingsMargins.m10}
               onlyRead={true}
               defaultValue={
                 ""
@@ -261,6 +359,24 @@ export default function ScreenSubmit(){
               value={tournamentDirectorName}
               onChangeText={(text:string)=>{
                 set_tournamentDirectorName(text);
+                // setErrorForm('')
+              }}
+              validations={[
+                // EInputValidation.Required,
+              ]}
+              />
+            <LFInput 
+              pingValidation={pingValidation}
+              keyboardType="default" 
+              // label="*Tournament Director's ID"
+              placeholder="Enter director's name..."
+              onlyRead={true}
+              defaultValue={
+                user?.id_auto.toString()
+              }
+              value={`Tournament Director ID: ${user?.id_auto.toString()}`}
+              onChangeText={(text:string)=>{
+                // set_tournamentDirectorName(text);
                 // setErrorForm('')
               }}
               validations={[
@@ -289,13 +405,16 @@ export default function ScreenSubmit(){
               ]}
               />
 
+            {
+              // <Text style={[{color: 'white'}]}>gameType: {gameType}</Text> //debugging
+            }
             <LFInput 
               pingValidation={pingValidation}
               typeInput="dropdown"
               keyboardType="default" label="*Game Type"
               placeholder="Select The Game Type"
               defaultValue={
-                ""
+                gameType
               }
               value={gameType}
               onChangeText={(text:string)=>{
@@ -321,7 +440,7 @@ export default function ScreenSubmit(){
               keyboardType="default" label="*Tournament Format"
               placeholder="Select The Format"
               defaultValue={
-                ""
+                tournamentFormat
               }
               value={tournamentFormat}
               onChangeText={(text:string)=>{
@@ -338,7 +457,7 @@ export default function ScreenSubmit(){
               keyboardType="default" label="*Game Spot"
               placeholder="Enter Game Spot"
               defaultValue={
-                ""
+                gameSpot
               }
               value={gameSpot}
               onChangeText={(text:string)=>{
@@ -457,7 +576,7 @@ export default function ScreenSubmit(){
               placeholder="Enter Tournament Start Time"
               description={`All times are in your local timezone: ${getCurrentTimezone()}`}
               defaultValue={
-                ""
+                time
               }
               value={time}
               onChangeText={(text:string)=>{

@@ -22,6 +22,7 @@ import StackBilliards from "./StackBilliards";
 import { EUserRole, ICAUserData } from "../hooks/InterfacesGlobal";
 import TabBarIconElement from "./TabBarIcon";
 import CustomTabNavigator from "./CustomTabNavigator";
+import StackShop from "./StackShop";
 // import * as NavigationBar from 'https://cdn.jsdelivr.net/npm/expo-navigation-bar@3.0.0/build/NavigationBar.js';
 
 // --- Type Definitions (for better TypeScript support) ---
@@ -174,6 +175,26 @@ const TabScreenProfileLogged = ()=>{
   } 
   />
 }
+const TabShop = ()=>{
+  return <Tab.Screen 
+  key={`tab-screen-AdminTab`}
+  name="ShopTab" 
+  options={{
+    title: "Shop",
+    headerShown: false,
+    
+  
+    iconName:"bag-handle",
+    tabBarIcon: ({ color, size, focused }) => {
+      return <TabBarIconElement 
+        focused={focused as boolean}
+        icon={"bag-handle"}
+      />
+    }
+  }}
+  component={StackShop} 
+  />;
+}
 const TabScreenAdmin = ()=>{
   return <Tab.Screen 
   key={`tab-screen-AdminTab`}
@@ -321,13 +342,17 @@ const AppTabNavigatorLogged = (user:ICAUserData)=>{
     })}
   >
     {
-    TabScreenHome()
+      TabScreenHome()
     }
     {
-    TabScreenBilliards()
+      TabScreenBilliards()
     }
     {
-    TabScreenSubmit()
+      user.role===EUserRole.BasicUser
+      ?
+      null
+      :
+      TabScreenSubmit()
     }
     {
       user?.role===EUserRole.MasterAdministrator?
@@ -336,10 +361,13 @@ const AppTabNavigatorLogged = (user:ICAUserData)=>{
       null
     }
     {
-    TabScreenProfileLogged()
+      TabScreenProfileLogged()
     }
     {
-    TabScreenFAQTab()
+      TabShop()
+    }
+    {
+      TabScreenFAQTab()
     }
   </Tab.Navigator>
 
