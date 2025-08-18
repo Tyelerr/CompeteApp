@@ -30,7 +30,7 @@ export default function ScreenProfileLogin(){
     // Alert.alert('after');
     // Alert.alert('data', data)
     // Alert.alert('error')
-    // // // console.log('trying to login 5');
+    // // // // // // console.log('trying to login 5');
     if(!TheFormIsValid([
       {
         value: email,
@@ -62,12 +62,12 @@ export default function ScreenProfileLogin(){
       password: password
     } as ICrudUserData);
 
-    // // // console.log('error while login:', error);
+    // // // // // // console.log('error while login:', error);
 
-    // console.log('User after login: ', user);
+    // // // // console.log('User after login: ', user);
 
     if(error!==null){
-      // // // // // // console.log(error);
+      // // // // // // // // // console.log(error);
       if(error===EUserStatus.StatusDeleted){
         setErrorForm('Login failed. Please check your email and password.');
       }
@@ -77,7 +77,7 @@ export default function ScreenProfileLogin(){
     }
     else{
       setErrorForm('');
-      // // // // // // console.log('data after login: ', data);
+      // // // // // // // // // console.log('data after login: ', data);
       if(data!==null){
         
         // login( data as ICAUserData );

@@ -190,11 +190,11 @@ export default function UICalendar(
               label={dateCurrent.getDate().toString()} 
               
               onPress={()=>{
-                // // // // // // // console.log('dateCurrent:', dateCurrent);
+                // // // // // // // // // // console.log('dateCurrent:', dateCurrent);
                 if(set_currentDate!==undefined){
                   const DateForMySQL:string = convertLocalJsDateToMysql(dateCurrent);
                   set_currentDate(DateForMySQL);
-                  // // // // // // // console.log("DateForMySQL:", DateForMySQL);
+                  // // // // // // // // // // console.log("DateForMySQL:", DateForMySQL);
                 }
                 set_dateSelected(dateCurrent);
               }} />

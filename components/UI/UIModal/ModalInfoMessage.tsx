@@ -11,16 +11,18 @@ export default function ModalInfoMessage(
     id,
     buttons,
     visible,
-    set_visible
+    set_visible,
+    messageNodes
   }
   :
   {
-    message:string,
+    message?:string,
     title?:string,
     id:number,
     buttons?:React.ReactNode[],
     visible?: boolean,
-    set_visible?: (v:boolean)=>void
+    set_visible?: (v:boolean)=>void,
+    messageNodes?: React.ReactNode
   }
   
 ){
@@ -29,7 +31,7 @@ export default function ModalInfoMessage(
   const FVisible = ():boolean=>{
     return (visible!==undefined?visible:_visible);
   }
-  // // // // // // // console.log('buttons:', buttons);
+  // // // // // // // // // // console.log('buttons:', buttons);
 
   const __SingleOkButton = ()=>{
     return <View style={{
@@ -47,7 +49,8 @@ export default function ModalInfoMessage(
     return <View style={{
       flexDirection: "row",
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
+      flexWrap: 'wrap'
     }}>
       {/*<View style={{width: 120}}>
         <LFButton type="primary" label="OK" onPress={()=>{
@@ -56,7 +59,10 @@ export default function ModalInfoMessage(
       </View>*/}
       {
         buttons?.map((node:React.ReactNode, key:number)=>{
-          return <View key={`button-key-${key}`} style={{width: buttons.length===1?'100%':'47%'}}>
+          return <View key={`button-key-${key}`} style={{
+            width: buttons.length===1 || 1===1?'100%':'47%',
+            marginBottom: BasePaddingsMargins.m10
+            }}>
             {node}
           </View>
         })
@@ -78,7 +84,14 @@ export default function ModalInfoMessage(
     }
   }, [id]);
 
-  return <Modal animationType="fade" transparent={true} visible={FVisible()}>
+  return <Modal 
+    animationType="fade" 
+    transparent={true} 
+    visible={FVisible()}
+    style={{
+      zIndex: 1001
+    }}
+    >
     <View style={[
           StyleModal.container,
         ]}>
@@ -91,7 +104,25 @@ export default function ModalInfoMessage(
           :
           null
         }
-        <Text style={{color: BaseColors.othertexts, fontSize: TextsSizes.p, textAlign: "center", marginBottom: BasePaddingsMargins.m25}}>{message}</Text>
+
+
+        {
+          message!==undefined && message!==''
+          ?
+          <Text style={{color: BaseColors.othertexts, fontSize: TextsSizes.p, textAlign: "center", marginBottom: BasePaddingsMargins.m25}}>{message}</Text>
+          :
+          null
+        }
+
+        {
+          messageNodes!==undefined
+          ?
+          <View style={{
+            marginBottom: BasePaddingsMargins.m20
+          }}>{messageNodes}</View>
+          :
+          null
+        }
         
         
         {

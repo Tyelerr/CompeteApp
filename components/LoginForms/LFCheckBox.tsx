@@ -6,16 +6,20 @@ import { BaseColors, BasePaddingsMargins, TextsSizes } from "../../hooks/Templat
 export default function LFCheckBox(
   {
     label,
+    subLabel,
     checked,
     set_checked,
-    type
+    type,
+    onPress
   }
   :
   {
-    label:string,
+    label?:string,
+    subLabel?: string,
     checked?: boolean,
     set_checked?: (v:boolean)=>void,
-    type?:'default' | 'slider-yes-no'
+    type?:'default' | 'slider-yes-no',
+    onPress?: ()=>void
   }
 ){
   
@@ -34,6 +38,9 @@ export default function LFCheckBox(
           _set__checkedLocal(!_checkedLocal);
           if(set_checked!==undefined && checked!==undefined){
             set_checked(!checked)
+          }
+          if(onPress!==undefined){
+            onPress();
           }
         }}
       style={{
@@ -55,7 +62,10 @@ export default function LFCheckBox(
             color: BaseColors.othertexts,
             fontSize: TextsSizes.p
           }}>
-            {checked===true?'Yes' : 'No'}
+            {
+              
+              (checked===true?'Yes' : 'No')
+            }
           </Text>
         </View>
 
@@ -93,6 +103,9 @@ export default function LFCheckBox(
         if(set_checked!==undefined && checked!==undefined){
           set_checked(!checked)
         }
+        if(onPress!==undefined){
+          onPress();
+        }
       }}
     style={{
       display: 'flex',
@@ -110,10 +123,16 @@ export default function LFCheckBox(
           opacity: isChecked()===true?1:0
         }} />
       </View>
-      <Text style={{
-        color: BaseColors.light,
-        fontSize: TextsSizes.p
-      }}>{label}</Text>
+      {
+        (subLabel===undefined || subLabel==='' && label!==undefined)
+        ?
+        <Text style={{
+          color: BaseColors.light,
+          fontSize: TextsSizes.p
+        }}>{label}</Text>
+        :
+        null
+      }
     </TouchableOpacity>
   </View>
 }

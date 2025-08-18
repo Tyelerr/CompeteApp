@@ -160,20 +160,20 @@ export default function LFInputsGrid(
                     placeholder={(inputObj.placeholder!==undefined?inputObj.placeholder:'')}
                     onChangeText={(text:string)=>{
                       // set_username(text);
-                      // // // // // // // console.log('rows_data before:', rows_data);
-                      // // // // // // // console.log('rows_data[key] before:', rows_data[key]);
+                      // // // // // // // // // // console.log('rows_data before:', rows_data);
+                      // // // // // // // // // // console.log('rows_data[key] before:', rows_data[key]);
                       rows_data[key][key_input].value = text;
-                      // // // // // // // console.log(`rows_data[${key}][${key_input}].value`, rows_data[key][key_input].value);
-                      // // // // // // // console.log('rows_data[key] after:', rows_data[key]);
-                      // // // // // // // console.log('rows_data:', rows_data);
+                      // // // // // // // // // // console.log(`rows_data[${key}][${key_input}].value`, rows_data[key][key_input].value);
+                      // // // // // // // // // // console.log('rows_data[key] after:', rows_data[key]);
+                      // // // // // // // // // // console.log('rows_data:', rows_data);
                       const NewArray = JSON.parse(JSON.stringify(rows_data));
                       NewArray[key][key_input].value = text;
-                      // // // // // // // console.log('rows_data:', rows_data);
+                      // // // // // // // // // // console.log('rows_data:', rows_data);
                       //rows_data[key] = [...]
-                      // // // // // // // console.log('New_rows_data:', New_rows_data);
+                      // // // // // // // // // // console.log('New_rows_data:', New_rows_data);
                       set_rows_data(NewArray);
                       // setErrorForm('')
-                      // // // // // // console.log('NewArray:', NewArray);
+                      // // // // // // // // // console.log('NewArray:', NewArray);
                     }}
                     validations={[
                       // EInputValidation.Required,

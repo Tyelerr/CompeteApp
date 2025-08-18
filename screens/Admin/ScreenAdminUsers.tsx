@@ -49,16 +49,16 @@ export default function ScreenAdminUsers(){
       searchIdNumber
     );
 
-    // console.log('error:', error);
+    // // // // console.log('error:', error);
 
-    // // // // // // console.log('data:', data);
+    // // // // // // // // // console.log('data:', data);
     const newUsers:ICAUserData[] = [];
     if(data!==undefined && data!==null){
       for(let i=0;i<data.length;i++){
         newUsers.push( data[i] as ICAUserData );
       }
       set_users(newUsers);
-      console.log('users.length:', users.length);
+      // // // console.log('users.length:', users.length);
     }
 
     set_loading(false);
@@ -84,7 +84,7 @@ export default function ScreenAdminUsers(){
 
 
   useEffect(()=>{
-    // // // // // console.log('searchUsersTerm, userRole:', searchUsersTerm);
+    // // // // // // // // console.log('searchUsersTerm, userRole:', searchUsersTerm);
     if(debounceTimeout.current){
       clearTimeout(debounceTimeout.current)
     }
@@ -102,7 +102,7 @@ export default function ScreenAdminUsers(){
   }, [searchUsersTerm, searchUserRole, searchIdNumber]);
 
   /*useEffect(()=>{
-    // // // // // console.log('searching when searchUserRole is changed');
+    // // // // // // // // console.log('searching when searchUserRole is changed');
     _LoadUsers()
   }, [searchUserRole]);*/
 
@@ -211,7 +211,7 @@ export default function ScreenAdminUsers(){
                 label="Delete The Checked Users" 
                 icon="trash"
                 onPress={()=>{
-                  // // // // // console.log('userFromTheList:', userFromTheList);
+                  // // // // // // // // console.log('userFromTheList:', userFromTheList);
                   // set_actualUserIndex(key);
                   // __DeleteUser(userFromTheList)
                   __DeleteUsersByArrayIds();
@@ -232,7 +232,7 @@ export default function ScreenAdminUsers(){
                     items={UserRoles}
                     onChangeText={(text:string)=>{
                       // Alert.alert('12');
-                      // // // // // // console.log('Updating the role of the user');
+                      // // // // // // // // // console.log('Updating the role of the user');
                       UpdateProfile( userFromTheList.id, {role:text} );
                     }}
                   />
@@ -241,7 +241,7 @@ export default function ScreenAdminUsers(){
                     label="Delete" 
                     icon="trash"
                     onPress={()=>{
-                      // // // // // console.log('userFromTheList:', userFromTheList);
+                      // // // // // // // // console.log('userFromTheList:', userFromTheList);
                       set_actualUserIndex(key);
                       __DeleteUser(userFromTheList)
                     }}
@@ -278,7 +278,7 @@ export default function ScreenAdminUsers(){
         set_showMessageToDeleteUser(false);
       }} />,
       <LFButton label="Delete" type="danger" onPress={()=>{
-        // // // // // console.log('userForDelete:', userForDelete);
+        // // // // // // // // console.log('userForDelete:', userForDelete);
         users.splice(actualUserIndex, 1);
         set_users([...users]);
         DeleteUser( userForDelete as ICAUserData );

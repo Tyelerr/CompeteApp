@@ -1,4 +1,4 @@
-import { Text, View } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
 import UIPanel from "../../components/UI/UIPanel"
 import { Ionicons } from "@expo/vector-icons"
 import { StyleTournamentAnalytics } from "../../assets/css/styles"
@@ -9,17 +9,24 @@ export default function AnalyticsPanelAdmin(
     iconColor,
     value,
     label,
+    onPress
   }
   :
   {
     icon:keyof typeof Ionicons.glyphMap,
     iconColor: string,
     value:string,
-    label:string
+    label:string,
+    onPress?: ()=>void
   }
 ){
   
-  return <UIPanel>
+  return <TouchableOpacity onPress={()=>{
+    if(onPress!==undefined){
+      onPress();
+    }
+  }}>
+    <UIPanel>
     <View style={StyleTournamentAnalytics.container}>
       <View style={StyleTournamentAnalytics.cellTrophy}>
         <Ionicons name={icon} style={[
@@ -35,4 +42,5 @@ export default function AnalyticsPanelAdmin(
       </View>
     </View>
   </UIPanel>
+  </TouchableOpacity>
 }

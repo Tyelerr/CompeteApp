@@ -46,14 +46,14 @@ const LFDaysOfTheWeek: React.FC<LFDaysOfTheWeekProps> = ({
 
   const [selectedDays, set_selectedDays] = useState<number[]>(selectedDaysOut!==undefined?selectedDaysOut:[]);
 
-  // console.log('selectedDaysOut 2 inside LFDaysOfTheWeek:', selectedDaysOut);
+  // // // // console.log('selectedDaysOut 2 inside LFDaysOfTheWeek:', selectedDaysOut);
 
   const __selectedDays = ():number[]=>{
     return (selectedDaysOut!==undefined?selectedDaysOut:selectedDays);
   }
 
   useEffect(()=>{
-    // console.log('selectedDaysOut inside LFDaysOfTheWeek:', selectedDaysOut);
+    // // // // console.log('selectedDaysOut inside LFDaysOfTheWeek:', selectedDaysOut);
   }, [])
 
   return (
@@ -62,7 +62,7 @@ const LFDaysOfTheWeek: React.FC<LFDaysOfTheWeekProps> = ({
         marginBottom: BasePaddingsMargins.loginFormInputHolderMargin
       }
     ]}>
-      <Text style={StyleZ.loginFormInputLabel}>Days of Week}</Text>
+      <Text style={StyleZ.loginFormInputLabel}>Days of Week</Text>
       <View style={[stylesLocalDaysOfWeek.container, containerStyle]}>
       {days.map((day, index) => (
           <TouchableOpacity

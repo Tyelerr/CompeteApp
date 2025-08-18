@@ -31,7 +31,7 @@ export default function GoogleLocationRadis(
   const [loadingCurrentLocation, set_loadingCurrentLocation] = useState<boolean>(false);
 
   useEffect(()=>{
-    // // console.log('Constructing GoogleLocationRadius');
+    // // // // // console.log('Constructing GoogleLocationRadius');
   }, []);
 
   useEffect(()=>{
@@ -44,7 +44,7 @@ export default function GoogleLocationRadis(
     set_locationLng('');
     set_loadingCurrentLocation(false);
 
-    // console.log('Resetting the GoogleLocationRadius');
+    // // // // console.log('Resetting the GoogleLocationRadius');
 
   }, [resetTheComponent]);
 
@@ -62,14 +62,14 @@ export default function GoogleLocationRadis(
         timeInterval: 60*1000
       });
       // currentLocation.coords.latitude
-      // // // console.log('currentLocation:', currentLocation);
+      // // // // // // console.log('currentLocation:', currentLocation);
       set_locationLat( currentLocation.coords.latitude.toString() );
       set_locationLng( currentLocation.coords.longitude.toString() );
       set_locationName( 'Current' );
       set_loadingCurrentLocation(false);
     }
     catch(error){
-      // // // console.log('currentLocation error:', error);
+      // // // // // // console.log('currentLocation error:', error);
       set_loadingCurrentLocation(false);
       return;
     } 
@@ -261,7 +261,7 @@ export default function GoogleLocationRadis(
           
           onValueChange={(v:number)=>{
             set_milesRadius(v)
-            // // console.log('Search raidus:', v);
+            // // // // // console.log('Search raidus:', v);
 
           }}
 
@@ -296,7 +296,7 @@ export default function GoogleLocationRadis(
               set_boxIsVisible(false);
             }
             else{
-              // // console.log('On change is undefined');
+              // // // // // console.log('On change is undefined');
             }
 
           }} />*/}
@@ -315,7 +315,7 @@ export default function GoogleLocationRadis(
           
           onValueChange={(v:number)=>{
             set_milesRadius(v)
-            // // console.log('Search raidus:', v);
+            // // // // // console.log('Search raidus:', v);
 
           }}
 
@@ -336,7 +336,7 @@ export default function GoogleLocationRadis(
               set_boxIsVisible(false);
             }
             else{
-              // // console.log('On change is undefined');
+              // // // // // console.log('On change is undefined');
             }
 
           }} />

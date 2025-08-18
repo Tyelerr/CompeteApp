@@ -104,7 +104,7 @@ const CustomSlider: React.FC<CustomSliderProps> = ({
 
   // Measure the actual width of the slider container once it's laid out
   const onLayout = useCallback((event: LayoutChangeEvent) => {
-    // // // console.log('event.nativeEvent.layout.width 2:', event.nativeEvent.layout.width);
+    // // // // // // console.log('event.nativeEvent.layout.width 2:', event.nativeEvent.layout.width);
     setSliderContainerWidth(event.nativeEvent.layout.width);
   }, []);
 

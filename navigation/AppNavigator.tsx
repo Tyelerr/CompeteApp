@@ -177,7 +177,7 @@ const TabScreenProfileLogged = ()=>{
 }
 const TabShop = ()=>{
   return <Tab.Screen 
-  key={`tab-screen-AdminTab`}
+  key={`tab-screen-Shop`}
   name="ShopTab" 
   options={{
     title: "Shop",
@@ -252,7 +252,7 @@ const TabScreenFAQTab = ()=>{
 
     iconName:"help-circle",
     tabBarIcon: ({ color, size, focused }) => {
-      // // console.log('Tab bar icon for: Frequently Asked Questions', focused);
+      // // // // // console.log('Tab bar icon for: Frequently Asked Questions', focused);
       return <TabBarIconElement 
         focused={focused as boolean}
         icon={"help-circle"}
@@ -288,10 +288,12 @@ const AppTabNavigatorLogged = (user:ICAUserData)=>{
     <Tab.Navigator
     tabBar={props => <CustomTabNavigator {...props} />} 
     key={`tab-navigator-logged`}
-    initialRouteName={'HomeTab'}
+    // initialRouteName={'HomeTab'}
+    // initialRouteName="SubmitTab"
     // initialRouteName={'BilliardsTab'}
     // initialRouteName={'AdminTab'}
     // initialRouteName={'ProfileLoggedTab'}
+    initialRouteName="ShopTab"
     screenOptions={({ route }) => ({
 
       /*headerBackgroundContainerStyle: {
@@ -500,7 +502,7 @@ export default function AppNavigator(){
   } = useContextAuth();
 
   useEffect(()=>{
-    // // // // // // console.log('Appplication route');
+    // // // // // // // // // console.log('Appplication route');
   }, []);
 
   

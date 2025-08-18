@@ -22,20 +22,20 @@ export default function TabBarIconElement(
 
   if(icon==='help-circle'){
 
-    // console.log('isFocused:', focused);
+    // // // // console.log('isFocused:', focused);
   }
   
   
    // You can also trigger animation on component mount, for example
   useEffect(() => {
 
-    // // console.log('it is working');
+    // // // // // console.log('it is working');
 
     
 
   }, [focused, icon]); // Re-run effect if initialSize changes
   useEffect(()=>{
-    // console.log('This will change when focused changed');
+    // // // // console.log('This will change when focused changed');
   }, [focused])
 
   return <View style={[ 

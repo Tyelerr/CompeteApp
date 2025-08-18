@@ -33,9 +33,9 @@ export default function StackProfileLoginRegister({navigation, route}){
     userId,
     anotherVariable
   } = route.params;
-  // // // // // // console.log('setIsLoggedIn:', setIsLoggedIn);
-  // // // // // // console.log('userId:', userId);
-  // // // // // // console.log('anotherVariable:', anotherVariable);*/
+  // // // // // // // // // console.log('setIsLoggedIn:', setIsLoggedIn);
+  // // // // // // // // // console.log('userId:', userId);
+  // // // // // // // // // console.log('anotherVariable:', anotherVariable);*/
   
 
   return <Stack.Navigator 

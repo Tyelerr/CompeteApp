@@ -72,6 +72,11 @@ export const TournamentStatusesForDropdown = [
 export interface ITournament{
   id?:string,
   id_unique_number:number,
+  /**
+   * parent_recurring_tournament_id is id that will 
+   * point to the parent tournament by who the cron job in supabase created the tournaments
+   */
+  parent_recurring_tournament_id: number,
   uuid: string,
   tournament_name:string,
   game_type: string,
@@ -110,10 +115,14 @@ export interface ITournament{
   // profiles hold the data for the user that created the tournament
   profiles: ICAUserData,
 
+  // venues hold the venue for the tournament, will be null if not id attached to the tournament
+  venues: IVenue,
+
   // POINT(lat lng)
   point_location: string,
 
   deleted_at: string,
+  venue_id: number
 }
 
 export interface ILikedTournament{
@@ -190,6 +199,17 @@ export interface ITournamentFilters{
 }
 
 
+export interface IVenue{
+  id: number,
+  venue: string,
+  address: string,
+  venue_lat: string,
+  venue_lng: string,
+  point_location: string,
+  profile_id: number,
+  phone: string
+}
+
 
 
 
@@ -258,7 +278,12 @@ export const UserRoles = [
 
 export enum ECustomContentType{
   ContentFeaturedPlayer="featured-player",
-  ContentFeaturedBar="featured-bar"
+  ContentFeaturedBar="featured-bar",
+  ContentRewards="rewards",
+  ContentReward="reward"
+}
+export enum EActivityType{
+  EnterInGift='enter-in-gift'
 }
 export interface ICustomContent{
   id:number, 
@@ -270,5 +295,32 @@ export interface ICustomContent{
   list: ILFInputGridInput[][],
   labels: ILFInputGridInput[][],
   phone_number: string,
-  type: ECustomContentType
+  type: ECustomContentType,
+  reward_picture: string,
+  reward_link: string,
+
+  value: number,
+  features: string,
+  giveawy_rules: string,
+  subtitle: string,
+  date_ends: string, // timestamp
+
+  entries: number,
+
+  // for the gifts we have additional columns
+  count_total_entries: number, // how many unique users entered the gift
+  logged_user_have_entered: boolean // if logged user entered the gift
+}
+
+
+
+export const enum EPermissionType{
+  AccessToBarVenues='access-to-bar-venues'
+}
+export interface IPermissions{
+  id: number,
+  created_at: string,
+  id_user_need_permission: number,
+  id_user_give_permission: number,
+  permission_type: EPermissionType
 }

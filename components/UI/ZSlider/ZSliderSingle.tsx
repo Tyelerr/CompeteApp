@@ -87,7 +87,7 @@ export default function ZSliderSingle(
         renderRail={rangeSlider_renderRail}
         renderRailSelected={rangeSlider_renderRailSelected}
         onValueChanged={(v:number)=>{
-          // // // console.log(`vl: ${vl}, vr: ${vr}`);
+          // // // // // // console.log(`vl: ${vl}, vr: ${vr}`);
           if(onValueChange!==undefined){
             onValueChange(v);
           }

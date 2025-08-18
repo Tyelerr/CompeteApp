@@ -27,7 +27,7 @@ export default function AdminTournamentsList(
 
     if(filters===null)return;
 
-    // // console.log('_LoadTournaments:', _LoadTournaments);
+    // // // // // console.log('_LoadTournaments:', _LoadTournaments);
 
     const {
       searchingTerm,
@@ -56,8 +56,8 @@ export default function AdminTournamentsList(
     );
 
 
-    // // // // // console.log('error:', error);
-    // // // // // console.log('data:', data);
+    // // // // // // // // console.log('error:', error);
+    // // // // // // // // console.log('data:', data);
 
     const _tournamets_: ITournament[] = [];
     if(data){
@@ -67,7 +67,7 @@ export default function AdminTournamentsList(
     }
     set_tournamets(_tournamets_);
 
-    // // // // // // console.log('data:', data);
+    // // // // // // // // // console.log('data:', data);
 
 
 
@@ -78,7 +78,7 @@ export default function AdminTournamentsList(
 
   
   useEffect(()=>{
-    // console.log('New Filters: ', filters);
+    // // // // console.log('New Filters: ', filters);
       if(debounceTimeout.current){
         clearTimeout( debounceTimeout.current );
       }

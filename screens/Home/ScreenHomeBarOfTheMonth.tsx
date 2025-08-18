@@ -4,7 +4,7 @@ import { View, Text, Alert } from "react-native";
 
 export default function ScreenHomeBarOfTheMonth(){
 
-  // // // // // // // console.log('AAAAA');
+  // // // // // // // // // // console.log('AAAAA');
   // Alert.alert('AAAAA');
 
   return <ScreenScrollView>

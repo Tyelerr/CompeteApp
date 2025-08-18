@@ -35,7 +35,7 @@ export default function ScreenBilliardThumbDetails(
       user as ICAUserData,
       tournament
     );
-    // // // // console.log('data:', data);
+    // // // // // // // console.log('data:', data);
     if(data!==null && data.length===1){
       set_isLiked( true );
     }
@@ -133,12 +133,12 @@ export default function ScreenBilliardThumbDetails(
                       {
                         width: '90%'
                       }
-                    ]}>{tournament.venue}</Text>
+                    ]}>{tournament.venues!==null && tournament.venues!==undefined?tournament.venues.venue : tournament.venue}</Text>
                   </View>
                   <Text style={[
                     StyleZ.p
                   ]}>
-                    {tournament.address}
+                    {tournament.venues!==null && tournament.venues!==undefined? tournament.venues.address : tournament.address}
                   </Text>
                 </View>
                 <View style={[

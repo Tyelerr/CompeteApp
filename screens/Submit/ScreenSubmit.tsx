@@ -5,7 +5,7 @@ import { BaseColors, BasePaddingsMargins, TextsSizes } from "../../hooks/Templat
 import { StyleZ } from "../../assets/css/styles";
 import LFInput from "../../components/LoginForms/LFInput";
 import { EInputValidation, IPickerOption } from "../../components/LoginForms/Interface";
-import { EIGameTypes, GameTypes, ICAUserData, ItemsTableSizes, ITournament, TimeItems, TournametFormats } from "../../hooks/InterfacesGlobal";
+import { EIGameTypes, GameTypes, ICAUserData, ItemsTableSizes, ITournament, IVenue, TimeItems, TournametFormats } from "../../hooks/InterfacesGlobal";
 import UICalendar, { convertLocalJsDateToMysql } from "../../components/UI/UIDateTime/UICalendar";
 import { getCurrentTimezone } from "../../hooks/hooks";
 import LFCheckBox from "../../components/LoginForms/LFCheckBox";
@@ -21,6 +21,8 @@ import ModalInfoMessage from "../../components/UI/UIModal/ModalInfoMessage";
 import { useNavigation } from "@react-navigation/native";
 import LFInputEquipment from "../../components/LoginForms/LFInputEquipment";
 import { Filter } from "bad-words";
+import VenuesEditor from "../../components/google/VenuesEditor/VenuesEditor";
+import LFDropdownVenues from "../../components/LoginForms/LFDropdownVenues";
 // import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 // import { DateTimePickerAndroidPicker } from "@react-native-community/datetimepicker";
 
@@ -52,11 +54,17 @@ export default function ScreenSubmit(){
   const [requiredFargoGames, set_requiredFargoGames] = useState<string>('');
   const [tournamentFee, set_tournamentFee] = useState<string>('');
   const [sidePots, set_sidePots] = useState<ILFInputGridInput[][]>([]);
+  
+  // the details for the venues are adding into the tournaments table too
+  // please don't delete those states they are used for the searching
   const [venue, set_venue] = useState<string>('');
   const [venueLat, set_venueLat] = useState<string>('');
   const [venueLng, set_venueLng] = useState<string>('');
   const [venueAddress, set_venueAddress] = useState<string>('');
+
+
   const [phone_number, set_phone_number] = useState<string>('');
+  const [venueId, setVenueId] = useState<number>(-1);
   const [tournametn_thumbnail_type, set_tournametn_thumbnail_type] = useState<string>(EIGameTypes.Ball8);
   const [tournametn_thumbnail_url, set_tournametn_thumbnail_url] = useState<string>('');
 
@@ -64,6 +72,15 @@ export default function ScreenSubmit(){
   const [formErrorMessage, set_formErrorMessage] = useState<string>('');
 
   const [successModalVisible, set_successModalVisible] = useState<boolean>(false);
+
+  const __selectVenue = (venue: IVenue)=>{
+    setVenueId( venue.id );
+    set_venue( venue.venue );
+    set_venueLat( venue.venue_lat );
+    set_venueLng( venue.venue_lng );
+    set_venueAddress( venue.address );
+    set_phone_number( venue.phone );
+  }
 
   /**
    * statusRecurringTournament will check if the combinations are good so it will work good and will not show error message
@@ -189,6 +206,7 @@ export default function ScreenSubmit(){
       tournament_fee: Number(tournamentFee),
       start_date: date,
       strart_time: time,
+      venue_id: venueId
 
     } as ITournament;
 
@@ -196,7 +214,7 @@ export default function ScreenSubmit(){
     const {
       data, error
     } = await CreateTournament( newTournament );
-    // // // // // // console.log('After creating the tournament data: ', {data, error});
+    // // // // // // // // // console.log('After creating the tournament data: ', {data, error});
     set_loading( false );
 
     set_successModalVisible( true );
@@ -207,7 +225,7 @@ export default function ScreenSubmit(){
   const ___LoadThePhoneNumberForVenue = async ()=>{
     const { data, error } = await GetPhoneNumbersFromTournamentsByVenue( venue );
     // if(error== =null)
-    // console.log('data:', data);
+    // // // // console.log('data:', data);
     if(data!==null && data.length===1){
       const tournamentThatHavePhone: ITournament = data[0] as ITournament;
       set_phone_number( tournamentThatHavePhone.phone );
@@ -215,7 +233,7 @@ export default function ScreenSubmit(){
   }
 
   useEffect(()=>{
-    // console.log('Now Here load the phone numbers');
+    // // // // console.log('Now Here load the phone numbers');
     ___LoadThePhoneNumberForVenue()
   }, [venue]);
 
@@ -285,10 +303,10 @@ export default function ScreenSubmit(){
                 marginBottomInit={BasePaddingsMargins.m10}
                 // defaultValue="Select Past Tournament"
                 onChangeText={(keytext)=>{
-                  console.log('keytext:', keytext);
+                  // // // console.log('keytext:', keytext);
                   if(keytext!=='' && !isNaN(Number(keytext))){
                     set_old_tournamentByKey( old_tournaments[ Number(keytext) ] );
-                    console.log('It is adding the tournament old');
+                    // // // console.log('It is adding the tournament old');
                   }
                   else{
                     set_old_tournamentByKey(null);
@@ -297,11 +315,11 @@ export default function ScreenSubmit(){
               />
               {
                 old_tournamentByKey!==null?
-                  <LFButton type="primary" label={`Append The Details From: ${old_tournamentByKey?.tournament_name}, ID: ${old_tournamentByKey?.id_unique_number}`} onPress={()=>{
+                  <LFButton type="primary" label={`Copy details from: ${old_tournamentByKey?.tournament_name}, ID: ${old_tournamentByKey?.id_unique_number}`} onPress={()=>{
                     
-                    console.log('old_tournamentByKey:', old_tournamentByKey);
+                    // // // console.log('old_tournamentByKey:', old_tournamentByKey);
                     set_tournamentName( old_tournamentByKey?.tournament_name as string );
-                    console.log('old_tournamentByKey?.game_type:', old_tournamentByKey?.game_type);
+                    // // // console.log('old_tournamentByKey?.game_type:', old_tournamentByKey?.game_type);
                     set_gameType( old_tournamentByKey?.game_type as string );
                     set_tournamentFormat( old_tournamentByKey?.format as string );
 
@@ -313,7 +331,7 @@ export default function ScreenSubmit(){
                     // set_date( old_tournamentByKey. );
                     
                     // you must get the time if the client need this
-                    // console.log(`old_tournamentByKey.strart_time: ${old_tournamentByKey.start_date}`);
+                    // // // // console.log(`old_tournamentByKey.strart_time: ${old_tournamentByKey.start_date}`);
                     // set_time( old_tournamentByKey.strart_time );
 
                     set_reportsToFargo( old_tournamentByKey.reports_to_fargo );
@@ -419,7 +437,7 @@ export default function ScreenSubmit(){
               value={gameType}
               onChangeText={(text:string)=>{
                 set_gameType(text);
-                // console.log('game type:', text);
+                // // // // console.log('game type:', text);
                 // setErrorForm('')
                 if(text === ''){
                   set_tournametn_thumbnail_type(EIGameTypes.Ball8)
@@ -650,13 +668,25 @@ export default function ScreenSubmit(){
               StyleZ.hr
             ]} />
 
-            <View style={{
+
+            <VenuesEditor sendBackTheValues={(venue: IVenue)=>{
+              __selectVenue(venue);
+            }} />
+
+            <LFDropdownVenues listType="my-venues" onChange={(venue: IVenue)=>{
+              __selectVenue(venue);
+            }} />
+            <LFDropdownVenues listType="venues-i-am-added-on" onChange={(venue: IVenue)=>{
+              __selectVenue(venue);
+            }} />
+
+            {/*<View style={{
               marginBottom: BasePaddingsMargins.loginFormInputHolderMargin
             }}>
               <Text style={[
                 StyleZ.h4
               ]}>Venue Information</Text>
-            </View>
+            </View>*/}
 
 
             {/*<LFInput 
@@ -689,7 +719,7 @@ export default function ScreenSubmit(){
             }
 
             
-            <DirectPlaceSearch 
+            {/*<DirectPlaceSearch 
               setVenueOut={(v:string)=>{
                 set_venue(v);
               }} 
@@ -698,13 +728,14 @@ export default function ScreenSubmit(){
               }} 
               setLatOut={set_venueLat}
               setLngOut={set_venueLng}
-              />
+              />*/}
 
 
             <LFInput 
               keyboardType="default" 
               label="Address"
               typeInput="textarea"
+              // onlyRead={true}
               defaultValue={
                 venueAddress
               }

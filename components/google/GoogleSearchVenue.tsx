@@ -4,7 +4,8 @@ import LFInput from '../LoginForms/LFInput';
 import { StyleGoogle } from '../../assets/css/styles';
 import { BasePaddingsMargins } from '../../hooks/Template';
 
-const GOOGLE_PLACES_API_KEY = 'AIzaSyCseIiXh45pemRngXvFPvlTbru_KjXS_P4'; // Replace with your key
+// const GOOGLE_PLACES_API_KEY = 'AIzaSyCseIiXh45pemRngXvFPvlTbru_KjXS_P4'; // Replace with your key
+const GOOGLE_PLACES_API_KEY = 'AIzaSyC8ih2uZXpyubGDgVGJ1D32NLRS9LSs0gw';
 
 const DirectPlaceSearch = ({
   setAddressOut,
@@ -56,7 +57,7 @@ const DirectPlaceSearch = ({
       const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${input}&key=${GOOGLE_PLACES_API_KEY}&types=establishment&language=en`;
       const response = await fetch(url);
       const json = await response.json();
-      // // // // // // // console.log('json.predictions:', json.predictions);
+      // // // // // // // // // // console.log('json.predictions:', json.predictions);
       if (json.predictions) {
         setPredictions(json.predictions);
       }
@@ -72,8 +73,8 @@ const DirectPlaceSearch = ({
       const json = await response.json();
       if (json.result) {
 
-        // // // console.log('json google:', json);
-        // // // console.log('json google geometry location:', json.result.geometry.location);
+        // // // // // // console.log('json google:', json);
+        // // // // // // console.log('json google geometry location:', json.result.geometry.location);
         if(setLatOut){
           setLatOut( json.result.geometry.location.lat );
         }
@@ -84,7 +85,7 @@ const DirectPlaceSearch = ({
         setSelectedPlaceDetails(json.result);
         // alert(`Selected: ${json.result.name}\nAddress: ${json.result.formatted_address}`);
         setSearchText(json.result.name);
-        // // // // // // // console.log('Place Details:', json.result);
+        // // // // // // // // // // console.log('Place Details:', json.result);
         setPlaceName(json.result.name);
         setPlaceAddress(json.result.formatted_address);
         if(setVenueOut!==undefined){
@@ -141,7 +142,7 @@ const DirectPlaceSearch = ({
             <TouchableOpacity
               style={{}}
               onPress={() => {
-                // // // // // // console.log('item:', item);
+                // // // // // // // // // console.log('item:', item);
                 // setSearchText(item.description);
                 setPredictions([]); // Clear predictions
                 fetchPlaceDetails(item.place_id); // Fetch details for selected
@@ -175,10 +176,10 @@ const DirectPlaceSearch = ({
                     StyleGoogle.searchVenue_ItemContainer
                   ]}
                   onPress={() => {
-                    // // // // // // console.log('item:', item);
+                    // // // // // // // // // console.log('item:', item);
                     // setSearchText(item.description);
-                    // // // console.log('item:', item);
-                    // // console.log('item searched:', item);
+                    // // // // // // console.log('item:', item);
+                    // // // // // console.log('item searched:', item);
                     setPredictions([]); // Clear predictions
                     fetchPlaceDetails(item.place_id); // Fetch details for selected
                   }}

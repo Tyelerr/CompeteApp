@@ -39,7 +39,7 @@ export default function StackBilliards({navigation, route}){
 
   /*const FHeaderDetails = ()=>{
 
-    // // // console.log( `route.name:${route.name}` );
+    // // // // // // console.log( `route.name:${route.name}` );
 
     if(route.name==='BilliardDailyTournaments'){
       return {title:'Daily Tournaments', subtitle:'Browse all recurring tournaments in your area'};

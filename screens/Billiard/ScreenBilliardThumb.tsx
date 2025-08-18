@@ -80,7 +80,7 @@ export default function ScreenBilliardThumb(
 
   return <TouchableOpacity 
     onPress={()=>{
-      // // // console.log(`route name new to navigate: ${routeName}`);
+      // // // // // // console.log(`route name new to navigate: ${routeName}`);
       navigation.navigate(routeName, {})
     }}
     style={[

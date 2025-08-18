@@ -22,6 +22,7 @@ export default function LFInput(
     label,
     isPassword,
     onChangeText,
+    onChangeIndex,
     placeholder,
     validations=[],
     items=[],
@@ -43,6 +44,7 @@ export default function LFInput(
     isPassword?:boolean,
     label?: string,
     onChangeText?: (v:string)=>void,
+    onChangeIndex?: (v: number)=>void,
     placeholder?:string,
     validations?:EInputValidation[],
     items?:IPickerOption[]
@@ -139,10 +141,12 @@ export default function LFInput(
         // fixAndroidTouchableBug={true}
         value={defaultValue!==undefined && RNPickerSelectDefaultValue===''?defaultValue:RNPickerSelectDefaultValue}
         onValueChange={(value, index:number)=>{
-          // console.log('index:', index);
+          // // // // console.log('index:', index);
           set_RNPickerSelectDefaultValue(value);
           if(onChangeText!==undefined)
             onChangeText(value);
+          if(onChangeIndex!==undefined)
+            onChangeIndex(index);
           // Alert.alert(text);
           __CheckTheValidations(value);
           set_dropdownIndexSelected(index - 1)
@@ -233,7 +237,7 @@ export default function LFInput(
                 (():string=>{
                   const text:string = defaultValue!==undefined && RNPickerSelectDefaultValue===''?defaultValue:RNPickerSelectDefaultValue;
 
-                  // console.log('picker select items:', items);
+                  // // // // console.log('picker select items:', items);
 
                   if(items[dropdownIndexSelected]===undefined && placeholder!=='' && placeholder!==undefined){
                     return placeholder;

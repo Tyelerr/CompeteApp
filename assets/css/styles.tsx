@@ -340,8 +340,8 @@ export const StyleModal = StyleSheet.create({
   containerForScrollingView:{
     // flex: 1,
     maxHeight: '90%',
-    width: '100%',
-    maxWidth: 320,
+    width: '95%',
+    // maxWidth: 320,
     backgroundColor: BaseColors.dark,
     position: 'relative'
   },

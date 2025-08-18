@@ -112,8 +112,8 @@ export default function ScreenAdminUserItem(
         items={UserRoles}
         onChangeText={(text:string)=>{
           // Alert.alert('12');
-          // // // // // // console.log('Updating the role of the user');
-          // console.log('New role: ', text);
+          // // // // // // // // // console.log('Updating the role of the user');
+          // // // // console.log('New role: ', text);
           UpdateProfile( userFromTheList.id, {role:text} ); 
         }}
       />

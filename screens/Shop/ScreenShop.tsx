@@ -40,7 +40,7 @@ export default function ScreenShop(){
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const xmlText = await response.text(); // Get the response as plain text
-      // // // // console.log( xmlText );
+      // // // // // // // console.log( xmlText );
 
       const options = {
         ignoreAttributes: false, // Keep attributes
@@ -56,11 +56,11 @@ export default function ScreenShop(){
       };
       const parser = new XMLParser(options);
       const result = parser.parse(xmlText);
-      // // // // console.log('result:', result);
-      // // // console.log('result.rss.channel.item:', result.rss.channel.item);
-      // for(let i in result.rss)// // // console.log(`result.rss${i}:`, result.rss[i]);
+      // // // // // // // console.log('result:', result);
+      // // // // // // console.log('result.rss.channel.item:', result.rss.channel.item);
+      // for(let i in result.rss)// // // // // // console.log(`result.rss${i}:`, result.rss[i]);
       for(let i =0;i<result.rss.channel.item.length;i++){
-        // // // console.log(result.rss.channel.item[i]);
+        // // // // // // console.log(result.rss.channel.item[i]);
       }
       set_itemsNews(result.rss.channel.item as INewsFeed[])
 
@@ -77,7 +77,7 @@ export default function ScreenShop(){
     
     try {
       const supported = await Linking.canOpenURL(url); // Check if the URL can be opened
-      // // // console.log('supported:', supported);
+      // // // // // // console.log('supported:', supported);
 
         if (supported) {
           await Linking.openURL(url);

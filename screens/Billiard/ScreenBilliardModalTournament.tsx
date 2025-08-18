@@ -36,7 +36,7 @@ export default function ScreenBilliardModalTournament(
   } = useContextAuth();
 
   useEffect(()=>{
-    // // console.log( 'tournament:', tournament );
+    // // // // // console.log( 'tournament:', tournament );
   }, []);
 
   const __Item = (title:string, value:string, m?:number)=>{
@@ -198,9 +198,9 @@ export default function ScreenBilliardModalTournament(
                   StyleZ.h3
                 ]}>Venue Information</Text>
 
-                { __Item( 'Venue Name', tournament.venue ) }
-                { __Item( 'Address', tournament.address ) }
-                { __Item( 'Phone Number', tournament.phone ) }
+                { __Item( 'Venue Name', tournament.venues!==null && tournament.venues!==undefined?tournament.venues.venue : tournament.venue ) }
+                { __Item( 'Address', tournament.venues!==null && tournament.venues!==undefined?tournament.address : tournament.address ) }
+                { __Item( 'Phone Number', tournament.venues!==null && tournament.venues!==undefined? tournament.venues.phone : tournament.phone ) }
                 { __Item( 'Table Size', tournament.table_size ) }
                 { __Item( 'Number of Tables', tournament.number_of_tables.toString(), 0 ) }
 

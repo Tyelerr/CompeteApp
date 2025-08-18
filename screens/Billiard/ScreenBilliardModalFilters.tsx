@@ -106,19 +106,19 @@ export default function ScreenBilliardModalFilters(
   }
 
   /*useEffect(()=>{
-    // // // console.log('key_reseting:', key_reseting);
+    // // // // // // console.log('key_reseting:', key_reseting);
   }, [key_reseting]);*/
 
   useEffect(()=>{
-    // // // console.log('Modal is constructed for the filters');
-    // console.log('filtersOut:', filtersOut);
-    // console.log('Adding the values from out');
+    // // // // // // console.log('Modal is constructed for the filters');
+    // // // // console.log('filtersOut:', filtersOut);
+    // // // // console.log('Adding the values from out');
     if(filtersOut.game_type!==undefined)set_gameType(filtersOut.game_type);
     if(filtersOut.format!==undefined)set_format(filtersOut.format);
     if(filtersOut.equipment!==undefined)set_equipment(filtersOut.equipment);
     if(filtersOut.table_size!==undefined)set_table_size( filtersOut.table_size );
     if(filtersOut.equipment_custom!==undefined)set_custom_equipment(filtersOut.equipment_custom);
-    // console.log('filtersOut.daysOfWeek:', filtersOut.daysOfWeek);
+    // // // // console.log('filtersOut.daysOfWeek:', filtersOut.daysOfWeek);
     if(filtersOut.daysOfWeek!==undefined)set_daysOfWeek(filtersOut.daysOfWeek);
     if(filtersOut.entryFeeFrom!==undefined)set_entryFeeFrom(filtersOut.entryFeeFrom);
     if(filtersOut.entryFeeTo!==undefined)set_entryFeeTo(filtersOut.entryFeeTo);

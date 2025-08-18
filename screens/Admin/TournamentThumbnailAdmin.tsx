@@ -36,45 +36,45 @@ export default function TournamentThumbnailAdmin(
 
   const ___ApproveTournament = async ()=>{
 
-    // // console.log('tournament for editing: ', tournament);
+    // // // // // console.log('tournament for editing: ', tournament);
 
     const {data, error} = await UpdateTournament( tournament, {status:ETournamentStatuses.Approved} );
     
 
-    // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
+    // // // // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
 
     if(reloadTheTournaments!==undefined){
-      // // console.log('Reloading the tournaments');
+      // // // // // console.log('Reloading the tournaments');
       reloadTheTournaments();
     }
   }
   const ___MakePendingTournament = async ()=>{
 
-    // // console.log('tournament for editing: ', tournament);
+    // // // // // console.log('tournament for editing: ', tournament);
 
     const {data, error} = await UpdateTournament( tournament, {status:ETournamentStatuses.Pending} );
 
-    // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
+    // // // // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
 
     if(reloadTheTournaments!==undefined){
-      // // console.log('Reloading the tournaments');
+      // // // // // console.log('Reloading the tournaments');
       reloadTheTournaments();
     }
   }
   
   const ___DeleteTournament = async ()=>{
 
-    // // console.log('tournament for editing: ', tournament);
+    // // // // // console.log('tournament for editing: ', tournament);
 
     const {data, error} = await UpdateTournament( tournament, {
       status:ETournamentStatuses.Deleted,
       deleted_at: getLocalTimestampWithoutTimezone(new Date())
     } );
 
-    // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
+    // // // // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
 
     if(reloadTheTournaments!==undefined){
-      // // console.log('Reloading the tournaments');
+      // // // // // console.log('Reloading the tournaments');
       reloadTheTournaments();
     }
   }
@@ -82,19 +82,23 @@ export default function TournamentThumbnailAdmin(
   const ___DeclientTournament = async ()=>{
     const {data, error} = await UpdateTournament( tournament, {status:ETournamentStatuses.Pending} );
 
-    // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
+    // // // // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
 
     if(reloadTheTournaments!==undefined){
-      // // console.log('Reloading the tournaments');
+      // // // // // console.log('Reloading the tournaments');
       reloadTheTournaments();
     }
   }
 
   useEffect(()=>{
-    // // console.log('loggeduser: ', user);
+    // // // // // console.log('loggeduser: ', user);
   }, []);
   
   return <><UIPanel>
+    <TouchableOpacity onPress={()=>{
+            set_selectedTournamentForTheModal(tournament);
+            set_modalForTournamentIsOpened(true);
+          }}>
     <View style={{
       position: 'relative'
     }}>
@@ -110,10 +114,12 @@ export default function TournamentThumbnailAdmin(
           {width: 100}
         ]}>
 
-          <TouchableOpacity onPress={()=>{
+          <View /*onPress={()=>{
             set_selectedTournamentForTheModal(tournament);
             set_modalForTournamentIsOpened(true);
-          }}>
+          }}*/
+         
+          >
           {
             tournament.thumbnail_type === THUMBNAIL_CUSTOM?
             <Image
@@ -137,7 +143,7 @@ export default function TournamentThumbnailAdmin(
               null
             )
           }
-          </TouchableOpacity>
+          </View>
 
         </View>
         <View style={[
@@ -178,7 +184,7 @@ export default function TournamentThumbnailAdmin(
         }}>
           {
             // tournament.status===ETournamentStatuses.Pending
-            tournament
+            /*tournament
             ?
             <View style={{
               width: 40,
@@ -191,11 +197,11 @@ export default function TournamentThumbnailAdmin(
               }} />
             </View>
             :
-            null
+            null*/
           }
           
           {
-            tournament.status!==ETournamentStatuses.Deleted
+            /*tournament.status!==ETournamentStatuses.Deleted
             ?
             <View style={{
               width: 40,
@@ -206,31 +212,9 @@ export default function TournamentThumbnailAdmin(
               }} />
             </View>
             :
-            null
+            null*/
           }
           {
-            /*tournament.status===ETournamentStatuses.Deleted
-            ?
-            <>
-            <View style={{
-              width: 120,
-              marginLeft: BasePaddingsMargins.m10
-            }}>
-              <LFButton label="Restore To Pending" type="dark" size="small" onPress={()=>{
-                ___MakePendingTournament()
-              }} />
-            </View>
-            <View style={{
-              width: 120,
-              marginLeft: BasePaddingsMargins.m10
-            }}>
-              <LFButton label="Restore To Approved" type="dark" size="small" onPress={()=>{
-                ___ApproveTournament()
-              }} />
-            </View>
-            </>
-            :
-            null*/
           }
         </View>
         :
@@ -240,19 +224,6 @@ export default function TournamentThumbnailAdmin(
 
 
     </View>
-    {/*<View>
-      <Text style={[
-        StyleTournamentsAdmin.title
-      ]}>{tournament.tournament_name!==''?tournament.tournament_name:'-tournament name is missing-'}</Text>
-    </View>*/}
-    {/*<View style={StyleTournamentsAdmin.badgesHolder}>
-      <View style={StyleTournamentsAdmin.badgeHolder}>
-        <UIBadge type="secondary" label={tournament.game_type===''?'-not defined-':tournament.game_type} />
-      </View>
-      <View style={StyleTournamentsAdmin.badgeHolder}>
-        <UIBadge label={`ID: ${tournament.id_unique_number}`} />
-      </View>
-    </View>*/}
     <View>
       <Text style={[
         {
@@ -281,7 +252,8 @@ export default function TournamentThumbnailAdmin(
       }
 
       <Text style={StyleTournamentsAdmin.p}>
-        Location: {tournament.venue}
+        Location: {
+        tournament.venues!==null && tournament.venues!==undefined? tournament.venues.venue: tournament.venue}
       </Text>
       <Text style={StyleTournamentsAdmin.p}>
         Entry Fee: ${tournament.tournament_fee}
@@ -360,6 +332,7 @@ export default function TournamentThumbnailAdmin(
       :
       null
     }
+    </TouchableOpacity>
   </UIPanel>
 
 

@@ -12,10 +12,5 @@ export default function ShopSubNavigation(){
       route: 'ShopRewards',
       icon: 'gift'
     },
-    /*{
-      title: 'Featured Bar',
-      route: 'HomeFeaturedBar',
-      icon: 'bar-chart'
-    }*/
   ]} />
 }

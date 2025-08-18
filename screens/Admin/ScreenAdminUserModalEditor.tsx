@@ -37,11 +37,11 @@ export default function ScreenAdminUserModalEditor(
   }
 
   useEffect(()=>{
-    console.log('userForEditing:', userForEditing);
+    // // // console.log('userForEditing:', userForEditing);
   }, []);
   useEffect(()=>{
     set_localUserRole(userForEditing.role);
-    console.log('userForEditing.role:', userForEditing.role);
+    // // // console.log('userForEditing.role:', userForEditing.role);
   }, [userForEditing.role]);
 
   return <Modal animationType="fade" transparent={true} visible={isOpened}>
@@ -113,8 +113,8 @@ export default function ScreenAdminUserModalEditor(
                 items={UserRoles}
                 onChangeText={(text:string)=>{
                   // Alert.alert('12');
-                  // // // // // // console.log('Updating the role of the user');
-                  // console.log('New role: ', text);
+                  // // // // // // // // // console.log('Updating the role of the user');
+                  // // // // console.log('New role: ', text);
                   // UpdateProfile( userFromTheList.id, {role:text} ); 
                   set_localUserRole(text);
                 }}

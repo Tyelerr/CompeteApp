@@ -41,7 +41,7 @@ export default function ZSliderRange(
   let ICanUpdate: boolean = false;
 
   useEffect(()=>{
-    // // // console.log('ZSliderRange redndering');
+    // // // // // // console.log('ZSliderRange redndering');
     /*setTimeout(()=>{
       set_iCanUpdateValues(true);
     }, 50)*/
@@ -55,7 +55,7 @@ export default function ZSliderRange(
   return <View>
       {/*<LFButton label="test 2" type="primary" onPress={()=>{
         set_iCanUpdateValues(!true)
-        // // // console.log('Is working');
+        // // // // // // console.log('Is working');
       }} />*/}
     <View style={[
       StyleSlider.titleContainer
@@ -110,8 +110,8 @@ export default function ZSliderRange(
         }}
         onValueChanged={(vL,vR)=>{
           // if(!iCanUpdateValues)return;
-          // // // // console.log('values range:', `${vL} - ${vR}`);
-          // // // // console.log(`valueLeft:${valueLeft} - valueRight:${valueRight}`);
+          // // // // // // // console.log('values range:', `${vL} - ${vR}`);
+          // // // // // // // console.log(`valueLeft:${valueLeft} - valueRight:${valueRight}`);
           // if(vL===min && vR===max && )
 
           // if(!ICanUpdate)return;

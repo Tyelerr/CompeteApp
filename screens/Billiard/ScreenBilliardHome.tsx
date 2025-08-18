@@ -48,9 +48,9 @@ export default function ScreenBilliardHome(
   const [totalCount, set_totalCount]  = useState<number>(0);
 
   const __LoadTheTournaments = async (offset?:number)=>{
-    // // console.log('Load tournament started');
+    // // // // // console.log('Load tournament started');
 
-    console.log('filtersForSearch for search:', filtersForSearch);
+    // // // console.log('filtersForSearch for search:', filtersForSearch);
 
   
 
@@ -58,6 +58,11 @@ export default function ScreenBilliardHome(
       data, error,
       dataTotalCOunt
     } = await FetchTournaments_Filters(filtersForSearch, offset);
+
+    console.log('Loading tournaments:');
+    console.log('data', data);
+    console.log('error', error);
+
     if(error!==null){
     }
     else if(data!==null){
@@ -69,8 +74,8 @@ export default function ScreenBilliardHome(
     }
     set_offsetTournaments(offset!==undefined ? offset : 0);
     set_totalCount(dataTotalCOunt!==null ? dataTotalCOunt[0].totalcount as number : 0);
-    // // console.log('Load Tournament ended');
-    // // console.log('data total count:', dataTotalCOunt);
+    // // // // // console.log('Load Tournament ended');
+    // // // // // console.log('data total count:', dataTotalCOunt);
 
     // set_GoogleLocationRadis_key( GoogleLocationRadis_key + 1 )
 
@@ -81,14 +86,14 @@ export default function ScreenBilliardHome(
   }, []);
 
   useEffect(()=>{
-    // // // console.log('filtersForSearch:', filtersForSearch);
+    // // // // // // console.log('filtersForSearch:', filtersForSearch);
 
     let timeoutId: NodeJS.Timeout;
 
     // Simulate fetching data after a fixed delay
     // This will run once when the component mounts
     timeoutId = setTimeout(() => {
-      // // // console.log('Fetching posts after fixed delay...');
+      // // // // // // console.log('Fetching posts after fixed delay...');
       __LoadTheTournaments();
     }, 300);
 
@@ -96,7 +101,7 @@ export default function ScreenBilliardHome(
     // or if the dependencies (which are empty here) would change,
     // though for a fixed-delay-on-mount, this is mainly for unmount.
     return () => {
-      // // // console.log('Clearing fixed delay timeout...');
+      // // // // // // console.log('Clearing fixed delay timeout...');
       clearTimeout(timeoutId);
     };
 
@@ -174,7 +179,7 @@ export default function ScreenBilliardHome(
           key={`GoogleLocationRadis-${GoogleLocationRadis_key}`}
         onChange={(location:string, lat:string, lng:string, radius:number)=>{
           
-          // // console.log('GoogleLocationRadis on change...');
+          // // // // // console.log('GoogleLocationRadis on change...');
           
           const filtersAfterRadiusLocationChange:ITournamentFilters = {
               ...JSON.parse(JSON.stringify(filtersForSearch)),
@@ -185,7 +190,7 @@ export default function ScreenBilliardHome(
                 radius: radius
               }
             } as ITournamentFilters;
-          // // console.log('filtersAfterRadiusLocationChange:', filtersAfterRadiusLocationChange);
+          // // // // // console.log('filtersAfterRadiusLocationChange:', filtersAfterRadiusLocationChange);
           set_filtersForSearch( filtersAfterRadiusLocationChange );
           
         }} />
@@ -260,7 +265,7 @@ export default function ScreenBilliardHome(
         set_FiltersOut={(filtersNew:ITournamentFilters)=>{
           set_filtersForSearch(filtersNew);
           set_iHaveFiltersSelected(filtersNew.filtersFromModalAreAplied===true);
-          console.log('filtersNew:', filtersNew);
+          // // // console.log('filtersNew:', filtersNew);
         }}
       />
       :

@@ -9,7 +9,11 @@ import { BaseColors, BasePaddingsMargins, TextsSizes } from "../../hooks/Templat
 import { useEffect, useState } from "react";
 import { FetchTournamentsAnalytics, FetchTournamentsEventsAnalytics } from "../../ApiSupabase/CrudTournament";
 import { useContextAuth } from "../../context/ContextAuth";
-import { IAnalytics, IAnalyticsEventsRow, ICAUserData } from "../../hooks/InterfacesGlobal";
+import { IAnalytics, IAnalyticsEventsRow, ICAUserData, IVenue } from "../../hooks/InterfacesGlobal";
+import { FetchVenues } from "../../ApiSupabase/CrudVenues";
+import ModalEditMyDirectors from "./modals/ModalEditMyDirectors/ModalEditMyDirectors";
+import ModalAddDirector from "./modals/ModalEditMyDirectors/ModalAddDirector";
+import { FetchMyDirectors } from "../../ApiSupabase/CrudUser";
 
 export default function ScreenAdminAnalytics(){
 
@@ -17,22 +21,35 @@ export default function ScreenAdminAnalytics(){
     user
   } = useContextAuth();
 
+
+  const [modalEditDirectories, set_modalEditDirectories] = useState<boolean>(false);
+  
+  const [modalAddDirectorIsOPened, set_modalAddDirectorIsOPened] = useState<boolean>(false);
+
   const [myTournaments, set_myTournaments] = useState<string>('0');
   const [activeEvents, set_activeEvents] = useState<string>('0');
   const [pendingApproval, set_pendingApproval] = useState<string>('0');
   const [myDirectors, set_myDirectors] = useState<string>('0');
+  const [dataVenuesState, set_dataVenuesState] = useState<IVenue[]>([]);
+  const [dataAnalyticsPerVenue, set_dataAnalyticsPerVenue] = useState<{
+    analitics: IAnalytics,
+    venue: IVenue
+  }[]>([]);
 
   const [analyticsEvents, set_analyticsEvents] = useState<IAnalyticsEventsRow[]>([]);
   const [analyticsEventsTotalCount, set_analyticsEventsTotalCount] = useState<number>(0);
 
   const __LoadTheAnalytics = async ()=>{
+
+    if (user===null)return;
+
     const {
       data,
       error
     } = await FetchTournamentsAnalytics( user as ICAUserData );
 
-    // // // // console.log('data analytics:', data);
-    // // // // console.log('error analytics:', error);
+    // // // // // // // console.log('data analytics:', data);
+    // // // // // // // console.log('error analytics:', error);
 
     if(error===null){
       const analytics: IAnalytics = data[0] as IAnalytics;
@@ -58,13 +75,61 @@ export default function ScreenAdminAnalytics(){
     }
     else{}
 
+
+
+    const { data: dataVenuesRaw, error: errorVenues } = await FetchVenues(user.id_auto);
+
+    const dataVenues: IVenue[] = dataVenuesRaw as IVenue[];
+    const AnaliticsForVenueNew: {
+      analitics: IAnalytics,
+      venue: IVenue
+    }[] = [];
+    for(let i=0;i<dataVenues.length;i++){
+      const {
+        data: dataByVenueRaw,
+        error: errorByVenue
+      } = await FetchTournamentsAnalytics( user as ICAUserData, dataVenues[i].id );
+
+      // // // console.log(dataByVenueRaw, errorByVenue);
+
+      if(dataByVenueRaw){
+        const dataByVenue:IAnalytics = dataByVenueRaw[0] as IAnalytics;
+        AnaliticsForVenueNew.push({
+          analitics: dataByVenue,
+          venue: dataVenues[i]
+        })
+      }
+
+    }
+    // // // console.log('AnaliticsForVenueNew:', AnaliticsForVenueNew);
+    set_dataAnalyticsPerVenue( AnaliticsForVenueNew );
+
+
   }
 
   useEffect(()=>{
     __LoadTheAnalytics();
   }, []);
 
-  return <ScreenScrollView>
+
+
+  const [directors, set_directors] = useState<ICAUserData[]>([]);
+  const __LoadTheDirectors = async ()=>{
+    if(user===null)return;
+    const {
+      data, error
+    } = await FetchMyDirectors(user?.id_auto);
+
+    set_directors( data as ICAUserData[] )
+
+  }
+
+  useEffect(()=>{
+    __LoadTheDirectors()
+  }, []);
+
+  return <>
+  <ScreenScrollView>
     
     <View>
       
@@ -72,10 +137,30 @@ export default function ScreenAdminAnalytics(){
 
       <View style={StyleZ.hr} />
 
+      
       <AnalyticsPanelAdmin icon="trophy" value={myTournaments} label="My Tournaments" iconColor={BaseColors.success} />
+
+      {
+        dataAnalyticsPerVenue.map((item:{
+          analitics: IAnalytics,
+          venue: IVenue
+        }, key: number)=>{
+          return <AnalyticsPanelAdmin key={`analitics-per-venue-${key}`} icon="trophy" value={item.analitics.my_tournaments.toString()} label={`Venue: ${item.venue.venue}`} iconColor={BaseColors.success} />
+        })
+      }
+
+
       <AnalyticsPanelAdmin icon="checkmark" value={activeEvents} label="Active Events" iconColor={BaseColors.success} />
       <AnalyticsPanelAdmin icon="trophy" value={pendingApproval} label="Pending Approval" iconColor={BaseColors.warning} />
-      <AnalyticsPanelAdmin icon="calendar" value={myDirectors} label="My Directors" iconColor={BaseColors.primary} />
+      <AnalyticsPanelAdmin 
+        icon="calendar" 
+        value={directors.length.toString()} 
+        label="My Directors" 
+        iconColor={BaseColors.primary}
+        onPress={()=>{
+          set_modalEditDirectories(true)
+        }}
+        />
 
 
       <UIPanel>
@@ -190,7 +275,7 @@ export default function ScreenAdminAnalytics(){
           }>
             <Text style={[
               StyleTournamentAnalytics.ItemTexts_Value
-            ]}>0</Text>
+            ]}>{directors.length}</Text>
           </View>
         </View>
 
@@ -200,4 +285,39 @@ export default function ScreenAdminAnalytics(){
     </View>
 
   </ScreenScrollView>
+  {
+    modalEditDirectories===true?
+      <ModalEditMyDirectors 
+        F_isOpened={set_modalEditDirectories}
+        isOpened={modalEditDirectories}
+        onPressAddNewDirector={()=>{
+          set_modalEditDirectories(false)
+          set_modalAddDirectorIsOPened(true)
+        }}
+        AfterChangeTheDirectors={()=>{
+
+          __LoadTheDirectors()
+
+        }}
+      />
+      :
+      null
+  }
+
+  {
+    modalAddDirectorIsOPened===true?
+      <ModalAddDirector
+      F_isOpened={set_modalAddDirectorIsOPened}
+      isOpened={modalAddDirectorIsOPened}
+      AfterChangeTheDirectors={()=>{
+        
+        __LoadTheDirectors()
+
+      }}
+    />
+    :
+    null
+  }
+
+  </>
 }

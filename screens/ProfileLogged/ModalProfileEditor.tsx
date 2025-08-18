@@ -13,6 +13,7 @@ import { GameTypes } from "../../hooks/InterfacesGlobal";
 import LBButtonsGroup from "../../components/LoginForms/Button/LBButtonsGroup";
 import { CapitalizeWords } from "../../hooks/hooks";
 import AttachImage from "../../components/UI/Attach/AttachImage";
+import VenuesEditor from "../../components/google/VenuesEditor/VenuesEditor";
 
 export default function ModalProfileEditor(
   {
@@ -85,7 +86,7 @@ export default function ModalProfileEditor(
       favorite_game:favorite_game,
       profile_image_url:profile_image_url
     };
-    // console.log('NewData:', NewData);
+    // // // // console.log('NewData:', NewData);
 
     const updatingIsCompleted = await UpdateProfile(
       user?.id as string,
@@ -113,8 +114,8 @@ export default function ModalProfileEditor(
   const [profile_image_url, set_profile_image_url] = useState<string>('');
 
   useEffect(()=>{
-    // // // // // // console.log('Modal mount');
-    // // // // // // console.log('Modal Logged User 222:', user);
+    // // // // // // // // // console.log('Modal mount');
+    // // // // // // // // // console.log('Modal Logged User 222:', user);
 
     set_username(user?.user_name as string);
     set_name(user?.name as string);
@@ -356,6 +357,11 @@ export default function ModalProfileEditor(
                     // EInputValidation.Email,
                   ]}
                   />
+
+
+                <VenuesEditor />
+
+                
 
                 
                 <LBButtonsGroup buttons={[

@@ -7,6 +7,10 @@ import { useEffect, useState } from "react";
 import LFButton from "../../components/LoginForms/Button/LFButton";
 import { InsertContent } from "../../ApiSupabase/CrudCustomContent";
 import { ECustomContentType, ICustomContent } from "../../hooks/InterfacesGlobal";
+import AttachImage from "../../components/UI/Attach/AttachImage";
+import { BaseColors, BasePaddingsMargins, TextsSizes } from "../../hooks/Template";
+// import AttachImage from "../../components/UI/Attach/AttachImage";
+// import AttachImageSingle from "../../components/LoginForms/Attach/AttachImageSingle";
 
 export default function ModalEditorContent(
 
@@ -37,6 +41,9 @@ export default function ModalEditorContent(
   const [labels, set_labels] = useState<ILFInputGridInput[][]>([]);
 
   const [phone_number, set_phone_number] = useState<string>('');
+
+  const [reward_picture, set_reward_picture] = useState<string>('');
+  const [reward_link, set_reward_link] = useState<string>('');
 
   const [loading, set_loading] = useState<boolean>(false);
 
@@ -75,6 +82,9 @@ export default function ModalEditorContent(
       set_list( dataFor.list );
       set_labels( dataFor.labels );
       set_phone_number( dataFor.phone_number );
+
+      set_reward_picture( dataFor.reward_picture );
+      set_reward_link( dataFor.reward_link );
     }
   }, [ isOpened ]);
 
@@ -128,6 +138,33 @@ export default function ModalEditorContent(
               <LFInput label="Label Hero About" placeholder="Enter Hero Label" value={label_about_the_person} onChangeText={set_label_about_the_person} />
               <LFInput label="Address" placeholder="Enter Address" value={address} onChangeText={set_address} />
               <LFInput label="Description" placeholder="Enter Description" typeInput="textarea" value={description} onChangeText={set_description} />
+
+              {
+                type===ECustomContentType.ContentRewards?
+                <>
+                  <LFInput label="Reward Photo" placeholder="Enter Reward Photo" value={reward_picture} onChangeText={set_reward_picture} />
+                  {
+                  // <AttachImageSingle />
+                  }
+                  <Text style={{
+                                color: BaseColors.othertexts,
+                                // backgroundColor: 'red',
+                                fontSize: TextsSizes.p,
+                                marginBottom: BasePaddingsMargins.m5
+                              }}>
+                    Reward Picture    
+                  </Text>
+                  <AttachImage 
+                    // set_thumbnailType={}
+                    set_thumbnailType={(t:string)=>{}}
+                    set_thumbnail_url={set_reward_picture}
+                    defaultUrl={reward_picture}
+                  />
+                  <LFInput iconFront="link" label="Reward Link" placeholder="Enter Reward Link" value={reward_link} onChangeText={set_reward_link} />
+                </>
+                :
+                null
+              }
 
               
               <LFInputsGrid 

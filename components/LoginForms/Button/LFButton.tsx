@@ -1,4 +1,4 @@
-import { Alert, Animated, Easing, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Animated, Easing, StyleProp, Text, TouchableOpacity, View, ViewStyle } from "react-native";
 import { StyleZ } from "../../../assets/css/styles";
 import { useEffect, useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,7 +13,8 @@ export default function LFButton(
     icon,
     size='default',
     marginbottom,
-    disabled
+    disabled,
+    StyleProp
   }
   :
   {
@@ -24,7 +25,8 @@ export default function LFButton(
     icon?:keyof typeof Ionicons.glyphMap ,
     size?:'small' | 'default' | 'bigger' | 'big',
     marginbottom?:number,
-    disabled?: boolean
+    disabled?: boolean,
+    StyleProp?: StyleProp<ViewStyle>
   }
 ){
 
@@ -155,7 +157,8 @@ export default function LFButton(
       }
       :
       null
-    )
+    ),
+    (StyleProp!==undefined?StyleProp:{})
   ]}>
     <TouchableOpacity 
       disabled={disabled===true}

@@ -60,12 +60,12 @@ export default function ScreenProfileRegisterTest(){
     } as ICrudUserData);
 
     if(error!==null){
-      // // // // // // console.log(error);
+      // // // // // // // // // console.log(error);
       setErrorForm('Invalid login credentials');
     }
     else{
       setErrorForm('');
-      // // // // // // console.log('data after login: ', data);
+      // // // // // // // // // console.log('data after login: ', data);
       if(data!==null){
         
         // login( data as ICAUserData );

@@ -23,14 +23,11 @@ export default function StackShop({navigation, route}){
   const ArrayAdminScreens = [
     { name: 'ShopHome', component: ScreenShop },
     { name: 'ShopRewards', component: ScreenRewards },
-    /*{ name: 'AdminApproved', component: ScreenAdminApproved },
-    { name: 'AdminDeleted', component: ScreenAdminDeleted },
-    { name: 'AdminAnalytics', component: ScreenAdminAnalytics },
-    { name: 'AdminMessages', component: ScreenAdminMessages },*/
   ];
 
   return <Stack.Navigator
-    initialRouteName="ShopHome"
+    // initialRouteName="ShopHome"
+    initialRouteName="ShopRewards"
     // initialRouteName="AdminPending"
     screenOptions={
       {
@@ -39,7 +36,7 @@ export default function StackShop({navigation, route}){
         // statusBarAnimation: 'none',
         // headerShown: false, 
         header: ()=> <StackHeader 
-          title="Shope" 
+          title="Shop" 
           subtitle="Discover unique finds and everyday essentials at our welcoming shop."
           type="centered-no-icon"
           />,

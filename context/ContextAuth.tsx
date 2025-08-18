@@ -41,7 +41,7 @@ export default function AuthProvider({
     set_isLogged(true);
     set_user(user);
 
-    // // // // // // // console.log('user after login:', user);
+    // // // // // // // // // // console.log('user after login:', user);
 
   }
   const logout = ()=>{
@@ -70,9 +70,9 @@ export default function AuthProvider({
         case_
       } = await GetSession();
       
-      // // // // // // // console.log('user:', user)
-      // // // // // // // console.log('error:', error)
-      // // // // // // // console.log('case:', case_)
+      // // // // // // // // // // console.log('user:', user)
+      // // // // // // // // // // console.log('error:', error)
+      // // // // // // // // // // console.log('case:', case_)
 
       if(user!==null){
 

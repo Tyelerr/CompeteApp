@@ -38,21 +38,23 @@ const TournamentObjectToDataForSupabase = (tournament:ITournament)=>{
     uuid: tournament.uuid,
     side_pots: tournament.side_pots,
 
-    point_location: `POINT(${tournament.venue_lng!==''?tournament.venue_lng:'4'} ${tournament.venue_lat!==''?tournament.venue_lat:'4'})`
+    point_location: `POINT(${tournament.venue_lng!==''?tournament.venue_lng:'4'} ${tournament.venue_lat!==''?tournament.venue_lat:'4'})`,
+
+    venue_id: tournament.venue_id
   };
 }
 
 export const CreateTournament = async (newTournament: ITournament)=>{
   const dataNewTournament = TournamentObjectToDataForSupabase(newTournament);
   
-  // // // console.log('dataNewTournament:', dataNewTournament);
+  // // // // // // console.log('dataNewTournament:', dataNewTournament);
 
   const { data, error } = await supabase
     .from('tournaments')
     .upsert(dataNewTournament);
 
-  // // // console.log('creating tournament data:', data);
-  // // // console.log('creating tournament error:', error);
+  // // // // // // console.log('creating tournament data:', data);
+  // // // // // // console.log('creating tournament error:', error);
   return { data, error };
 }
 
@@ -68,12 +70,12 @@ export const UpdateTournament = async (tournament:ITournament, newData)=>{
       .update(newData)
       .eq('id', tournament.id)
       .select();
-    // // console.log('Tournament data after update: ', data);
-    // // console.log('Tournament error after update: ', error);
+    // // // // // console.log('Tournament data after update: ', data);
+    // // // // // console.log('Tournament error after update: ', error);
     return {data, error};
   }
   catch(error){
-    // // console.log('There is error after updating tournament:', error);
+    // // // // // console.log('There is error after updating tournament:', error);
   }
   finally{
     // do something when finally
@@ -102,7 +104,8 @@ export const FetchTournaments = async (
       .from('tournaments')
       .select(`
         *,
-        profiles(*)
+        profiles(*),
+        venues(*)
         `);
     if(search!==''){
       query.or(`tournament_name.ilike.%${search}%,game_type.ilike.%${search}%,format.ilike.%${search}%,director_name.ilike.%${search}%,description.ilike.%${search}%,equipment.ilike.%${search}%,game_spot.ilike.%${search}%,venue.ilike.%${search}%,address.ilike.%${search}%,phone.ilike.%${search}%,race_details.ilike.%${search}%`);
@@ -116,10 +119,10 @@ export const FetchTournaments = async (
     if(status!==undefined && status!==''){
       query.eq('status', status);
     }
-    // console.log('filterId:', filterId);
+    // // // // console.log('filterId:', filterId);
     if(filterId!==undefined && filterId!=='' && !isNaN(Number(filterId))){
       // query.eq('id_unique_number', Number(filterId));
-      // console.log(`Search by filter Id: ${filterId}`);
+      // // // // console.log(`Search by filter Id: ${filterId}`);
       query.ilike('id_unique_number_as_text', `%${filterId.toString()}%`);
     }
     // query.order('created_at', {ascending: false});
@@ -143,8 +146,8 @@ export const FetchTournaments = async (
     }
     query.limit(20);
     const { data, error } = await query;
-    // console.log('error:', error);
-    // console.log('data:', data);
+    // // // // console.log('error:', error);
+    // // // // console.log('data:', data);
     return {
       data, error
     }
@@ -188,7 +191,7 @@ export const FetchTournaments2 = async (
   /*
   Here need to be done the sorting */
   let order_by_column = 'id_unique_number', order_type = 'DESC';
-  // console.log('sort details:', sort);
+  // // // // console.log('sort details:', sort);
   if(sort!==undefined && sort.sortBy!=='' && sort.sortBy!==undefined){
     // query.order(sort.sortBy, {ascending: sort.sortTypeIsAsc});
     order_by_column = sort.sortBy;
@@ -211,7 +214,7 @@ export const FetchTournaments2 = async (
     order_type: order_type
   }
 
-  // console.log('argumentsFor:', argumentsFor);
+  // // // // console.log('argumentsFor:', argumentsFor);
 
   try {
     const {
@@ -219,10 +222,10 @@ export const FetchTournaments2 = async (
     } = await supabase
       .rpc('get_tournaments_for_administrator_v4', argumentsFor);
 
-    // console.log('errorIds after loading the tournaments:', errorIds);
-    // console.log('dataIds after loading the tournaments:', dataIds);
-    // // // // // console.log('data tournament venues: ', data);
-    // // // // // console.log('data tournament venues error: ', error);
+    // // // // console.log('errorIds after loading the tournaments:', errorIds);
+    // // // // console.log('dataIds after loading the tournaments:', dataIds);
+    // // // // // // // // console.log('data tournament venues: ', data);
+    // // // // // // // // console.log('data tournament venues error: ', error);
 
     const TournamentsIDs:string[] = [];
     if(dataIds!==null)
@@ -234,7 +237,8 @@ export const FetchTournaments2 = async (
       .from('tournaments')
       .select(`
         *,
-        profiles(*)
+        profiles(*),
+        venues(*)
         `)
       .in('id', TournamentsIDs)
       // here order should be set too
@@ -258,8 +262,8 @@ export const FetchTournamentsVenues = async ()=>{
     } = await supabase
       .rpc('get_tournament_venues');
 
-    // // // // // console.log('data tournament venues: ', data);
-    // // // // // console.log('data tournament venues error: ', error);
+    // // // // // // // // console.log('data tournament venues: ', data);
+    // // // // // // // // console.log('data tournament venues error: ', error);
 
     return { data, error };
   }
@@ -267,12 +271,14 @@ export const FetchTournamentsVenues = async ()=>{
 }
 
 
-export const FetchTournamentsAnalytics = async ( user:ICAUserData )=>{
+export const FetchTournamentsAnalytics = async ( user:ICAUserData, venueid?:number )=>{
   try{
     const {
       data, error
     } = await supabase
-      .rpc('get_analytics_counts', { userid: user.id });
+      // .rpc('get_analytics_counts', { userid: user.id });
+      .rpc( 'get_analytics_counts_v4', { userid: user.id, venueid: venueid!==undefined?venueid:null } )
+      ;
 
     return { data, error };
   } 
@@ -372,9 +378,9 @@ export const FetchTournaments_Filters = async (
 
     };
 
-    // console.log('filters_params:', filters_params);
+    // // // // console.log('filters_params:', filters_params);
 
-    // // // console.log('filters_params:', filters_params);
+    // // // // // // console.log('filters_params:', filters_params);
 
     // it select 20 tournaments max
     const FiltersForTheRowsData = {
@@ -384,20 +390,20 @@ export const FetchTournaments_Filters = async (
         totalcount: COUNT_TOURNAMENTS_IN_PAGE
       }
     };
-    console.log('FiltersForTheRowsData:', FiltersForTheRowsData);
+    // // // console.log('FiltersForTheRowsData:', FiltersForTheRowsData);
     const { data: dataFilter, error: errorFilter } = await supabase.rpc('get_tournametns_by_filters3', FiltersForTheRowsData);
 
-    // console.log('dataFilter:', dataFilter);
-    // console.log('errorFilter:', errorFilter);
+    // // // // console.log('dataFilter:', dataFilter);
+    // // // // console.log('errorFilter:', errorFilter);
 
     const { data: dataTotalCOunt, error: errorTotalCount } = await supabase.rpc('get_tournametns_by_filters_total_count_v2', filters_params);
     // const likedtournaments:ILikedTournament[] = data as ILikedTournament[];
-    // // // // console.log('likedtournaments before:', likedtournaments);
-    // // // // console.log('filtered tournaments error: ', error);
-    // // // // console.log('filtered tournaments data: ', data);
+    // // // // // // // console.log('likedtournaments before:', likedtournaments);
+    // // // // // // // console.log('filtered tournaments error: ', error);
+    // // // // // // // console.log('filtered tournaments data: ', data);
 
-    // // // console.log('dataFilter:', dataFilter);
-    // // // console.log('errorFilter:', errorFilter);
+    // // // // // // console.log('dataFilter:', dataFilter);
+    // // // // // // console.log('errorFilter:', errorFilter);
 
     const TournamentsIDs:string[] = [];
     if(dataFilter!==null)
@@ -409,12 +415,13 @@ export const FetchTournaments_Filters = async (
       .from('tournaments')
       .select(`
         *,
-        profiles(*)
+        profiles(*),
+        venues(*)
         `)
       .in('id', TournamentsIDs)
       .order('start_date', {ascending: true});
 
-      // // // console.log('final errors after fetching filtered tournament:', error);
+      // // // // // // console.log('final errors after fetching filtered tournament:', error);
 
     return {
       // likedtournaments, 
@@ -434,14 +441,14 @@ export const FetchTournaments_LikedByUser = async (user:ICAUserData)=>{
       .rpc('get_likes_for_tournament', { userid: user.id });
 
     const likedtournaments:ILikedTournament[] = data as ILikedTournament[];
-    // // console.log('likedtournaments:', likedtournaments);
+    // // // // // console.log('likedtournaments:', likedtournaments);
     
     
     
     const count_details = await supabase
       .rpc('get_likes_for_tournament_count', { userid: user.id });
     
-    // // // console.log('count_details:', count_details);
+    // // // // // // console.log('count_details:', count_details);
 
 
     return { data, error, likedtournaments, countLikes: count_details.data as number };
@@ -468,9 +475,9 @@ export const FetchTournaments_LikedByUser = async (user:ICAUserData)=>{
 
 export const AddTournamentLike = async (user:ICAUserData, tournament: ITournament, isLiked:boolean)=>{
 
-  // // console.log(user);
-  // // console.log(tournament);
-  // // console.log(isLiked);
+  // // // // // console.log(user);
+  // // // // // console.log(tournament);
+  // // // // // console.log(isLiked);
 
   try{
     if(isLiked){

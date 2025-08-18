@@ -66,13 +66,13 @@ export default function ScreenProfileRegister(){
       password: password
     });
 
-    // // // console.log('error:', error);
-    // console.log('data:', data);
+    // // // // // // console.log('error:', error);
+    // // // // console.log('data:', data);
     if(error as string === 'username-exist'){
       setErrorForm(`This username: "${username}" is already taken. Please choose a different one.`);
     }
     else if(error!==null){
-      // console.log('Error:', error);
+      // // // // console.log('Error:', error);
       setErrorForm('Invalid registration credentials');
     }
     else{

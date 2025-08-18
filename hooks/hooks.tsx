@@ -5,7 +5,7 @@ export const getCurrentTimezone =(): string => {
 }
 
 
-export const getLocalTimestampWithoutTimezone = (date) => {
+export const getLocalTimestampWithoutTimezone = (date: Date) => {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
   const day = date.getDate().toString().padStart(2, '0');
@@ -44,7 +44,7 @@ export function CapitalizeWords(text: string) {
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
   });
 
-  // console.log('capitalizedWords:', capitalizedWords);
+  // // // // console.log('capitalizedWords:', capitalizedWords);
 
   // Join the capitalized words back into a single string with single spaces
   return capitalizedWords.join(" ");

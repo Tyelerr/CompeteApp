@@ -13,7 +13,7 @@ export default function ScreenFAQs(){
   const [modalMoreQuestionsView, set_modalMoreQuestionsView] = useState<boolean>(false);
 
   useEffect(()=>{
-    // // // // console.log('FAQ page render!');
+    // // // // // // // console.log('FAQ page render!');
   }, []);
 
   return <>
