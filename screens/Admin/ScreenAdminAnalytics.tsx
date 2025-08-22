@@ -48,8 +48,8 @@ export default function ScreenAdminAnalytics(){
       error
     } = await FetchTournamentsAnalytics( user as ICAUserData );
 
-    // // // // // // // console.log('data analytics:', data);
-    // // // // // // // console.log('error analytics:', error);
+    // // // // // // // // console.log('data analytics:', data);
+    // // // // // // // // console.log('error analytics:', error);
 
     if(error===null){
       const analytics: IAnalytics = data[0] as IAnalytics;
@@ -90,7 +90,7 @@ export default function ScreenAdminAnalytics(){
         error: errorByVenue
       } = await FetchTournamentsAnalytics( user as ICAUserData, dataVenues[i].id );
 
-      // // // console.log(dataByVenueRaw, errorByVenue);
+      // // // // console.log(dataByVenueRaw, errorByVenue);
 
       if(dataByVenueRaw){
         const dataByVenue:IAnalytics = dataByVenueRaw[0] as IAnalytics;
@@ -101,7 +101,7 @@ export default function ScreenAdminAnalytics(){
       }
 
     }
-    // // // console.log('AnaliticsForVenueNew:', AnaliticsForVenueNew);
+    // // // // console.log('AnaliticsForVenueNew:', AnaliticsForVenueNew);
     set_dataAnalyticsPerVenue( AnaliticsForVenueNew );
 
 

@@ -214,7 +214,7 @@ export default function ScreenSubmit(){
     const {
       data, error
     } = await CreateTournament( newTournament );
-    // // // // // // // // // console.log('After creating the tournament data: ', {data, error});
+    // // // // // // // // // // console.log('After creating the tournament data: ', {data, error});
     set_loading( false );
 
     set_successModalVisible( true );
@@ -225,7 +225,7 @@ export default function ScreenSubmit(){
   const ___LoadThePhoneNumberForVenue = async ()=>{
     const { data, error } = await GetPhoneNumbersFromTournamentsByVenue( venue );
     // if(error== =null)
-    // // // // console.log('data:', data);
+    // // // // // console.log('data:', data);
     if(data!==null && data.length===1){
       const tournamentThatHavePhone: ITournament = data[0] as ITournament;
       set_phone_number( tournamentThatHavePhone.phone );
@@ -233,7 +233,7 @@ export default function ScreenSubmit(){
   }
 
   useEffect(()=>{
-    // // // // console.log('Now Here load the phone numbers');
+    // // // // // console.log('Now Here load the phone numbers');
     ___LoadThePhoneNumberForVenue()
   }, [venue]);
 
@@ -303,10 +303,10 @@ export default function ScreenSubmit(){
                 marginBottomInit={BasePaddingsMargins.m10}
                 // defaultValue="Select Past Tournament"
                 onChangeText={(keytext)=>{
-                  // // // console.log('keytext:', keytext);
+                  // // // // console.log('keytext:', keytext);
                   if(keytext!=='' && !isNaN(Number(keytext))){
                     set_old_tournamentByKey( old_tournaments[ Number(keytext) ] );
-                    // // // console.log('It is adding the tournament old');
+                    // // // // console.log('It is adding the tournament old');
                   }
                   else{
                     set_old_tournamentByKey(null);
@@ -317,9 +317,9 @@ export default function ScreenSubmit(){
                 old_tournamentByKey!==null?
                   <LFButton type="primary" label={`Copy details from: ${old_tournamentByKey?.tournament_name}, ID: ${old_tournamentByKey?.id_unique_number}`} onPress={()=>{
                     
-                    // // // console.log('old_tournamentByKey:', old_tournamentByKey);
+                    // // // // console.log('old_tournamentByKey:', old_tournamentByKey);
                     set_tournamentName( old_tournamentByKey?.tournament_name as string );
-                    // // // console.log('old_tournamentByKey?.game_type:', old_tournamentByKey?.game_type);
+                    // // // // console.log('old_tournamentByKey?.game_type:', old_tournamentByKey?.game_type);
                     set_gameType( old_tournamentByKey?.game_type as string );
                     set_tournamentFormat( old_tournamentByKey?.format as string );
 
@@ -331,7 +331,7 @@ export default function ScreenSubmit(){
                     // set_date( old_tournamentByKey. );
                     
                     // you must get the time if the client need this
-                    // // // // console.log(`old_tournamentByKey.strart_time: ${old_tournamentByKey.start_date}`);
+                    // // // // // console.log(`old_tournamentByKey.strart_time: ${old_tournamentByKey.start_date}`);
                     // set_time( old_tournamentByKey.strart_time );
 
                     set_reportsToFargo( old_tournamentByKey.reports_to_fargo );
@@ -437,7 +437,7 @@ export default function ScreenSubmit(){
               value={gameType}
               onChangeText={(text:string)=>{
                 set_gameType(text);
-                // // // // console.log('game type:', text);
+                // // // // // console.log('game type:', text);
                 // setErrorForm('')
                 if(text === ''){
                   set_tournametn_thumbnail_type(EIGameTypes.Ball8)
@@ -669,7 +669,9 @@ export default function ScreenSubmit(){
             ]} />
 
 
-            <VenuesEditor sendBackTheValues={(venue: IVenue)=>{
+            <VenuesEditor 
+              barOwner={user as ICAUserData}
+              sendBackTheValues={(venue: IVenue)=>{
               __selectVenue(venue);
             }} />
 

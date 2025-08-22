@@ -141,7 +141,7 @@ export default function LFInput(
         // fixAndroidTouchableBug={true}
         value={defaultValue!==undefined && RNPickerSelectDefaultValue===''?defaultValue:RNPickerSelectDefaultValue}
         onValueChange={(value, index:number)=>{
-          // // // // console.log('index:', index);
+          // // // // // console.log('index:', index);
           set_RNPickerSelectDefaultValue(value);
           if(onChangeText!==undefined)
             onChangeText(value);
@@ -237,7 +237,7 @@ export default function LFInput(
                 (():string=>{
                   const text:string = defaultValue!==undefined && RNPickerSelectDefaultValue===''?defaultValue:RNPickerSelectDefaultValue;
 
-                  // // // // console.log('picker select items:', items);
+                  // // // // // console.log('picker select items:', items);
 
                   if(items[dropdownIndexSelected]===undefined && placeholder!=='' && placeholder!==undefined){
                     return placeholder;

@@ -97,7 +97,7 @@ export default function ModalProfileAddAlert({
       set_checked_reports_to_fargo(_alert.reports_to_fargo);
       set_checked_open_tournament(_alert.checked_open_tournament);
     }
-    // // // // // // // // // console.log('_alert:', _alert)
+    // // // // // // // // // // console.log('_alert:', _alert)
   }
 
   useEffect(()=>{

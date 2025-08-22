@@ -6,7 +6,7 @@ import { Alert } from "react-native";
 } from "../context/ContextAuth";*/
 
 import { ICrudUserData } from "./CrudUserInterface"
-import { supabase } from "./supabase"
+import { supabase, supabaseAdmin } from "./supabase"
 import { ICAUserData, EUserStatus, EUserRole, EPermissionType, IPermissions } from "../hooks/InterfacesGlobal";
 
 
@@ -59,7 +59,7 @@ export const FetchUsers = async (
         .or(`user_name.ilike.%${search}%,name.ilike.%${search}%,email.ilike.%${search}%`);
     }
     if(searchIdNumber!==''){
-      // // // // console.log(`Searching users by searchIdNumber: ${searchIdNumber}`);
+      // // // // // console.log(`Searching users by searchIdNumber: ${searchIdNumber}`);
       // query.or(`id_auto33::text.ilike.%${searchIdNumber}%`);
     }
     if(userRoleQuery!==''){
@@ -70,7 +70,7 @@ export const FetchUsers = async (
       .limit(10)
       .order('created_at', {ascending:false});
     const { data, error } = await query;
-    // // // // // // // // console.log('error:', error);
+    // // // // // // // // // console.log('error:', error);
     return { data, error }
   } 
   catch(error){
@@ -127,7 +127,10 @@ export const FetchUsersV2 = async (
 }
 
 
-export const SignUp = async (newUser:ICrudUserData)=>{
+export const SignUp = async (
+  newUser:ICrudUserData,
+  type?: "sign-up" | "create-user"
+)=>{
   try{
     
     // check if the username exist 
@@ -137,20 +140,37 @@ export const SignUp = async (newUser:ICrudUserData)=>{
       .eq('user_name', newUser.username)
       .limit(1);
     // if()
-    // // // // console.log('DataIfExist from crud:', DataIfExist);
+    // // // // // console.log('DataIfExist from crud:', DataIfExist);
     if(DataIfExist && DataIfExist.length!==0){
       return { data: DataIfExist, error: 'username-exist' };
     }
 
 
-    const { data, error } = await supabase.auth.signUp({
-      email: newUser.email,
-      password: newUser.password
-    });
+    let data;
 
-    if(error){
-      throw error;
+    if(type==='create-user'){
+      const { data: dataFor, error } = await supabaseAdmin.auth.admin.createUser({
+        email: newUser.email,
+        password: newUser.password
+      });
+      data = dataFor;
+      if(error){
+        throw error;
+      }
     }
+    else{
+      const { data: dataFor, error } = await supabase.auth.signUp({
+        email: newUser.email,
+        password: newUser.password
+      });
+      data = dataFor;
+      if(error){
+        throw error;
+      }
+    }
+
+
+    console.log('Data:', data);
 
     if(data.user){
       const {error: profileError} = await supabase
@@ -184,11 +204,11 @@ export const SignIn = async (userSignIn: ICrudUserData)=>{
 
   let emailTemporary:string = email;
 
-  /*// // // // // // console.log('Start selecting');
+  /*// // // // // // // console.log('Start selecting');
   const { data, error } = await supabase
       .from('profiles')
       .select('*');
-  // // // // // // console.log('End selecting');
+  // // // // // // // console.log('End selecting');
   return;*/
 
       
@@ -196,7 +216,7 @@ export const SignIn = async (userSignIn: ICrudUserData)=>{
 
   try{
 
-    // // // // // // console.log('trying to login 3');
+    // // // // // // // console.log('trying to login 3');
 
     const { data: userByUsername, error: ErrorUserByUserName } = await supabase
       .from('profiles')
@@ -204,7 +224,7 @@ export const SignIn = async (userSignIn: ICrudUserData)=>{
       .eq('user_name', username)
       .neq('status', EUserStatus.StatusDeleted)
       .single();
-    // // // // console.log('userByUsername:', userByUsername);
+    // // // // // console.log('userByUsername:', userByUsername);
     if(userByUsername){
       // this mean that the user exist
       const userByUserNameI: ICAUserData = userByUsername as ICAUserData;
@@ -229,7 +249,7 @@ export const SignIn = async (userSignIn: ICrudUserData)=>{
       password
     });
 
-    // // // // // // console.log('login error after :', error);
+    // // // // // // // console.log('login error after :', error);
 
     if(error)throw error;
 
@@ -250,8 +270,8 @@ export const SignIn = async (userSignIn: ICrudUserData)=>{
 export const GetSession = async ()=>{
   try{
     const { data: { session }, error } = await supabase.auth.getSession();
-    // // // // // // // // // // console.log('session:', session)
-    // // // // // // // // // // console.log('error:', error)
+    // // // // // // // // // // // console.log('session:', session)
+    // // // // // // // // // // // console.log('error:', error)
     if(error){
       throw error;
     }
@@ -278,7 +298,7 @@ export const UpdateProfile = async (userId:string, dataForUpdate)=>{
       .update(dataForUpdate)
       .eq('id', userId) // Filter by user ID
       .select(); // Select the updated data (optional, but good for verification)
-    // // // // // // // // // console.log('error after update profile:', error);
+    // // // // // // // // // // console.log('error after update profile:', error);
     if(error){
       return false;
     }
@@ -287,7 +307,7 @@ export const UpdateProfile = async (userId:string, dataForUpdate)=>{
     }
   } 
   catch(error){
-    // // // // // // // // // console.log('error after update profile:', error);
+    // // // // // // // // // // console.log('error after update profile:', error);
   }
 }
 
@@ -297,7 +317,7 @@ export const DeleteUser = async (userForDeleting: ICAUserData)=>{
     const { data, error } = await supabase.auth.admin.deleteUser(
       userForDeleting.id
     ); 
-    // // // // // // // // console.log('error after deleting user: ', error);
+    // // // // // // // // // console.log('error after deleting user: ', error);
 
     // const {data, error} = supabase.from
     UpdateProfile( userForDeleting.id, {
@@ -305,7 +325,7 @@ export const DeleteUser = async (userForDeleting: ICAUserData)=>{
     } );
   } 
   catch(error){
-    // // // // // // // // console.log('crach error after deleting user:', error);
+    // // // // // // // // // console.log('crach error after deleting user:', error);
   }
 }
 

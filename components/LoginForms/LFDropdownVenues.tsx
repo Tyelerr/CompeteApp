@@ -69,6 +69,8 @@ export default function LFDropdownVenues(
     _loadVenues()
   }, []);
 
+  if(venues.length===0)return null;
+
   return <View>
     <LFInput 
       label={listType==='my-venues'?'My venues':'Venues I am added on'}
@@ -79,7 +81,7 @@ export default function LFDropdownVenues(
 
       }}
       onChangeIndex={(index: number)=>{
-        // // // // console.log('Index: ', index);
+        // // // // // console.log('Index: ', index);
         if(onChange!==undefined && index>0){
           // index must be bigger then 0, 0 item is for the placeholder
           onChange(venues[index-1]);

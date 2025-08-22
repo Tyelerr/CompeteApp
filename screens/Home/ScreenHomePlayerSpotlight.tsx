@@ -4,7 +4,7 @@ import { View, Text, Alert } from "react-native";
 
 export default function ScreenHomePlayerSpotlight(){
   
-  // // // // // // // // // // console.log('BBBB');
+  // // // // // // // // // // // console.log('BBBB');
   // Alert.alert('BBBBBB');
 
   return <ScreenScrollView>

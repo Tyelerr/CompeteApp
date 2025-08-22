@@ -28,9 +28,9 @@ export default function StackAdmin({navigation, route}){
   ];
 
   return <Stack.Navigator
-    // initialRouteName="AdminUsers"
+    initialRouteName="AdminUsers"
     // initialRouteName="AdminPending"
-    initialRouteName="AdminAnalytics"
+    // initialRouteName="AdminAnalytics"
     screenOptions={
       {
         animation: "none",

@@ -36,7 +36,7 @@ export default function ScreenBilliardModalTournament(
   } = useContextAuth();
 
   useEffect(()=>{
-    // // // // // console.log( 'tournament:', tournament );
+    // // // // // // console.log( 'tournament:', tournament );
   }, []);
 
   const __Item = (title:string, value:string, m?:number)=>{

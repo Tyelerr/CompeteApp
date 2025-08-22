@@ -14,16 +14,18 @@ import { useEffect, useState } from "react";
 import UIPanel from "../../UI/UIPanel";
 import LFCheckBox from "../../LoginForms/LFCheckBox";
 import { FetchVenues } from "../../../ApiSupabase/CrudVenues";
-import { IVenue } from "../../../hooks/InterfacesGlobal";
+import { ICAUserData, IVenue } from "../../../hooks/InterfacesGlobal";
 
 export default function VenuesEditor(
 
   {
-    sendBackTheValues
+    sendBackTheValues,
+    barOwner
   }
   :
   {
-    sendBackTheValues?: (venue: IVenue)=>void
+    sendBackTheValues?: (venue: IVenue)=>void,
+    barOwner: ICAUserData
   }
 
 ){
@@ -34,15 +36,15 @@ export default function VenuesEditor(
   const [checkedVenue, set_checkedVenue] = useState<IVenue | null>(null);
   // const [checkedVenueIndex, set_checkedVenueIndex] = useState<IVenue | null>(null);
 
-  const {
+  /*const {
     user
-  } = useContextAuth();
+  } = useContextAuth();*/
 
   const ____LoadTheVenus = async ()=>{
-    if(user===null)return;
+    // if(user===null)return;
     const {
       data, error
-    } = await FetchVenues( user.id_auto );
+    } = await FetchVenues( barOwner.id_auto );
 
 
     const newVenues: IVenue[] = data as IVenue[];
@@ -78,7 +80,7 @@ export default function VenuesEditor(
     sendBackTheValues( checkedVenue as IVenue )
    }, [checkedVenue])
 
-  if(user===null)return null;
+  // if(user===null)return null;
 
   return <>
   <View>
@@ -150,7 +152,7 @@ export default function VenuesEditor(
                   label={venue.venue} 
                   checked={checkedVenue!==null && venue.id===checkedVenue?.id}
                   onPress={()=>{
-                    // // // console.log(venue.id);
+                    // // // // console.log(venue.id);
                     set_checkedVenue(venue)
                   }}
                   // subLabel="Venue Address"
@@ -175,7 +177,7 @@ export default function VenuesEditor(
   <ModalAddVenue 
     show={modalShow}
     showF={set_modalShow}
-
+    barOwner={barOwner}
   />
   </>
 }

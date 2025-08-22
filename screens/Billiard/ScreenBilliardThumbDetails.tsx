@@ -35,7 +35,7 @@ export default function ScreenBilliardThumbDetails(
       user as ICAUserData,
       tournament
     );
-    // // // // // // // console.log('data:', data);
+    // // // // // // // // console.log('data:', data);
     if(data!==null && data.length===1){
       set_isLiked( true );
     }

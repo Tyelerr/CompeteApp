@@ -19,7 +19,7 @@ export default function ScreenAdminDropdownNavigation(){
   const navigation = useNavigation();
 
   useEffect(()=>{
-    // // // // // // // // // console.log('route.name:', route.name);
+    // // // // // // // // // // console.log('route.name:', route.name);
   }, []);
 
   return <View style={[

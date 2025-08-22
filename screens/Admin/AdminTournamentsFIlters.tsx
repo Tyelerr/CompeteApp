@@ -68,7 +68,7 @@ export default function AdminTournamentsFIlters(
       });
     }
 
-    // // // // // // // // console.log( 'dataFor: ', dataFor );
+    // // // // // // // // // console.log( 'dataFor: ', dataFor );
 
     set_itemsForVenues( dataFor )
 

@@ -36,7 +36,7 @@ export default function ScreenAdminPending(){
 
   /*const _LoadTournaments = async ()=>{
 
-    // // // // // console.log('_LoadTournaments:', _LoadTournaments);
+    // // // // // // console.log('_LoadTournaments:', _LoadTournaments);
 
     const {
       data,
@@ -54,8 +54,8 @@ export default function ScreenAdminPending(){
     );
 
 
-    // // // // // // // // console.log('error:', error);
-    // // // // // // // // console.log('data:', data);
+    // // // // // // // // // console.log('error:', error);
+    // // // // // // // // // console.log('data:', data);
 
     const _tournamets_: ITournament[] = [];
     for(let i=0;i<data.length;i++){
@@ -63,7 +63,7 @@ export default function ScreenAdminPending(){
     }
     set_tournamets(_tournamets_);
 
-    // // // // // // // // // console.log('data:', data);
+    // // // // // // // // // // console.log('data:', data);
 
 
 
@@ -86,7 +86,7 @@ export default function ScreenAdminPending(){
       });
     }
 
-    // // // // // // // // console.log( 'dataFor: ', dataFor );
+    // // // // // // // // // console.log( 'dataFor: ', dataFor );
 
     set_itemsForVenues( dataFor )
 

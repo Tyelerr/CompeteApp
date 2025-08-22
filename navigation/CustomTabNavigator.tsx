@@ -46,7 +46,7 @@ export function TabBarIconElement(
 
 
   // Log the focused prop every time the component renders
-  // // // // // console.log(`[TabBarIconElement Render] Icon: ${icon}, Focused Prop: ${focused}`);
+  // // // // // // console.log(`[TabBarIconElement Render] Icon: ${icon}, Focused Prop: ${focused}`);
 
   // Animated.Value to control the icon's scale factor
   const animatedScale = useRef(new Animated.Value(1)).current;
@@ -54,7 +54,7 @@ export function TabBarIconElement(
   // Animate the icon scale based on the 'focused' prop
   useEffect(() => {
     // This log should fire every time 'focused' or 'icon' changes
-    // // // // // console.log(`[TabBarIconElement useEffect] Firing for Icon: ${icon}, Focused Dependency: ${focused}`);
+    // // // // // // console.log(`[TabBarIconElement useEffect] Firing for Icon: ${icon}, Focused Dependency: ${focused}`);
 
     Animated.spring(animatedScale, {
       toValue: focused ? 1.3 : 1, // Scale up to 1.3 when focused, back to 1 when unfocused
@@ -62,17 +62,17 @@ export function TabBarIconElement(
       tension: 100,
       useNativeDriver: true, // Scale animation can use native driver for better performance
     }).start(() => {
-      // // // // // console.log(`[TabBarIconElement Animation End] Icon: ${icon}, Final Focused: ${focused}`);
+      // // // // // // console.log(`[TabBarIconElement Animation End] Icon: ${icon}, Final Focused: ${focused}`);
     });
 
     // Add a listener to observe the animation values (for debugging/logging)
     const listenerId = animatedScale.addListener(({ value }) => {
-      // // // // // console.log(`[TabBarIconElement Listener] Icon: ${icon} animating scale:`, value);
+      // // // // // // console.log(`[TabBarIconElement Listener] Icon: ${icon} animating scale:`, value);
     });
 
     // Clean up the listener when the component unmounts or its dependencies change
     return () => {
-      // // // // // console.log(`[TabBarIconElement Cleanup] Removing listener for Icon: ${icon}`);
+      // // // // // // console.log(`[TabBarIconElement Cleanup] Removing listener for Icon: ${icon}`);
       animatedScale.removeListener(listenerId);
     };
   }, [focused, icon]); // Dependencies: 'focused' and 'icon'
@@ -104,7 +104,7 @@ export function TabBarIconElement(
 export default function CustomTabNavigator({ state, descriptors, navigation }) {
   // Log the state of the tab bar to observe focus changes
   React.useEffect(() => {
-    // // // // // console.log(`[MyCustomTabBar] Current State Index: ${state.index}, Route Name: ${state.routes[state.index].name}`);
+    // // // // // // console.log(`[MyCustomTabBar] Current State Index: ${state.index}, Route Name: ${state.routes[state.index].name}`);
   }, [state.index]);
 
   return (
@@ -121,7 +121,7 @@ export default function CustomTabNavigator({ state, descriptors, navigation }) {
         const isFocused = state.index === index;
 
         // Log the focused state for each tab button
-        // // // // // console.log(`[MyCustomTabBar] Tab Button: ${route.name}, Is Focused: ${isFocused}`);
+        // // // // // // console.log(`[MyCustomTabBar] Tab Button: ${route.name}, Is Focused: ${isFocused}`);
 
         const onPress = () => {
           const event = navigation.emit({

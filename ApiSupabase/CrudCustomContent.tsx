@@ -29,7 +29,7 @@ export const InsertContent = async (content: ICustomContent)=>{
 
 
   const dataFor = dataCustomContentForDatabase(content);
-  // // console.log('dataFor:', dataFor);
+  // // // console.log('dataFor:', dataFor);
 
   try{
     const { data, error } = await supabase
@@ -45,7 +45,7 @@ export const InsertContent = async (content: ICustomContent)=>{
 export const UpdateContent = async (content: ICustomContent, content_id: number)=>{
 
   const contentForUpdating = dataCustomContentForDatabase(content);
-  // console.log('contentForUpdating:', contentForUpdating);
+  // // console.log('contentForUpdating:', contentForUpdating);
 
   try{
     /*const { data, error } = await supabase
@@ -59,8 +59,8 @@ export const UpdateContent = async (content: ICustomContent, content_id: number)
       .eq('id', content_id)
       .select();
 
-      // console.log('content_id:', content_id);
-    // console.log(data, error);
+      // // console.log('content_id:', content_id);
+    // // console.log(data, error);
 
       return { data, error };
   }
@@ -112,8 +112,8 @@ export const GetTheGifts = async (user_id: number)=>{
         mine_id: user_id
       });
   
-      // console.log('getting the gifts');
-      // console.log( data, error );
+      // // console.log('getting the gifts');
+      // // console.log( data, error );
 
   return { data, error };
 }
@@ -121,7 +121,7 @@ export const GetTheGifts = async (user_id: number)=>{
 
 export const DeleteContent = async (contentId: number)=>{
 
-  // // console.log('Deleting custom content with ID: ', contentId);
+  // // // console.log('Deleting custom content with ID: ', contentId);
 
   const {
     error, data

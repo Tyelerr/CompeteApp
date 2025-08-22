@@ -111,15 +111,15 @@ export default function ModalEditorContentRewards(
     set_loading(true);
     
     const updatedContent: ICustomContent =__dataForSupabase();
-    // // console.log('updatedContent:', updatedContent);
+    // // // console.log('updatedContent:', updatedContent);
 
     const {
       data, error
     } = await UpdateContent( updatedContent, data_row?.id );
     set_data_row( updatedContent );
 
-    // // console.log('Updating the reward result');
-    // // console.log(data, error);
+    // // // console.log('Updating the reward result');
+    // // // console.log(data, error);
 
     set_loading(false);
 
@@ -224,7 +224,7 @@ export default function ModalEditorContentRewards(
                   mode="date" // Can be 'date', 'time', or 'datetime' (iOS only)
                   display={Platform.OS === 'ios' ? 'spinner' : 'default'} // 'spinner' or 'calendar' for iOS; 'default' or 'spinner' for Android
                   onChange={(event, selectedDate)=>{
-                    // // console.log("selectedDate:", selectedDate);
+                    // // // console.log("selectedDate:", selectedDate);
                     set_date_ends( selectedDate as Date );
                   }}
                   // minDate={new Date(2000, 0, 1)} // Optional: Set minimum selectable date
@@ -265,7 +265,7 @@ export default function ModalEditorContentRewards(
                 // set_thumbnailType={}
                 set_thumbnailType={(t:string)=>{}}
                 set_thumbnail_url={(url: string)=>{
-                  // console.log('url: ', url)
+                  // // console.log('url: ', url)
                   set_reward_picture(url)
                 }}
                 onStartAttaching={()=>{

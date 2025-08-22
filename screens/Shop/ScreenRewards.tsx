@@ -29,8 +29,8 @@ export default function ScreenRewards(){
 
   const {user} = useContextAuth();
 
-  // // // // // // console.log('user:', user);
-  // // // // // // console.log('user.role:', user?.role);
+  // // // // // // // console.log('user:', user);
+  // // // // // // // console.log('user.role:', user?.role);
 
   const [modalEditorIsOpened, set_modalEditorIsOpened] = useState<boolean>(false);
   const [modalNewGiftCreatorIsOpened, set_modalNewGiftCreatorIsOpened] = useState<boolean>(false);
@@ -62,7 +62,7 @@ export default function ScreenRewards(){
     } = await GetTheGifts( user?.id_auto )
     const _itemsRewards: ICustomContent[] = data as ICustomContent[];
 
-    // // console.log(data, error);
+    // // // console.log(data, error);
 
     set_gifts( _itemsRewards )
 
@@ -70,11 +70,11 @@ export default function ScreenRewards(){
 
   const ____EnterIntoTheGift = async ()=>{
     if(selectedRewardsData===null){
-      // console.log('selectedRewardsData===null');
+      // // console.log('selectedRewardsData===null');
       return;
     }
     if(user===null){
-      // console.log('user===null');
+      // // console.log('user===null');
       return;
     }
     const {} = await enterInGift(

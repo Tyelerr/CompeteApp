@@ -53,8 +53,8 @@ export default function ScreenAdminDeleted(){
     );
 
 
-    // // // // // // // // console.log('error:', error);
-    // // // // // // // // console.log('data:', data);
+    // // // // // // // // // console.log('error:', error);
+    // // // // // // // // // console.log('data:', data);
 
     const _tournamets_: ITournament[] = [];
     for(let i=0;i<data.length;i++){
@@ -62,7 +62,7 @@ export default function ScreenAdminDeleted(){
     }
     set_tournamets(_tournamets_);
 
-    // // // // // // // // // console.log('data:', data);
+    // // // // // // // // // // console.log('data:', data);
 
 
 
@@ -85,7 +85,7 @@ export default function ScreenAdminDeleted(){
       });
     }
 
-    // // // // // // // // console.log( 'dataFor: ', dataFor );
+    // // // // // // // // // console.log( 'dataFor: ', dataFor );
 
     set_itemsForVenues( dataFor )
 

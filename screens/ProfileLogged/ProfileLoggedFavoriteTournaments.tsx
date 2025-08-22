@@ -46,9 +46,9 @@ export default function ProfileLoggedFavoriteTournaments(){
 
     const liked:ILikedTournament[] = likedtournaments;
 
-    // // // // // // // console.log('data liked tournaments:', data);
-    // // // // // // // console.log('error liked tournaments:', error);
-    // // // // // // // console.log('data liked tournaments:', likedtournaments);
+    // // // // // // // // console.log('data liked tournaments:', data);
+    // // // // // // // // console.log('error liked tournaments:', error);
+    // // // // // // // // console.log('data liked tournaments:', likedtournaments);
 
     if(likedtournaments!==null){
       set_likedTournaments( liked );
@@ -65,8 +65,8 @@ export default function ProfileLoggedFavoriteTournaments(){
     const {
       data, error
     } = await AddTournamentLike(user as ICAUserData, tournament, false);
-    // // // // // console.log('error:', error);
-    // // // // // console.log('data:', data);
+    // // // // // // console.log('error:', error);
+    // // // // // // console.log('data:', data);
     __LoadLikedTournamentsBYMe();
   }
 
@@ -108,7 +108,7 @@ export default function ProfileLoggedFavoriteTournaments(){
         {
           likedTournaments.map((likedTournament: ILikedTournament, key:number)=>{
 
-            // // // // // // // console.log('likedTournament:', likedTournament);
+            // // // // // // // // console.log('likedTournament:', likedTournament);
 
             const tournament: ITournament = likedTournament.tournamentobject;
 

@@ -8,26 +8,28 @@ import { useEffect, useState } from "react";
 import { EInputValidation } from "../../LoginForms/Interface";
 import UIModalCloseButton from "../../UI/UIModal/UIModalCloseButton";
 import { AddNewVenue } from "../../../ApiSupabase/CrudVenues";
-import { IVenue } from "../../../hooks/InterfacesGlobal";
+import { ICAUserData, IVenue } from "../../../hooks/InterfacesGlobal";
 import { useContextAuth } from "../../../context/ContextAuth";
 
 export default function ModalAddVenue(
 
   {
     show,
-    showF
+    showF,
+    barOwner
   }
   :
   {
     show: boolean,
-    showF: (v:boolean)=>void
+    showF: (v:boolean)=>void,
+    barOwner: ICAUserData
   }
 
 ){
 
-  const {
+  /*const {
     user
-  } = useContextAuth();
+  } = useContextAuth();*/
 
   const [venue, set_venue] = useState<string>('');
   const [venueLat, set_venueLat] = useState<string>('');
@@ -39,7 +41,7 @@ export default function ModalAddVenue(
 
   const __AddNewVenue = async ()=>{
     
-    if(user===null)return;
+    // if(user===null)return;
 
     set_loading(true);
 
@@ -53,7 +55,7 @@ export default function ModalAddVenue(
         venue_lat: venueLat,
         venue_lng: venueLng,
         point_location: 'this will be set inside the crud function',
-        profile_id: user.id_auto,
+        profile_id: barOwner.id_auto,
         phone: phone_number
       } as IVenue
     );

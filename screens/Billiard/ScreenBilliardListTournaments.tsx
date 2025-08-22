@@ -4,6 +4,7 @@ import ScreenBilliardThumbDetails from "./ScreenBilliardThumbDetails";
 import { StyleZ } from "../../assets/css/styles";
 import Pagination from "../../components/UI/Pagination/Pagiination";
 import { COUNT_TOURNAMENTS_IN_PAGE } from "../../hooks/constants";
+import { useEffect } from "react";
 
 export default function ScreenBilliardListTournaments(
 
@@ -26,6 +27,13 @@ export default function ScreenBilliardListTournaments(
   }
 
 ){
+
+  useEffect(()=>{
+    if(tournaments.length>0){
+      console.log("tournaments[0].id_unique_number:", tournaments[0].id_unique_number);
+    }
+  }, [tournaments])
+
   return <>
 
   <Pagination
@@ -60,7 +68,7 @@ export default function ScreenBilliardListTournaments(
           {
             tournaments.map((tournament:ITournament, key:number)=>{
               return <ScreenBilliardThumbDetails
-                key={`tournament-key-${key}`}
+                key={`tournament-key-${tournament.id_unique_number}-${key}`}
                 tournament={tournament}
                 selectTournament={(t:ITournament)=>{
                   set_selectedTournament(t);

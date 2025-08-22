@@ -20,7 +20,7 @@ export default function ContentSwitcher({buttonsDetails}:{
   const navigation = useNavigation();
   const route = useRoute();
 
-  // // // // // // console.log('buttonsDetails:', buttonsDetails);
+  // // // // // // // console.log('buttonsDetails:', buttonsDetails);
 
   return <View style={
     [

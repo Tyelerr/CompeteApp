@@ -14,6 +14,7 @@ import LBButtonsGroup from "../../components/LoginForms/Button/LBButtonsGroup";
 import { CapitalizeWords } from "../../hooks/hooks";
 import AttachImage from "../../components/UI/Attach/AttachImage";
 import VenuesEditor from "../../components/google/VenuesEditor/VenuesEditor";
+import FormUserEditor from "./FormUserEditor";
 
 export default function ModalProfileEditor(
   {
@@ -27,12 +28,14 @@ export default function ModalProfileEditor(
   }
 ){
 
+
+
   const {
     user,
     set_user
   } = useContextAuth();
 
-  const [isLoading, set_isLoading] = useState<boolean>(false);
+  /*const [isLoading, set_isLoading] = useState<boolean>(false);
 
   const __SaveTheDetails = async ()=>{
 
@@ -86,7 +89,7 @@ export default function ModalProfileEditor(
       favorite_game:favorite_game,
       profile_image_url:profile_image_url
     };
-    // // // // console.log('NewData:', NewData);
+    // // // // // console.log('NewData:', NewData);
 
     const updatingIsCompleted = await UpdateProfile(
       user?.id as string,
@@ -114,8 +117,8 @@ export default function ModalProfileEditor(
   const [profile_image_url, set_profile_image_url] = useState<string>('');
 
   useEffect(()=>{
-    // // // // // // // // // console.log('Modal mount');
-    // // // // // // // // // console.log('Modal Logged User 222:', user);
+    // // // // // // // // // // console.log('Modal mount');
+    // // // // // // // // // // console.log('Modal Logged User 222:', user);
 
     set_username(user?.user_name as string);
     set_name(user?.name as string);
@@ -126,7 +129,7 @@ export default function ModalProfileEditor(
     set_favorite_game(user?.favorite_game as string);
     set_profile_image_url( user?.profile_image_url as string );
 
-  }, [])
+  }, [])*/
 
   return <Modal 
     animationType="fade"
@@ -182,202 +185,21 @@ export default function ModalProfileEditor(
                 F_isOpened(false)
               }} />
             </View>*/}
-            <UIModalCloseButton F_isOpened={F_isOpened} />
-
-            <View style={[
-              StyleModal.headingContainer
-            ]}>
-              <Text style={[
-                StyleModal.heading
-              ]}>Update Profile</Text>
-            </View>
-
-            <View style={[
-              StyleZ.loginFromContainer,
-              {
-                minHeight: 0
-              }
-            ]}>
-
-              {
-                errorFormMessagem!==''
-                ?
-                <View style={{
-                  justifyContent: 'center',
-                  marginBottom: BasePaddingsMargins.sectionMarginBottom
-                }}>
-                  <Text style={[
-                    StyleZ.LFErrorMessage,
-                    StyleZ.LFErrorMessage_addon_centered
-                  ]}>{errorFormMessagem}</Text>
-                </View>
-                :
-                null
-              }
 
             
+            <UIModalCloseButton F_isOpened={F_isOpened} />
 
-              <View style={StyleZ.loginForm}>
-
-                <View style={[
-                  {
-                    marginBottom: BasePaddingsMargins.formInputMarginLess,
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }
-                ]}>
-                  <AttachImage
-                    set_thumbnailType={(t:string)=>{}}
-                    set_thumbnail_url={set_profile_image_url}
-                    defaultUrl={profile_image_url}
-                  />
-                </View>
-
-                <LFInput 
-                  keyboardType="default" label="Username"
-                  placeholder="Enter username"
-                  capitalizeTheWords={true}
-                  defaultValue={user?.user_name}
-                  value={username}
-                  onChangeText={(text:string)=>{
-                    set_username( text );
-                    setErrorForm('')
-                  }}
-                  validations={[
-                    EInputValidation.Required,
-                    // EInputValidation.Email,
-                  ]}
-                  />
-
-                <LFInput 
-                  keyboardType="default" label="Name"
-                  placeholder="Cesar Morales (As shown in Fargo Rate)"
-                  defaultValue={user?.name}
-                  value={name}
-                  capitalizeTheWords={true}
-                  onChangeText={(text:string)=>{
-                    set_name( text );
-                    setErrorForm('')
-                  }}
-                  validations={[
-                    EInputValidation.Required,
-                    // EInputValidation.Email,
-                  ]}
-                  />
-
-                {/*
-                <LFInput 
-                  typeInput="dropdown"
-                  keyboardType="default" label="Preferred Game"
-                  placeholder="Select preferred game"
-                  defaultValue={user?.preferred_game}
-                  onChangeText={(text:string)=>{
-                    set_preferred_game(text);
-                    setErrorForm('')
-                  }}
-                  validations={[
-                    EInputValidation.Required,
-                    // EInputValidation.Email,
-                  ]}
-                  
-
-                  items={GameTypes}
-
-                  />
-                  */}
-
-                {/*<LFInput 
-                  typeInput="dropdown"
-                  keyboardType="default" label="Skill level"
-                  defaultValue={user?.skill_level}
-                  placeholder="Select skill level"
-                  onChangeText={(text:string)=>{
-                    set_skill_level(text);
-                    setErrorForm('')
-                  }}
-                  validations={[
-                    EInputValidation.Required,
-                    // EInputValidation.Email,
-                  ]}
-
-                  items={[
-                    {label:'Beginner', value:'beginner'},
-                    {label:'Intermediate', value:'intermediate'},
-                    {label:'Advanced', value:'advanced'},
-                    {label:'Pro', value:'pro'},
-                  ]}
-
-                  />*/}
-
-                <LFInput 
-                  keyboardType="default" label="Home Zip Code"
-                  placeholder="Enter your zip code"
-                  defaultValue={user?.zip_code}
-                  description="Used for local tournament recommendations"
-                  onChangeText={(text:string)=>{
-                    set_zip_code(text);
-                    setErrorForm('')
-                  }}
-                  validations={[
-                    EInputValidation.Required,
-                    // EInputValidation.Email,
-                  ]}
-                  />
-                
-
-                  <LFInput 
-                    keyboardType="default" label="Favorite Player 3"
-                    placeholder="Enter your favorite player"
-                    capitalizeTheWords={true}
-                    defaultValue={user?.favorite_player}
-                    value={favorite_player}
-                    description="Your pool hero or role model"
-                    onChangeText={(text:string)=>{
-                      set_favorite_player(text);
-                      setErrorForm('')
-                    }}
-                    validations={[
-                      EInputValidation.Required,
-                      // EInputValidation.Email,
-                    ]}
-                    />
-
-                <LFInput 
-                  keyboardType="default" label="Favorite Game"
-                  placeholder="Enter your favorite game"
-                  capitalizeTheWords={true}
-                  defaultValue={user?.favorite_game}
-                  value={favorite_game}
-                  onChangeText={(text:string)=>{
-                    set_favorite_game(text);
-                    setErrorForm('')
-                  }}
-                  validations={[
-                    EInputValidation.Required,
-                    // EInputValidation.Email,
-                  ]}
-                  />
-
-
-                <VenuesEditor />
-
-                
-
-                
-                <LBButtonsGroup buttons={[
-                  <LFButton label="Cancel" type="danger" onPress={()=>{
-                        F_isOpened(false)
-                      }} />,
-                  <LFButton
-                      loading={isLoading}
-                      label="Save Changes" type="primary" icon="save" onPress={()=>{
-                      __SaveTheDetails()
-                    }} />
-                ]} />
-
-              </View>
-
-            </View>
+            <FormUserEditor 
+              userThatNeedToBeEdited={user as ICAUserData}
+              EventAfterUpdatingTheUser={(updatedUser:ICAUserData)=>{
+                set_user( updatedUser );
+                F_isOpened( false )
+              }}
+              EventAfterCancelUpdating={()=>{
+                F_isOpened(false)
+              }}
+              />
+            
             
 
 

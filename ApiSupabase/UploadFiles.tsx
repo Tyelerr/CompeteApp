@@ -7,7 +7,7 @@ export const UploadImage = async (
   mimeType:string,
   base64:string
 )=>{
-  // // // // // // // // // // console.log('base64:', base64);
+  // // // // // // // // // // // console.log('base64:', base64);
   const imageName:string = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}.${fileExtension}`;
   const { data, error } = await supabase.storage
     .from('images')

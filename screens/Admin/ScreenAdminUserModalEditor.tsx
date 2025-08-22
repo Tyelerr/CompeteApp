@@ -7,6 +7,10 @@ import LFButton from "../../components/LoginForms/Button/LFButton";
 import { BasePaddingsMargins } from "../../hooks/Template";
 import { useEffect, useState } from "react";
 import { UpdateProfile } from "../../ApiSupabase/CrudUser";
+import { useContextAuth } from "../../context/ContextAuth";
+import AddRemoveDirectorsGlobalList from "./DirectorsOwnersTools/AddRemoveDirectorsGlobalList";
+import FormUserEditor from "../ProfileLogged/FormUserEditor";
+import UIPanel from "../../components/UI/UIPanel";
 
 export default function ScreenAdminUserModalEditor(
   {
@@ -24,6 +28,11 @@ export default function ScreenAdminUserModalEditor(
   }
 ){
 
+  const {
+    user
+  } = useContextAuth();
+
+  const [userEditorIsOpened, set_userEditorIsOpened] = useState<boolean>(false);
   const [localUserRole, set_localUserRole] = useState<EUserRole | null>(null);
 
   const __UpdateUser = async ()=>{
@@ -37,11 +46,11 @@ export default function ScreenAdminUserModalEditor(
   }
 
   useEffect(()=>{
-    // // // console.log('userForEditing:', userForEditing);
+    // // // // console.log('userForEditing:', userForEditing);
   }, []);
   useEffect(()=>{
     set_localUserRole(userForEditing.role);
-    // // // console.log('userForEditing.role:', userForEditing.role);
+    // // // // console.log('userForEditing.role:', userForEditing.role);
   }, [userForEditing.role]);
 
   return <Modal animationType="fade" transparent={true} visible={isOpened}>
@@ -79,14 +88,16 @@ export default function ScreenAdminUserModalEditor(
               ]}>User Editor</Text>
             </View>
 
-            <Text style={[
+            {
+              /*<Text style={[
               {
                 color: 'white'
               }
             ]}>
 
               localUserRole: {localUserRole}
-            </Text>
+            </Text>*/
+            }
 
             
             {/*<LFInput label="Name" placeholder="Enter Name" 
@@ -113,16 +124,18 @@ export default function ScreenAdminUserModalEditor(
                 items={UserRoles}
                 onChangeText={(text:string)=>{
                   // Alert.alert('12');
-                  // // // // // // // // // console.log('Updating the role of the user');
-                  // // // // console.log('New role: ', text);
+                  // // // // // // // // // // console.log('Updating the role of the user');
+                  // // // // // console.log('New role: ', text);
                   // UpdateProfile( userFromTheList.id, {role:text} ); 
                   set_localUserRole(text);
                 }}
               />
             </View>
 
+            
             <LFButton
-              label="Update the user"
+              marginbottom={BasePaddingsMargins.formInputMarginLess}
+              label="Update the user role"
               type="primary"
               onPress={()=>{
                 F_isOpened(false)
@@ -130,6 +143,50 @@ export default function ScreenAdminUserModalEditor(
                 __UpdateUser()
               }}  
             />
+
+            {
+              userEditorIsOpened?
+              <UIPanel>
+                <FormUserEditor 
+                  userThatNeedToBeEdited={userForEditing}
+                  EventAfterCancelUpdating={()=>{
+                    set_userEditorIsOpened(false)
+                  }}
+                  EventAfterUpdatingTheUser={(updatedUser: ICAUserData)=>{
+                    if(onSubmitUpdateUserButton!==undefined){
+                      onSubmitUpdateUserButton()
+                    }
+                  }}
+                />
+              </UIPanel>
+              :
+              null
+            }
+
+            {
+              userEditorIsOpened!==true && user?.role === EUserRole.MasterAdministrator?
+              <LFButton
+                label={userEditorIsOpened?"Close the User Editor":"Open the User Editor"}
+                type="outline-dark"
+                onPress={()=>{
+                  set_userEditorIsOpened(!userEditorIsOpened)
+                }}  
+              />
+              :
+              null
+            }
+
+            {
+              // <Text style={{color: 'white'}}>{EUserRole.MasterAdministrator}</Text>
+            }
+            {
+              user?.role === EUserRole.MasterAdministrator?
+              <>
+                <AddRemoveDirectorsGlobalList barOwner={userForEditing} />
+              </>
+              :
+              null
+            }
 
           </View>
         </ScrollView>

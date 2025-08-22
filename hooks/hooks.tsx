@@ -44,7 +44,7 @@ export function CapitalizeWords(text: string) {
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
   });
 
-  // // // // console.log('capitalizedWords:', capitalizedWords);
+  // // // // // console.log('capitalizedWords:', capitalizedWords);
 
   // Join the capitalized words back into a single string with single spaces
   return capitalizedWords.join(" ");

@@ -18,8 +18,8 @@ export default function ScreenHomeFeaturedBar(){
 
   const {user} = useContextAuth();
 
-  // // // // // // console.log('user:', user);
-  // // // // // // console.log('user.role:', user?.role);
+  // // // // // // // console.log('user:', user);
+  // // // // // // // console.log('user.role:', user?.role);
 
   const [modalEditorIsOpened, set_modalEditorIsOpened] = useState<boolean>(false);
   const [featuredPlayerData, set_featuredPlayerData] = useState<ICustomContent | null>(null);
@@ -146,7 +146,7 @@ export default function ScreenHomeFeaturedBar(){
             theData().labels.map((obj, key:number)=>{
 
               const itemObj: ILFInputGridInput = obj[0] as ILFInputGridInput;
-              // // // // // // console.log('obj:', obj);
+              // // // // // // // console.log('obj:', obj);
 
               return <View key={`item-list-${key}`} style={{
                 marginBottom: BasePaddingsMargins.m5,

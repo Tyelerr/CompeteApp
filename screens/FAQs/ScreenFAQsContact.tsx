@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import LFButton from "../../components/LoginForms/Button/LFButton";
 // import { Resend } from 'resend';
 
-// // // // // // // // console.log("process.env.EXPO_PUBLIC_RESEND_KEY:", process.env.EXPO_PUBLIC_RESEND_KEY);
+// // // // // // // // // console.log("process.env.EXPO_PUBLIC_RESEND_KEY:", process.env.EXPO_PUBLIC_RESEND_KEY);
 // const resend = new Resend(process.env.EXPO_PUBLIC_RESEND_KEY); // Key is exposed
 
 export default function ScreenFAQsContact(){
@@ -37,8 +37,8 @@ export default function ScreenFAQsContact(){
         subject: 'Testing Email',
         html: 'Testing HTML',
       });
-      // // // // // // // console.log('data email send:', data);
-      // // // // // // // console.log('error email send:', error);
+      // // // // // // // // console.log('data email send:', data);
+      // // // // // // // // console.log('error email send:', error);
       set_loading(false)
     } 
     catch(error){}*/
@@ -78,7 +78,7 @@ export default function ScreenFAQsContact(){
   }
 
   useEffect(()=>{
-    // // // // console.log('User in Screen FAQsContact:', user);
+    // // // // // console.log('User in Screen FAQsContact:', user);
   }, []);
 
   return <UIPanel>
@@ -135,7 +135,7 @@ export default function ScreenFAQsContact(){
       ]} 
       onChangeText={(text)=>{
         set_questionType(text!==''?text:'General Question');
-        // // // // // // // console.log('text:', text);
+        // // // // // // // // console.log('text:', text);
         set_tournament_id('')
         
       }}

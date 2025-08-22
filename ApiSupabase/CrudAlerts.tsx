@@ -78,10 +78,10 @@ export const GetAlertById = async (alertId:string):Promise<IAlert | null>=>{
       .eq('id', alertId);
       // .order('updated_at', {ascending: false})
       //.limit(10);
-      // // // // // // // // // console.log('error:', error);
-      // // // // // // // // // console.log('data:', data);
+      // // // // // // // // // // console.log('error:', error);
+      // // // // // // // // // // console.log('data:', data);
     const alert:IAlert = data[0] as IAlert;
-    // // // // // // // // // console.log('alert:', alert);
+    // // // // // // // // // // console.log('alert:', alert);
     /*if(data!==null)
       for(let i=0;i<data.length;i++){
         alerts.push( data[i] as IAlert );

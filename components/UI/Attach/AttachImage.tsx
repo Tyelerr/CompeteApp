@@ -39,18 +39,18 @@ export default function AttachImage(
     set_loading(true)
 
     // Alert.alert('12');
-    // // // // // // // // // console.log('Started attaching image');
+    // // // // // // // // // // console.log('Started attaching image');
     if(Platform.OS !== 'web'){
     
       const { granted } = await requestMediaLibraryPermissionsAsync();
-      // // // // // // // // // console.log('granted:', granted);
+      // // // // // // // // // // console.log('granted:', granted);
       if(granted!==true){
         Alert.alert('Permission denied', 'Sorry, we need camera permissions to make this work!');
       }
     }
-    // // // // // // // // // console.log('Ended attaching image');
+    // // // // // // // // // // console.log('Ended attaching image');
 
-    // // // // // // // // // console.log("Calling ImagePicker.launchImageLibraryAsync...");
+    // // // // // // // // // // console.log("Calling ImagePicker.launchImageLibraryAsync...");
     let result = await launchImageLibraryAsync({
       // mediaTypes: MediaType.Images,
       allowsEditing: true,
@@ -58,8 +58,8 @@ export default function AttachImage(
       quality: 0.8,
       base64: true,
     });
-    // // // // // // // // // // console.log("Calling ImagePicker.launchImageLibraryAsync... end");
-    // // // // // // // // // // console.log('result:', result);
+    // // // // // // // // // // // console.log("Calling ImagePicker.launchImageLibraryAsync... end");
+    // // // // // // // // // // // console.log('result:', result);
     if(result.assets!==null){
       set_customImageURI(result.assets[0].uri);
     }
@@ -70,8 +70,8 @@ export default function AttachImage(
         result.assets[0].mimeType as string,
         result.assets[0].base64 as string
       );
-      // // // // // // // // // console.log('resultAfterUploading 2:', resultAfterUploading);
-      // // // // // // // // // // console.log('result.assets[0]:', result.assets[0]);
+      // // // // // // // // // // console.log('resultAfterUploading 2:', resultAfterUploading);
+      // // // // // // // // // // // console.log('result.assets[0]:', result.assets[0]);
       const { data } = await supabase.storage
         .from('images')
         .getPublicUrl( `${resultAfterUploading.data?.path as string}`);
@@ -81,7 +81,7 @@ export default function AttachImage(
       set_thumbnail_url( data.publicUrl );
       // set_selectedThumb( null )
       set_thumbnailType( THUMBNAIL_CUSTOM ); 
-      // // // // // // // // // console.log('data.publicUrl:', data.publicUrl);
+      // // // // // // // // // // console.log('data.publicUrl:', data.publicUrl);
     }
 
     if(onEndAttaching!==undefined){

@@ -36,7 +36,7 @@ export default function GiftPanelItem(
 
   const ___DeleteTheGift = async ()=>{
     const {isDeleted, error, data} = await DeleteContent( rewardsData.id );
-    // // console.log(error, data);
+    // // // console.log(error, data);
     set_messageForAskingForDeletingOpened(false)
     if(afterDeletingTheGift!==undefined){
       afterDeletingTheGift()

@@ -31,7 +31,7 @@ export default function ModalInfoMessage(
   const FVisible = ():boolean=>{
     return (visible!==undefined?visible:_visible);
   }
-  // // // // // // // // // // console.log('buttons:', buttons);
+  // // // // // // // // // // // console.log('buttons:', buttons);
 
   const __SingleOkButton = ()=>{
     return <View style={{

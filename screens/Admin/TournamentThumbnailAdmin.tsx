@@ -36,45 +36,45 @@ export default function TournamentThumbnailAdmin(
 
   const ___ApproveTournament = async ()=>{
 
-    // // // // // console.log('tournament for editing: ', tournament);
+    // // // // // // console.log('tournament for editing: ', tournament);
 
     const {data, error} = await UpdateTournament( tournament, {status:ETournamentStatuses.Approved} );
     
 
-    // // // // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
+    // // // // // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
 
     if(reloadTheTournaments!==undefined){
-      // // // // // console.log('Reloading the tournaments');
+      // // // // // // console.log('Reloading the tournaments');
       reloadTheTournaments();
     }
   }
   const ___MakePendingTournament = async ()=>{
 
-    // // // // // console.log('tournament for editing: ', tournament);
+    // // // // // // console.log('tournament for editing: ', tournament);
 
     const {data, error} = await UpdateTournament( tournament, {status:ETournamentStatuses.Pending} );
 
-    // // // // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
+    // // // // // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
 
     if(reloadTheTournaments!==undefined){
-      // // // // // console.log('Reloading the tournaments');
+      // // // // // // console.log('Reloading the tournaments');
       reloadTheTournaments();
     }
   }
   
   const ___DeleteTournament = async ()=>{
 
-    // // // // // console.log('tournament for editing: ', tournament);
+    // // // // // // console.log('tournament for editing: ', tournament);
 
     const {data, error} = await UpdateTournament( tournament, {
       status:ETournamentStatuses.Deleted,
       deleted_at: getLocalTimestampWithoutTimezone(new Date())
     } );
 
-    // // // // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
+    // // // // // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
 
     if(reloadTheTournaments!==undefined){
-      // // // // // console.log('Reloading the tournaments');
+      // // // // // // console.log('Reloading the tournaments');
       reloadTheTournaments();
     }
   }
@@ -82,16 +82,16 @@ export default function TournamentThumbnailAdmin(
   const ___DeclientTournament = async ()=>{
     const {data, error} = await UpdateTournament( tournament, {status:ETournamentStatuses.Pending} );
 
-    // // // // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
+    // // // // // // console.log('reloadTheTournaments function: ', reloadTheTournaments);
 
     if(reloadTheTournaments!==undefined){
-      // // // // // console.log('Reloading the tournaments');
+      // // // // // // console.log('Reloading the tournaments');
       reloadTheTournaments();
     }
   }
 
   useEffect(()=>{
-    // // // // // console.log('loggeduser: ', user);
+    // // // // // // console.log('loggeduser: ', user);
   }, []);
   
   return <><UIPanel>
