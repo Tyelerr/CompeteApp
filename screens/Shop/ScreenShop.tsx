@@ -1,201 +1,206 @@
-import { Alert, Linking, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Linking, Text, TouchableOpacity, View } from "react-native";
 import ScreenScrollView from "../ScreenScrollView";
-import { BaseColors, BasePaddingsMargins, TextsSizes } from "../../hooks/Template";
-import ContentSwitcher from "../../components/ContentSwitcher";
-// import ScreenHomeSubNavigation from "./ScreenHomeSubNavigation";
+import {
+  BaseColors,
+  BasePaddingsMargins,
+  TextsSizes,
+} from "../../hooks/Template";
 import UIPanel from "../../components/UI/UIPanel";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleZ } from "../../assets/css/styles";
 import { useEffect, useState } from "react";
-import { XMLParser } from 'fast-xml-parser'; 
-import ScreenHomeSubNavigation from "../Home/ScreenHomeSubNavigation";
-import ShopSubNavigation from "./ShopSubNavigation";
+import { XMLParser } from "fast-xml-parser";
+import ShopSubNavigation, { ShopTab } from "./ShopSubNavigation";
 
-interface INewsFeed{
-  category:{
-    __cdata: string
-  }[],
-  "dc:creator":{
-    __cdata: string
-  },
-  description:{
-    __cdata: string
-  },
-  link: string,
-  pubDate: string,
-  title: string
+import { useContextAuth } from "../../context/ContextAuth";
+import { EUserRole } from "../../hooks/InterfacesGlobal";
+import ShopManage from "./ShopManage";
+import LFButton from "../../components/LoginForms/Button/LFButton";
+
+interface INewsFeed {
+  category?: { __cdata?: string }[];
+  "dc:creator"?: { __cdata?: string } | string;
+  description?: { __cdata?: string } | string;
+  link: string;
+  pubDate?: string;
+  title: string;
 }
 
-export default function ScreenShop(){
+export default function ScreenShop({ route }: { route?: any }) {
+  const { user } = useContextAuth();
+  const roleStr = String(user?.role ?? "").toLowerCase();
+  const isMaster =
+    user?.role === EUserRole.MasterAdministrator || roleStr.includes("master");
 
+  // read initial tab from navigation param (e.g. { initialTab: 'manage' })
+  const initialTabFromRoute: ShopTab | undefined = route?.params?.initialTab;
+
+  const [tab, setTab] = useState<ShopTab>(initialTabFromRoute ?? "home");
   const [itemsNews, set_itemsNews] = useState<INewsFeed[]>([]);
 
+  // if the param changes (navigating again), honor it
+  useEffect(() => {
+    if (initialTabFromRoute) setTab(initialTabFromRoute);
+  }, [initialTabFromRoute]);
 
-  const __FetchTheFeed = async ()=>{
-    // https://www.azbilliards.com/feed/
+  useEffect(() => {
+    if (!isMaster && tab === "manage") setTab("home");
+  }, [isMaster, tab]);
 
+  const fetchFeed = async () => {
     try {
-    const response = await fetch('https://www.azbilliards.com/feed/');
-      if (!response.ok) {
+      const response = await fetch("https://www.azbilliards.com/feed/");
+      if (!response.ok)
         throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const xmlText = await response.text(); // Get the response as plain text
-      // // // // // // // // console.log( xmlText );
-
-      const options = {
-        ignoreAttributes: false, // Keep attributes
-        attributeNameProcessors: [
-          (name) => name.replace(':', '_') // Optional: transform attribute names (e.g., media:thumbnail to media_thumbnail)
-        ],
-        allowBooleanAttributes: true,
-        parseNodeValue: true,
-        parseAttributeValue: true,
-        cdataPropName: "__cdata", // If you want to keep CDATA as a distinct property
-        // Other options you might find useful:
-        // stopNodes: ["item.description"] // To prevent parsing content inside specific tags
-      };
-      const parser = new XMLParser(options);
+      const xmlText = await response.text();
+      const parser = new XMLParser({
+        ignoreAttributes: false,
+        cdataPropName: "__cdata",
+      });
       const result = parser.parse(xmlText);
-      // // // // // // // // console.log('result:', result);
-      // // // // // // // console.log('result.rss.channel.item:', result.rss.channel.item);
-      // for(let i in result.rss)// // // // // // // console.log(`result.rss${i}:`, result.rss[i]);
-      for(let i =0;i<result.rss.channel.item.length;i++){
-        // // // // // // // console.log(result.rss.channel.item[i]);
-      }
-      set_itemsNews(result.rss.channel.item as INewsFeed[])
-
-      // return xmlText;
+      set_itemsNews(
+        Array.isArray(result?.rss?.channel?.item) ? result.rss.channel.item : []
+      );
     } catch (error) {
       console.error("Failed to fetch XML feed:", error);
-      throw error; // Re-throw to handle it further up
     }
+  };
 
-  }
-
-  const __OpenTheExternalLink = async (url:string)=>{
-    // const url = 'https://www.example.com'; // Your external URL
-    
+  const openExternal = async (url: string) => {
     try {
-      const supported = await Linking.canOpenURL(url); // Check if the URL can be opened
-      // // // // // // // console.log('supported:', supported);
-
-        if (supported) {
-          await Linking.openURL(url);
-        } else {
-          Alert.alert(`Don't know how to open this URL: ${url}`);
-        }
-      } catch (error) {
-        console.error('An error occurred', error);
-        Alert.alert('Failed to open link.');
+      const supported = await Linking.canOpenURL(url);
+      if (supported) await Linking.openURL(url);
+      else Alert.alert(`Don't know how to open this URL: ${url}`);
+    } catch {
+      Alert.alert("Failed to open link.");
     }
-  }
+  };
 
-  useEffect(()=>{
-    __FetchTheFeed();
+  useEffect(() => {
+    fetchFeed();
   }, []);
 
+  const cdataOr = (v: any, fallback = "") =>
+    v && typeof v === "object" && typeof v.__cdata === "string"
+      ? v.__cdata
+      : typeof v === "string"
+      ? v
+      : fallback;
 
-  return <ScreenScrollView>
+  const shortPub = (v?: string) => {
+    if (!v) return "";
+    return v.includes(" 20") ? v.split(" 20")[0] : v;
+    // keeps the left part before year if their format matches
+  };
 
-    {/*<ContentSwitcher buttonsDetails={[
-      {
-        title: 'Latest News'
-      },
-      {
-        title: 'Player Spotlight'
-      },
-      {
-        title: 'Bar of the Month'
-      },
-    ]} />*/}
+  return (
+    <ScreenScrollView>
+      <ShopSubNavigation active={tab} onChange={setTab} isMaster={isMaster} />
 
-    <ShopSubNavigation />
-
-    <View style={{
-    }}>
-      {
-      itemsNews.map((news:INewsFeed, key:number)=>{
-        return <UIPanel key={`panel-news-${key}`}>
-          <View style={[
-            {
-              flexDirection: 'row',
-              alignItems: 'flex-start',
-              justifyContent: 'space-between'
-            }
-          ]}>
-            <View style={{
-              width: '10%'
-            }}>
-              <Ionicons name="star-outline" style={{
-                fontSize: TextsSizes.h1,
-                color: BaseColors.warning
-              }} />
-            </View>
-            <View style={{
-              width: '88%'
-            }}>
-              <Text style={[
-                StyleZ.h2
-              ]}>{news.title}</Text>
-              <Text style={[
-                StyleZ.p,
-                {
-                  marginBottom: BasePaddingsMargins.m20
-                }
-              ]}>{news.description.__cdata.substring(0, 200)}{news.description.__cdata.length>200?'...':''}</Text>
-              <View style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center'
-              }}>
-                <View style={{
-                  flexDirection: 'row',
-                  alignItems: 'flex-start'
-                }}>
-                  <Text style={[
-                    StyleZ.p,
-                    {
-                      marginRight: BasePaddingsMargins.m10
-                    }
-                  ]}>{news["dc:creator"].__cdata}</Text>
-                  <View style={{
-                    flexDirection: 'row',
-                    alignItems: 'flex-start'
-                  }}>
-                    <Ionicons name="time" style={[
+      {/* ===== SHOP HOME ===== */}
+      {tab === "home" && (
+        <View>
+          {itemsNews.map((news: INewsFeed, key: number) => (
+            <UIPanel key={`panel-news-${key}`}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "flex-start",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View style={{ width: "10%" }}>
+                  <Ionicons
+                    name="star-outline"
+                    style={{
+                      fontSize: TextsSizes.h1,
+                      color: BaseColors.warning,
+                    }}
+                  />
+                </View>
+                <View style={{ width: "88%" }}>
+                  <Text style={[StyleZ.h2]}>{news.title}</Text>
+                  <Text
+                    style={[
                       StyleZ.p,
-                      {
-                        marginRight: BasePaddingsMargins.m5,
-                        marginBottom: 0
-                      }
-                    ]} />
-                    <Text style={[
-                      StyleZ.p,
-                      {
-                        marginBottom: 0
-                      }
-                    ]}>{news.pubDate.split(' 20')[0]}</Text>
+                      { marginBottom: BasePaddingsMargins.m20 },
+                    ]}
+                  >
+                    {cdataOr(news.description ?? "", "").slice(0, 200)}
+                    {cdataOr(news.description ?? "", "").length > 200
+                      ? "..."
+                      : ""}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View
+                      style={{ flexDirection: "row", alignItems: "flex-start" }}
+                    >
+                      <Text
+                        style={[
+                          StyleZ.p,
+                          { marginRight: BasePaddingsMargins.m10 },
+                        ]}
+                      >
+                        {cdataOr(news["dc:creator"] ?? "", "")}
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "flex-start",
+                        }}
+                      >
+                        <Ionicons
+                          name="time"
+                          style={[
+                            StyleZ.p,
+                            {
+                              marginRight: BasePaddingsMargins.m5,
+                              marginBottom: 0,
+                            },
+                          ]}
+                        />
+                        <Text style={[StyleZ.p, { marginBottom: 0 }]}>
+                          {shortPub(news.pubDate)}
+                        </Text>
+                      </View>
+                    </View>
+                    <TouchableOpacity onPress={() => openExternal(news.link)}>
+                      <Ionicons
+                        name="open"
+                        style={{
+                          color: BaseColors.success,
+                          fontSize: TextsSizes.h1,
+                        }}
+                      />
+                    </TouchableOpacity>
                   </View>
                 </View>
-                <TouchableOpacity onPress={()=>{
-                  __OpenTheExternalLink( news.link )
-                }}>
-                  <Ionicons name="open" style={[
-                    {
-                      color: BaseColors.success,
-                      fontSize: TextsSizes.h1
-                    }
-                  ]} />
-                </TouchableOpacity>
               </View>
-            </View>
-          </View>
-        </UIPanel>
-      })
-      }
-    </View>
+            </UIPanel>
+          ))}
+        </View>
+      )}
 
-  </ScreenScrollView>
+      {/* ===== GIVEAWAYS (optional: keep your existing ScreenRewards route) ===== */}
+      {tab === "rewards" && (
+        <View>
+          {/* You can render anything here or keep using your separate ScreenRewards screen */}
+          <UIPanel>
+            <Text style={{ color: "#9ca3af" }}>
+              Giveaways content goes here.
+            </Text>
+          </UIPanel>
+        </View>
+      )}
 
-
+      {/* ===== MANAGE (Master Admins only) ===== */}
+      {isMaster && tab === "manage" && <ShopManage />}
+    </ScreenScrollView>
+  );
 }

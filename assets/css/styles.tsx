@@ -1,295 +1,265 @@
 import { StyleSheet } from "react-native";
-import { BaseColors, BasePaddingsMargins, TextsSizes } from "../../hooks/Template";
-
-
-
+import {
+  BaseColors,
+  BasePaddingsMargins,
+  TextsSizes,
+} from "../../hooks/Template";
 
 export const StyleZ = StyleSheet.create({
-
   colors: {
     backgroundColor: BaseColors.backgroundColor,
-    color: BaseColors.othertexts
+    color: BaseColors.othertexts,
   },
 
   test: {
-    // color: 'yellow', view can't have color :)
-    backgroundColor: 'red',
+    backgroundColor: "red",
   },
   testText: {
-    color: 'yellow'
+    color: "yellow",
   },
 
-  hr:{
+  hr: {
     borderBottomColor: BaseColors.secondary,
     borderBottomWidth: 1,
-    borderStyle: 'solid',
-    marginBottom: BasePaddingsMargins.loginFormInputHolderMargin
+    borderStyle: "solid",
+    marginBottom: BasePaddingsMargins.loginFormInputHolderMargin,
   },
 
-  headerTitleStyle:{
+  headerTitleStyle: {
     fontWeight: 700,
     fontSize: 25,
-    color: BaseColors.title
+    color: BaseColors.title,
   },
-  headerSubtitleStyle:{
+  headerSubtitleStyle: {
     fontSize: 16,
     color: BaseColors.othertexts,
-    // color: 
   },
-  h1:{},
-  h2:{
+  h1: {},
+  h2: {
     fontSize: TextsSizes.h2,
     color: BaseColors.light,
-    fontWeight: 'bold',
-    marginBottom: BasePaddingsMargins.m15
+    fontWeight: "bold",
+    marginBottom: BasePaddingsMargins.m15,
   },
-  h3:{
+  h3: {
     fontSize: TextsSizes.h3,
     color: BaseColors.light,
-    fontWeight: 'bold',
-    marginBottom: BasePaddingsMargins.m15
+    fontWeight: "bold",
+    marginBottom: BasePaddingsMargins.m15,
   },
-  h4:{
-    // color: BaseColors.othertexts,
+  h4: {
     fontSize: TextsSizes.h4,
-    fontWeight: '600',
+    fontWeight: "600",
     color: BaseColors.light,
   },
-  h5:{
-    // color: BaseColors.othertexts,
+  h5: {
     fontSize: TextsSizes.h5,
-    fontWeight: '600',
+    fontWeight: "600",
     color: BaseColors.light,
   },
-  p:{
+  p: {
     fontSize: TextsSizes.p,
-    lineHeight: 1.3*TextsSizes.p,
-    color: BaseColors.othertexts
+    lineHeight: 1.3 * TextsSizes.p,
+    color: BaseColors.othertexts,
   },
 
-  contentSwitcherButton:{
+  contentSwitcherButton: {
     color: BaseColors.light,
     backgroundColor: BaseColors.contentSwitcherBackgroundCOlor,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     paddingInline: 12,
     paddingBlock: 6,
     borderRadius: 4,
-    fontSize: 12
+    fontSize: 12,
   },
-  contentSwitcherButtonActive:{
+  contentSwitcherButtonActive: {
     backgroundColor: BaseColors.primary,
-    color: BaseColors.light
+    color: BaseColors.light,
   },
 
-  tabBarIcon:{
+  tabBarIcon: {
     display: "flex",
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingInline: 10,
     paddingBlock: 5,
     marginBottom: 0,
     borderRadius: 10,
-    width: 40
+    width: 40,
   },
 
   loginFormHeading: {
-    width: '100%',
-    marginBottom: BasePaddingsMargins.sectionMarginBottom
+    width: "100%",
+    marginBottom: BasePaddingsMargins.sectionMarginBottom,
   },
   loginFromContainer: {
-    // no height or minheight in scroll view
-    // height: '100%',
-    // minHeight: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // flexWrap:'wrap',
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
     flex: 1,
-    // borderStyle: 'dotted',
-    // borderWidth: 4,
-    // borderColor: 'white',
-    // paddingTop: 50,
-    // paddingBottom: 20
   },
   loginForm: {
-    backgroundColor: 'transparent',
-    width: '100%',
-    maxWidth: 320
+    backgroundColor: "transparent",
+    width: "100%",
+    maxWidth: 320,
   },
-  loginFormInput:{
+  loginFormInput: {
     color: BaseColors.othertexts,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderRadius: 5,
     borderColor: BaseColors.othertexts,
-    // borderColor: 'red',
     borderWidth: 1,
-    width: '100%',
+    width: "100%",
     paddingBlock: BasePaddingsMargins.m10,
-    paddingHorizontal: 15, //only add to horisontal values
-    // paddingVertical: 50,
-    // paddingHorizontal: 10,
-    // paddingVertical: 5,
-    // paddingInline: 10,
-    // paddingBlock: 5
+    paddingHorizontal: 15,
     fontSize: TextsSizes.p,
-    // minHeight: 30,
-
   },
-  loginFormInput_Textarea:{
-    minHeight: 70
+  loginFormInput_Textarea: {
+    minHeight: 70,
   },
 
-  loginFormInputHolder:{
-    width: '100%',
-    marginBottom: BasePaddingsMargins.loginFormInputHolderMargin
+  loginFormInputHolder: {
+    width: "100%",
+    marginBottom: BasePaddingsMargins.loginFormInputHolderMargin,
   },
-  loginFormInputHolder_onlyRead:{
-    pointerEvents: 'none',
-    //backgroundColor: BaseColors.secondary,
+  loginFormInputHolder_onlyRead: {
+    pointerEvents: "none",
   },
-  loginFormInput_onlyRead:{
+  loginFormInput_onlyRead: {
     backgroundColor: BaseColors.secondary,
     borderWidth: 0,
   },
 
-  loginFormInputLabel:{
+  loginFormInputLabel: {
     color: BaseColors.othertexts,
-    width: '100%',
-    display: 'flex',
-    marginBottom: 5
+    width: "100%",
+    display: "flex",
+    marginBottom: 5,
   },
 
-  LFButtonContainer:{
-    justifyContent: 'center',
-    alignItems: 'center',
-    // marginBottom: BasePaddingsMargins.loginFormInputHolderMargin,
-    width: '100%'
+  LFButtonContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
   },
-  LFBUtton:{
-    backgroundColor: 'silver',
-    // color: 'black',
-    // color: 'red',
+  LFBUtton: {
+    backgroundColor: "silver",
     fontSize: 15,
-    display: 'flex',
+    display: "flex",
     paddingInline: 15,
     paddingBlock: 14,
     borderRadius: 5,
-    // width: '100%',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    textAlign: 'center',
+    justifyContent: "center",
+    flexDirection: "row",
+    textAlign: "center",
   },
-  LFBUtton_Small:{
+  LFBUtton_Small: {
     fontSize: 15,
     paddingInline: 3,
     paddingBlock: 10,
   },
-  LFBUtton_Bigger:{
+  LFBUtton_Bigger: {
     fontSize: TextsSizes.h1,
     paddingInline: 15,
     paddingBlock: 10,
   },
-  /*LFButton_DefaultSize:{
 
-  },*/
-  
   /// Different styles start
-  LFButtonPrimary:{
+  LFButtonPrimary: {
     color: BaseColors.light,
-    backgroundColor: BaseColors.primary
+    backgroundColor: BaseColors.primary,
   },
-  LFButtonPrimaryPressed:{
-    backgroundColor: BaseColors.primaryPressed
+  LFButtonPrimaryPressed: {
+    backgroundColor: BaseColors.primaryPressed,
   },
-  LFButtonOutlineDark:{
+  LFButtonOutlineDark: {
     color: BaseColors.light,
     backgroundColor: BaseColors.dark,
     borderWidth: 1,
     borderColor: BaseColors.PanelBorderColor,
-    borderStyle: 'solid',
+    borderStyle: "solid",
   },
-  LFButtonOutlineDarkPressed:{
-    backgroundColor:BaseColors.PanelBorderColor
+  LFButtonOutlineDarkPressed: {
+    backgroundColor: BaseColors.PanelBorderColor,
   },
-  /*LFButtonOutlineSecondary:{
-    color: BaseColors.light,
-    backgroundColor: BaseColors.sec,
-  },*/
-  LFButtonDanger:{
+  LFButtonDanger: {
     backgroundColor: BaseColors.danger,
     color: BaseColors.light,
   },
-  LFButtonDangerPressed:{
+  LFButtonDangerPressed: {
     backgroundColor: BaseColors.dangerPressed,
   },
-  LFButtonDark:{
+  LFButtonDark: {
     color: BaseColors.light,
-    backgroundColor: BaseColors.dark
+    backgroundColor: BaseColors.dark,
   },
-  LFButtonSecondary:{
+  LFButtonSecondary: {
     color: BaseColors.light,
     backgroundColor: BaseColors.secondary,
   },
-  LFButtonSuccess:{
-    color: BaseColors.light,
-    backgroundColor: BaseColors.success
-  },
-  /// Different styles start end
-  LFForgotPasswordLink_Container:{
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%'
-  },
-  LFForgotPasswordLink:{
-    color: BaseColors.othertexts,
-    fontWeight: 'bold'
-  },
-  LFErrorMessage:{
-    color: '#DC3545',
-    display: 'flex',
-    paddingTop: 5,
-    width: '100%',
-  },
-  LFErrorMessage_addon_centered:{
-    justifyContent: 'center',
-    textAlign:'center',
-    flexWrap: 'wrap',
-    marginBottom: BasePaddingsMargins.sectionMarginBottom,
-    maxWidth: 250
-  }
 
+  // ✅ Success (green) button + pressed variant
+  LFButtonSuccess: {
+    color: BaseColors.light,
+    backgroundColor: BaseColors.success,
+  },
+  LFButtonSuccessPressed: {
+    backgroundColor: "#15803d", // darker green for press feedback
+  },
+  /// Different styles end
+
+  LFForgotPasswordLink_Container: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+  LFForgotPasswordLink: {
+    color: BaseColors.othertexts,
+    fontWeight: "bold",
+  },
+  LFErrorMessage: {
+    color: "#DC3545",
+    display: "flex",
+    paddingTop: 5,
+    width: "100%",
+  },
+  LFErrorMessage_addon_centered: {
+    justifyContent: "center",
+    textAlign: "center",
+    flexWrap: "wrap",
+    marginBottom: BasePaddingsMargins.sectionMarginBottom,
+    maxWidth: 250,
+  },
 });
 
 export const StylePanel = StyleSheet.create({
-  defaultStyle:{
+  defaultStyle: {
     borderRadius: 10,
     borderWidth: 1,
     borderColor: BaseColors.PanelBorderColor,
     padding: BasePaddingsMargins.m20,
-    marginBottom: BasePaddingsMargins.m30
+    marginBottom: BasePaddingsMargins.m30,
   },
-  ForCalendar:{
-    padding: BasePaddingsMargins.m10 ,
-    marginBottom: 0
-  }
+  ForCalendar: {
+    padding: BasePaddingsMargins.m10,
+    marginBottom: 0,
+  },
 });
 
 export const StyleBadge = StyleSheet.create({
   defaultStyle: {
     backgroundColor: BaseColors.dark,
-    
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderColor: BaseColors.secondary,
     borderWidth: 1,
-
     borderRadius: 15,
     paddingInline: 20,
     paddingBlock: 5,
-    display: 'flex',
-    justifyContent: 'center',
-    width: 'auto',
+    display: "flex",
+    justifyContent: "center",
+    width: "auto",
   },
 
   sizeSmall: {
@@ -300,348 +270,311 @@ export const StyleBadge = StyleSheet.create({
   defaultTextStyle: {
     fontSize: TextsSizes.p,
     color: BaseColors.light,
-    textAlign: 'center',
-    width: '100%'
+    textAlign: "center",
+    width: "100%",
   },
   secondary: {
     backgroundColor: BaseColors.secondary,
-    borderColor: BaseColors.secondary
+    borderColor: BaseColors.secondary,
   },
   primary: {
     backgroundColor: BaseColors.primary,
-    borderColor: BaseColors.primary
+    borderColor: BaseColors.primary,
   },
-  secondaryText:{
-    color: BaseColors.light
+  secondaryText: {
+    color: BaseColors.light,
   },
-  primaryText:{
-    color: BaseColors.light
+  primaryText: {
+    color: BaseColors.light,
   },
-  primaryOutline:{
-    backgroundColor: 'transparent',
-    borderStyle: 'solid',
+  primaryOutline: {
+    backgroundColor: "transparent",
+    borderStyle: "solid",
     borderWidth: 1,
-    borderColor: BaseColors.primary
+    borderColor: BaseColors.primary,
   },
-  primaryOutlineText:{
-    color: BaseColors.primary
-  }
+  primaryOutlineText: {
+    color: BaseColors.primary,
+  },
 });
 
 export const StyleModal = StyleSheet.create({
-  container:{
-    // backgroundColor: 'red',
+  container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,.7)',
-    width: '100%'
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,.7)",
+    width: "100%",
   },
-  containerForScrollingView:{
-    // flex: 1,
-    maxHeight: '90%',
-    width: '95%',
-    // maxWidth: 320,
+  containerForScrollingView: {
+    maxHeight: "90%",
+    width: "95%",
     backgroundColor: BaseColors.dark,
-    position: 'relative'
+    position: "relative",
   },
-  scrollView:{
-    // padding: 25,
+  scrollView: {
     paddingInline: 16,
-    // flex: 1,
-    // backgroundColor: 'yellow'
-    // borderWidth:3,
-    // borderColor: 'green',
-    // height: 200,
-    height: '100%',
-    maxHeight: '100%',
+    height: "100%",
+    maxHeight: "100%",
   },
-  headingContainer:{
-    marginBottom: BasePaddingsMargins.m20
+  headingContainer: {
+    marginBottom: BasePaddingsMargins.m20,
   },
-  heading:{
+  heading: {
     fontSize: TextsSizes.h3,
-    fontWeight: 'bold',
-    width: '100%',
-    textAlign: 'left',
-    color: BaseColors.light
+    fontWeight: "bold",
+    width: "100%",
+    textAlign: "left",
+    color: BaseColors.light,
   },
-  contentView:{
-    width: '100%',
-    // borderWidth: 1,
-    // padding: 25,
+  contentView: {
+    width: "100%",
     paddingBlock: 25,
-    // backgroundColor: 'silver',
-    // borderWidth:3,
-    // borderColor: 'yellow'
   },
-  closeButtonContainer:{
-    position: 'absolute',
+  closeButtonContainer: {
+    position: "absolute",
     right: -15,
     top: 0,
     width: 60,
     height: 50,
-    justifyContent: 'center',
+    justifyContent: "center",
     zIndex: 100000,
   },
 
-  ModalInfoMessageContainer:{
+  ModalInfoMessageContainer: {
     width: 250,
     backgroundColor: BaseColors.dark,
     padding: BasePaddingsMargins.m15,
     borderWidth: 1,
     borderColor: BaseColors.secondary,
-    borderStyle: 'solid',
-    borderRadius: 5
+    borderStyle: "solid",
+    borderRadius: 5,
   },
 
-  backgroundTouchableForClosing:{
-    position: 'absolute',
+  backgroundTouchableForClosing: {
+    position: "absolute",
     left: 0,
     top: 0,
-    width: '100%',
-    height: '100%',
-    // backgroundColor: 'green',
-    display: 'flex' 
-  }
+    width: "100%",
+    height: "100%",
+    display: "flex",
+  },
 });
-
 
 export const StyleZTable = StyleSheet.create({
-  container:{},
-  header:{},
-  headerTexts:{
+  container: {},
+  header: {},
+  headerTexts: {
     color: BaseColors.othertexts,
     fontSize: TextsSizes.p,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
-  row:{
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'flex-start'
+  row: {
+    flexDirection: "row",
+    alignItems: "stretch",
+    justifyContent: "flex-start",
   },
-  cell:{
+  cell: {
     paddingInline: 7,
-    paddingBlock: 7
+    paddingBlock: 7,
   },
-  cellFirst:{
-    paddingLeft: 0
+  cellFirst: {
+    paddingLeft: 0,
   },
-  cellLast:{
-    paddingRight: 0
+  cellLast: {
+    paddingRight: 0,
   },
-  cellCentered:{
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
+  cellCentered: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 
-
 export const StyleGoogle = StyleSheet.create({
-  searchVenue_Container:{
-    // borderStyle: 'solid',
-    // borderWidth: 1,
-    // borderColor: BaseColors.othertexts,
-    marginBottom: BasePaddingsMargins.loginFormInputHolderMargin
+  searchVenue_Container: {
+    marginBottom: BasePaddingsMargins.loginFormInputHolderMargin,
   },
-  searchVenue_ScrollView:{
-    /*borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: BaseColors.othertexts,
-    borderRadius: 5,
-    padding: BasePaddingsMargins.m10*/
-  },
-  searchVenue_ItemContainer:{
+  searchVenue_ScrollView: {},
+  searchVenue_ItemContainer: {
     backgroundColor: BaseColors.secondary,
     marginBottom: BasePaddingsMargins.m10,
     paddingBlock: BasePaddingsMargins.m5,
     paddingInline: BasePaddingsMargins.m15,
-    borderRadius: BasePaddingsMargins.m10
+    borderRadius: BasePaddingsMargins.m10,
   },
-  searchVenue_ItemText:{
+  searchVenue_ItemText: {
     color: BaseColors.light,
-    fontSize: TextsSizes.p
-  }
+    fontSize: TextsSizes.p,
+  },
 });
-
-
 
 export const StyleTournamentsAdmin = StyleSheet.create({
-  p:{
+  p: {
     color: BaseColors.othertexts,
     fontSize: TextsSizes.p,
-    marginBottom: BasePaddingsMargins.m5
+    marginBottom: BasePaddingsMargins.m5,
   },
-  title:{
+  title: {
     color: BaseColors.light,
     fontSize: TextsSizes.h4,
-    fontWeight: 'bold',
-    marginBlock: BasePaddingsMargins.m15
+    fontWeight: "bold",
+    marginBlock: BasePaddingsMargins.m15,
   },
-  titleV2:{
-    marginTop: 0
+  titleV2: {
+    marginTop: 0,
   },
-  image:{
+  image: {
     borderRadius: 10,
-    width: '100%', 
+    width: "100%",
     height: 200,
-    backgroundColor: BaseColors.secondary
+    backgroundColor: BaseColors.secondary,
   },
-  imageSmall:{
-    height: 100
+  imageSmall: {
+    height: 100,
   },
-  badgesHolder:{
-    flexDirection: 'row',
-    flexWrap: 'wrap'
+  badgesHolder: {
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
-  badgeHolder:{
+  badgeHolder: {
     marginRight: BasePaddingsMargins.m10,
-    marginBottom: BasePaddingsMargins.m15
-  }
+    marginBottom: BasePaddingsMargins.m15,
+  },
 });
-
-
 
 export const StyleTournamentAnalytics = StyleSheet.create({
-  
-  container:{
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start'
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
-  cellTrophy:{
+  cellTrophy: {
     width: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: BasePaddingsMargins.m5
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: BasePaddingsMargins.m5,
   },
-  cellTexts:{},
-  n:{
+  cellTexts: {},
+  n: {
     color: BaseColors.light,
     fontSize: TextsSizes.h1,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
-  p:{
+  p: {
     color: BaseColors.othertexts,
-    fontSize: TextsSizes.p
+    fontSize: TextsSizes.p,
   },
-  icon:{
+  icon: {
     color: BaseColors.light,
     fontSize: TextsSizes.h1,
   },
 
-  TitleAnalyiticsBig:{
+  TitleAnalyiticsBig: {
     fontSize: TextsSizes.h3,
     color: BaseColors.light,
-    fontWeight: 'bold',
-    marginBottom: BasePaddingsMargins.formInputMarginLess
+    fontWeight: "bold",
+    marginBottom: BasePaddingsMargins.formInputMarginLess,
   },
 
-  ItemTexts:{
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: BasePaddingsMargins.formInputMarginLess
+  ItemTexts: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: BasePaddingsMargins.formInputMarginLess,
   },
-  ItemTexts_Cell1:{
-    width: '65%'
+  ItemTexts_Cell1: {
+    width: "65%",
   },
-  ItemTexts_Cell2:{
-    width: '33%'
+  ItemTexts_Cell2: {
+    width: "33%",
   },
-  ItemTexts_Title:{
+  ItemTexts_Title: {
     color: BaseColors.light,
     fontSize: TextsSizes.p,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
-  ItemTexts_Value:{
+  ItemTexts_Value: {
     color: BaseColors.light,
     fontSize: TextsSizes.h4,
-    fontWeight: 'bold',
-    textAlign: 'right'
-  }
-
+    fontWeight: "bold",
+    textAlign: "right",
+  },
 });
-
-
 
 export const StyleProgress = StyleSheet.create({
   container: {
     backgroundColor: BaseColors.secondary,
-    position: 'relative',
+    position: "relative",
     height: BasePaddingsMargins.m10,
-    borderRadius: .5*BasePaddingsMargins.m10,
+    borderRadius: 0.5 * BasePaddingsMargins.m10,
   },
-  progress:{
+  progress: {
     backgroundColor: BaseColors.primary,
     left: 0,
     top: 0,
-    width: '0%',
+    width: "0%",
     height: BasePaddingsMargins.m10,
-    borderRadius: .5*BasePaddingsMargins.m10
-  }
+    borderRadius: 0.5 * BasePaddingsMargins.m10,
+  },
 });
-
 
 export const StyleSlider = StyleSheet.create({
-  container_main:{
-    marginBottom: BasePaddingsMargins.formInputMarginLess
+  container_main: {
+    marginBottom: BasePaddingsMargins.formInputMarginLess,
   },
-  titleContainer:{
+  titleContainer: {
     marginBottom: BasePaddingsMargins.m10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start'
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
   },
-  title:{
+  title: {
     fontSize: TextsSizes.p,
     color: BaseColors.light,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
-  singleValue:{
+  singleValue: {
     fontSize: TextsSizes.p,
     color: BaseColors.light,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
-  footer_measures:{
+  footer_measures: {
     marginTop: BasePaddingsMargins.m5,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
-  footer_measures_text:{
+  footer_measures_text: {
     color: BaseColors.othertexts,
-    fontSize: TextsSizes.small
-  }
+    fontSize: TextsSizes.small,
+  },
 });
 
-
-
 export const StyleThumbnailSelector = StyleSheet.create({
-  thumb:{
-    position: 'relative',
+  thumb: {
+    position: "relative",
     width: 136,
     height: 136,
-    overflow: 'hidden',
+    overflow: "hidden",
     borderWidth: 2,
     borderColor: BaseColors.othertexts,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     backgroundColor: BaseColors.secondary,
     borderRadius: 10,
     marginBottom: BasePaddingsMargins.m10,
     marginRight: BasePaddingsMargins.m10,
   },
-  thumb_file:{
-    borderStyle: 'dotted'
+  thumb_file: {
+    borderStyle: "dotted",
   },
-  thumb_active:{
+  thumb_active: {
     borderColor: BaseColors.primary,
-    borderWidth: 4
+    borderWidth: 4,
   },
-  image:{
-    position: 'absolute',
+  image: {
+    position: "absolute",
     left: 0,
     top: 0,
-    width: '100%',
-    height: '100%'
-  }
+    width: "100%",
+    height: "100%",
+  },
 });
