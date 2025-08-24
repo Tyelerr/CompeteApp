@@ -1,36 +1,47 @@
-import { SafeAreaView, ScrollView, View } from "react-native";
+// screens/ScreenScrollView.tsx
+import React, { ReactNode } from "react";
+import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { BaseColors, BasePaddingsMargins } from "../hooks/Template";
-// import { SafeAreaView } from "react-native-safe-area-context";
+import GlobalDoneBar from "../components/UI/GlobalDoneBar";
 
-export default function ScreenScrollView({children}:{children:React.ReactNode}){
-  
-  return <View style={{
-      flex: 1,
-      height: '100%',
-    }}>
-      <SafeAreaView style={{
-        flex: 1,
-        height: '100%'
-      }}>
-    <ScrollView style={{
-        // marginInline: 16,
-        paddingInline: BasePaddingsMargins.marginInline,
-        // paddingBlock: 5,
-        
-        backgroundColor: BaseColors.backgroundColor,
-        // backgroundColor: 'yellow',
-        
-        // backgroundColor: 'blue',
-        // paddingBlockStart: 10,
-        // paddingBlockEnd: 40
-        height: '100%',
-        flex: 1,
-        // alignItems: 'center'
-      
-      }}>
+type Props = {
+  children: ReactNode;
+  contentContainerStyle?: any;
+  /** If your custom header overlaps inputs on iOS, bump this (e.g., 44 or 64) */
+  keyboardVerticalOffsetIOS?: number;
+};
+
+export default function ScreenScrollView({
+  children,
+  contentContainerStyle,
+  keyboardVerticalOffsetIOS = 0,
+}: Props) {
+  return (
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: BaseColors.backgroundColor }}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={keyboardVerticalOffsetIOS}
+    >
+      <ScrollView
+        style={{ flex: 1, backgroundColor: BaseColors.backgroundColor }}
+        contentContainerStyle={[
+          {
+            paddingHorizontal: BasePaddingsMargins.m10,
+            paddingBottom: BasePaddingsMargins.m30,
+          },
+          contentContainerStyle,
+        ]}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
+        overScrollMode="never"
+        bounces={false}
+        scrollEventThrottle={16}
+      >
         {children}
-    </ScrollView>
-    </SafeAreaView>
-  </View>;
-    
+      </ScrollView>
+
+      {/* iOS-only; renders above the keyboard via InputAccessoryView */}
+      <GlobalDoneBar />
+    </KeyboardAvoidingView>
+  );
 }

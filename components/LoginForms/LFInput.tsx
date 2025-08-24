@@ -1,506 +1,465 @@
-import { Alert, KeyboardTypeOptions, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { BaseColors, BasePaddingsMargins, TextsSizes } from "../../hooks/Template";
+// components/LoginForms/LFInput.tsx
+import {
+  Keyboard,
+  KeyboardTypeOptions,
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  InputAccessoryView,
+} from "react-native";
+import {
+  BaseColors,
+  BasePaddingsMargins,
+  TextsSizes,
+} from "../../hooks/Template";
 import { StyleZ } from "../../assets/css/styles";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { EInputValidation, IPickerOption } from "./Interface";
-import { EmailIsValid, NumberIsGreatThenZero, NumberIsGreatThenZero_ErrorMessage, PasswordIsValid, PasswordIsValid_ErrorMessage, UsernameIsValid } from "../../hooks/Validations";
-import RNPickerSelect from 'react-native-picker-select';
+import {
+  EmailIsValid,
+  NumberIsGreatThenZero,
+  NumberIsGreatThenZero_ErrorMessage,
+  PasswordIsValid,
+  PasswordIsValid_ErrorMessage,
+  UsernameIsValid,
+} from "../../hooks/Validations";
+import RNPickerSelect from "react-native-picker-select";
 import UICalendar from "../UI/UIDateTime/UICalendar";
-import { SignIn } from "../../ApiSupabase/CrudUser";
 import { CapitalizeWords } from "../../hooks/hooks";
+import { DONE_ACCESSORY_ID } from "../UI/GlobalDoneBar";
 
+export default function LFInput({
+  keyboardType,
+  typeInput = "default",
+  label,
+  isPassword,
+  onChangeText,
+  onChangeIndex,
+  placeholder,
+  validations = [],
+  items = [],
+  description = "",
+  defaultValue = "",
+  value,
+  iconFront,
+  textIconFront,
+  marginBottomInit,
+  onlyRead,
+  capitalizeTheWords,
+  pingValidation,
+}: {
+  typeInput?: "default" | "dropdown" | "textarea" | "calendar";
+  keyboardType?: KeyboardTypeOptions;
+  isPassword?: boolean;
+  label?: string;
+  onChangeText?: (v: string) => void;
+  onChangeIndex?: (v: number) => void;
+  placeholder?: string;
+  validations?: EInputValidation[];
+  items?: IPickerOption[];
+  description?: string;
+  defaultValue?: string;
+  value?: string;
+  iconFront?: keyof typeof Ionicons.glyphMap;
+  textIconFront?: string;
+  marginBottomInit?: number;
+  onlyRead?: boolean;
+  capitalizeTheWords?: boolean;
+  pingValidation?: boolean;
+}) {
+  const [passwordEyeOff, set_passwordEyeOff] = useState(false);
+  const [errorMessage, set_errorMessage] = useState("");
+  const [RNPickerSelectDefaultValue, set_RNPickerSelectDefaultValue] =
+    useState("");
+  const [dropdownIndexSelected, set_dropdownIndexSelected] = useState(-1);
 
+  const [localValue, set_localValue] = useState("");
+  const [iCanCheckValidation, setICanCheckValidation] = useState(false);
 
- 
-
-
-export default function LFInput(
-  {
-    keyboardType,
-    typeInput='default',
-    label,
-    isPassword,
-    onChangeText,
-    onChangeIndex,
-    placeholder,
-    validations=[],
-    items=[],
-    description="",
-    defaultValue="",
-    value,
-    iconFront,
-    textIconFront,
-    marginBottomInit,
-    onlyRead,
-    capitalizeTheWords,
-    pingValidation,
-    // set_pingValidation
-  }
-  :
-  {
-    typeInput?:'default' | 'dropdown' | 'textarea' | 'calendar',
-    keyboardType?:KeyboardTypeOptions,
-    isPassword?:boolean,
-    label?: string,
-    onChangeText?: (v:string)=>void,
-    onChangeIndex?: (v: number)=>void,
-    placeholder?:string,
-    validations?:EInputValidation[],
-    items?:IPickerOption[]
-    description?:string
-    defaultValue?:string,
-    value?:string,
-    iconFront?:keyof typeof Ionicons.glyphMap,
-    textIconFront?:string,
-    marginBottomInit?:number,
-    onlyRead?:boolean,
-    capitalizeTheWords?:boolean,
-    pingValidation?: boolean
-  }
-){
-
-  const [passwordEyeOff, set_passwordEyeOff] = useState<boolean>(false);
-  const [errorMessage, set_errorMessage] = useState<string>('');
-  const [RNPickerSelectDefaultValue, set_RNPickerSelectDefaultValue] = useState<string>('');
-  const [dropdownIndexSelected, set_dropdownIndexSelected] = useState<number>(-1);
-
-  const [localValue, set_localValue] = useState<string>('');
-  const [iCanCheckValidation, setICanCheckValidation] = useState<boolean>(false);
-
-  useEffect(()=>{
-    if(iCanCheckValidation)
-    __CheckTheValidations(value!==undefined?value:localValue)
+  useEffect(() => {
+    if (iCanCheckValidation)
+      __CheckTheValidations(value !== undefined ? value : localValue);
   }, [pingValidation]);
-  useEffect(()=>{
+  useEffect(() => {
     setICanCheckValidation(true);
   }, []);
 
-  const _keyboardType = ()=>{
-    // if(passwordEyeOff===true)return '';
-    return (keyboardType!==undefined?keyboardType:'default');
-  }
+  const _keyboardType = () =>
+    (keyboardType as string | undefined) ?? ("default" as const);
 
-  
-  const pickerRef = useRef(null);
+  // Local accessory for number/phone pads on iOS
+  const needsLocalAccessory =
+    Platform.OS === "ios" &&
+    ["number-pad", "numeric", "decimal-pad", "phone-pad"].includes(
+      String(_keyboardType())
+    );
+
+  const localAccessoryId = useRef(
+    needsLocalAccessory ? `lfinput-${Math.random().toString(36).slice(2)}` : ""
+  ).current;
+
+  const accessoryId = useMemo(
+    () =>
+      Platform.OS !== "ios"
+        ? undefined
+        : needsLocalAccessory
+        ? localAccessoryId
+        : DONE_ACCESSORY_ID,
+    [needsLocalAccessory, localAccessoryId]
+  );
+
+  const pickerRef = useRef<any>(null);
   const handleArrowClick = () => {
-    // This function will be called when the arrow is clicked
-    if (pickerRef.current) {
-      pickerRef.current.togglePicker(); // Programmatically open the picker
-    }
+    pickerRef.current?.togglePicker?.();
   };
 
-  /**
-   * functions for validation
-   */
-  const __CheckTheValidations = (text:string)=>{
-    for(let i=0;i<validations.length;i++){
-      if(validations[i]===EInputValidation.Required && text===''){
-        set_errorMessage(`This field is required. Local value: ${localValue}`);
+  const __CheckTheValidations = (text: string) => {
+    for (let i = 0; i < validations.length; i++) {
+      if (validations[i] === EInputValidation.Required && text === "") {
+        set_errorMessage(`This field is required.`);
+        return;
+      } else if (
+        validations[i] === EInputValidation.Email &&
+        !EmailIsValid(text)
+      ) {
+        set_errorMessage("Please enter a valid email address.");
         return;
       }
-      else if(validations[i]===EInputValidation.Email && !EmailIsValid(text)){
-        set_errorMessage('Please enter a valid email address.');
-        return;
-      }
-      if(validations[i]===EInputValidation.Password && !PasswordIsValid(text)){
+      if (
+        validations[i] === EInputValidation.Password &&
+        !PasswordIsValid(text)
+      ) {
         set_errorMessage(PasswordIsValid_ErrorMessage(text));
         return;
       }
-      if(validations[i]===EInputValidation.GreatThenZero && !NumberIsGreatThenZero(text)){
+      if (
+        validations[i] === EInputValidation.GreatThenZero &&
+        !NumberIsGreatThenZero(text)
+      ) {
         set_errorMessage(NumberIsGreatThenZero_ErrorMessage());
         return;
       }
-      if(validations[i]===EInputValidation.Username && !UsernameIsValid(text).valid){
-        set_errorMessage(UsernameIsValid(text).message);
+      const username = UsernameIsValid(text);
+      if (validations[i] === EInputValidation.Username && !username.valid) {
+        set_errorMessage(username.message);
         return;
       }
     }
-    set_errorMessage('');
-  }
+    set_errorMessage("");
+  };
 
-  const _input = ()=>{
-    if(typeInput==='calendar'){
-      return <UICalendar set_currentDate={onChangeText} />
+  const _input = () => {
+    if (typeInput === "calendar") {
+      return <UICalendar set_currentDate={onChangeText} />;
+    } else if (typeInput === "dropdown") {
+      return (
+        <View>
+          <RNPickerSelect
+            ref={pickerRef}
+            value={
+              defaultValue !== undefined && RNPickerSelectDefaultValue === ""
+                ? defaultValue
+                : RNPickerSelectDefaultValue
+            }
+            onValueChange={(v, index: number) => {
+              set_RNPickerSelectDefaultValue(v as string);
+              onChangeText?.(v as string);
+              onChangeIndex?.(index);
+              __CheckTheValidations(String(v ?? ""));
+              set_dropdownIndexSelected(index - 1);
+            }}
+            items={items}
+            placeholder={
+              placeholder !== "" ? { label: placeholder!, value: "" } : {}
+            }
+            useNativeAndroidPickerStyle={false}
+            doneText="Done"
+            onDonePress={() => Keyboard.dismiss()}
+            style={{
+              done: { color: BaseColors.light, fontSize: 17 },
+              modalViewMiddle: {
+                backgroundColor: BaseColors.dark,
+                borderTopColor: BaseColors.secondary,
+              },
+              viewContainer: {
+                backgroundColor: BaseColors.dark,
+                paddingVertical: 0,
+              },
+            }}
+            pickerProps={{
+              mode: "dropdown",
+              itemStyle: {
+                color: BaseColors.light,
+                backgroundColor: BaseColors.dark,
+                fontSize: TextsSizes.p,
+              },
+            }}
+            Icon={() => (
+              <Ionicons
+                name="chevron-down"
+                size={15}
+                color={BaseColors.light}
+              />
+            )}
+          >
+            <TouchableOpacity
+              onPress={handleArrowClick}
+              style={[
+                StyleZ.loginFormInput,
+                _frontIconWidth() > 0
+                  ? { paddingLeft: _frontIconWidth() + 5 }
+                  : null,
+                {
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  position: "relative",
+                },
+                errorMessage !== "" ? { borderColor: BaseColors.danger } : null,
+              ]}
+            >
+              <View>
+                <Text
+                  style={{
+                    color: BaseColors.othertexts,
+                    fontSize: TextsSizes.p,
+                  }}
+                >
+                  {((): string => {
+                    const text: string =
+                      defaultValue !== undefined &&
+                      RNPickerSelectDefaultValue === ""
+                        ? defaultValue
+                        : RNPickerSelectDefaultValue;
+                    if (
+                      items[dropdownIndexSelected] === undefined &&
+                      placeholder
+                    )
+                      return placeholder;
+                    if (items.length > 0 && items[dropdownIndexSelected]?.label)
+                      return items[dropdownIndexSelected].label;
+                    if (text !== "") return text;
+                    if (text === "" && placeholder) return placeholder;
+                    return "";
+                  })()}
+                </Text>
+              </View>
+              <View>
+                <Ionicons
+                  name="chevron-down"
+                  size={TextsSizes.p}
+                  color={BaseColors.othertexts}
+                />
+              </View>
+            </TouchableOpacity>
+          </RNPickerSelect>
+        </View>
+      );
     }
-    else if(typeInput==='dropdown'){
 
-      
-      /*const languageOptions: IPickerOption[] = [
-        { label: 'JavaScript', value: 'javascript' },
-        { label: 'TypeScript', value: 'typescript' },
-        { label: 'Python', value: 'python' },
-        { label: 'Java', value: 'java' },
-        { label: 'Swift', value: 'swift' },
-      ];*/
+    const commonProps = {
+      inputAccessoryViewID: accessoryId,
+      returnKeyType: "done" as const,
+      keyboardAppearance: "dark" as const,
+      secureTextEntry: isPassword === true && !passwordEyeOff,
+      value,
+      defaultValue,
+      placeholder: placeholder ?? "",
+      placeholderTextColor: BaseColors.othertexts,
+      onChangeText: (text: string) => {
+        onChangeText?.(text);
+        set_localValue(text);
+        __CheckTheValidations(text);
+      },
+      style: [
+        StyleZ.loginFormInput,
+        _frontIconWidth() > 0 ? { paddingLeft: _frontIconWidth() + 5 } : null,
+        onlyRead === true ? StyleZ.loginFormInput_onlyRead : null,
+        errorMessage !== "" ? { borderColor: BaseColors.danger } : null,
+      ] as any,
+    };
 
-      return <View style={{
-      }}>
-        <RNPickerSelect
-        ref={pickerRef}
-        // fixAndroidTouchableBug={true}
-        value={defaultValue!==undefined && RNPickerSelectDefaultValue===''?defaultValue:RNPickerSelectDefaultValue}
-        onValueChange={(value, index:number)=>{
-          // // // // // console.log('index:', index);
-          set_RNPickerSelectDefaultValue(value);
-          if(onChangeText!==undefined)
-            onChangeText(value);
-          if(onChangeIndex!==undefined)
-            onChangeIndex(index);
-          // Alert.alert(text);
-          __CheckTheValidations(value);
-          set_dropdownIndexSelected(index - 1)
-        }}
-        items={items}
-        placeholder={placeholder!==''?{label:placeholder, value: ''}:{}}
-        useNativeAndroidPickerStyle={false}
-        style={{
-          done:{
-            color: BaseColors.light
-          },
-          modalViewTop:{
-            // backgroundColor: 'red'
-          },
-          headlessAndroidContainer:{
-            // backgroundColor: 'green'
-          },
-          modalViewMiddle:{
-            // backgroundColor: 'green'
-            backgroundColor: BaseColors.dark,
-            borderTopColor: BaseColors.secondary
-          },
-          viewContainer:{
-            backgroundColor: BaseColors.dark,
-            // backgroundColor: 'red',
-            paddingVertical: 0
+    if (typeInput === "textarea") {
+      return (
+        <TextInput
+          {...commonProps}
+          multiline
+          numberOfLines={6}
+          textAlignVertical="top"
+          keyboardType={_keyboardType()}
+        />
+      );
+    }
+
+    if (_keyboardType() === "phone-pad") {
+      return (
+        <TextInput
+          {...commonProps}
+          keyboardType={_keyboardType()}
+          textContentType="telephoneNumber"
+          autoComplete="tel"
+          dataDetectorTypes="phoneNumber"
+        />
+      );
+    }
+
+    return (
+      <TextInput
+        {...commonProps}
+        readOnly={onlyRead === true}
+        keyboardType={_keyboardType()}
+        onBlur={() => {
+          if (
+            value !== undefined &&
+            value !== "" &&
+            onChangeText &&
+            capitalizeTheWords === true
+          ) {
+            onChangeText(CapitalizeWords(value));
           }
         }}
-        dropdownItemStyle={{
-          backgroundColor: BaseColors.dark,
-          // backgroundColor: 'red',
-          color: BaseColors.light
-        }}
-        
-        activeItemStyle={{
-          backgroundColor: BaseColors.secondary,
-          color: BaseColors.light,
-        }}
-        
-        Icon={()=>{
-          return <Ionicons name="chevron-down" size={15} color={BaseColors.light} />
-        }}
+      />
+    );
+  };
 
-        pickerProps={{
-          mode: 'dropdown',
-          itemStyle:{
-            color: BaseColors.light,
-            backgroundColor: BaseColors.dark,
-            // color: 'red',
-            fontSize: TextsSizes.p,
-          },
-          
+  const _TheEyeButton = () => (
+    <TouchableOpacity
+      onPress={() => set_passwordEyeOff(!passwordEyeOff)}
+      style={{
+        position: "absolute",
+        right: 0,
+        top: 0,
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingInline: 15,
+        backgroundColor: "transparent",
+      }}
+    >
+      <Ionicons
+        style={{ color: BaseColors.othertexts, fontSize: 15 }}
+        name={passwordEyeOff ? "eye-off" : "eye"}
+      />
+    </TouchableOpacity>
+  );
+
+  const _frontIconWidth = () =>
+    iconFront !== undefined || textIconFront !== undefined
+      ? BasePaddingsMargins.m35
+      : 0;
+
+  const _frontIcon = () =>
+    iconFront !== undefined || textIconFront !== undefined ? (
+      <View
+        style={{
+          position: "absolute",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          paddingRight: BasePaddingsMargins.m5,
+          pointerEvents: "none",
+          left: 0,
+          top: 0,
+          width: _frontIconWidth(),
+          height: "100%",
+          zIndex: 100,
         }}
       >
-
-        <TouchableOpacity onPress={handleArrowClick}
-        style={[
-          StyleZ.loginFormInput, ( _frontIconWidth()>0?{paddingLeft: _frontIconWidth()+5}:null ),
-          {
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            alignItems: 'center',
-            position: 'relative',
-            // backgroundColor: 'green',
-            // paddingLeft: _frontIcon()!==null?BasePaddingsMargins.m35:0
-          },
-          (errorMessage!==''?{borderColor: BaseColors.danger}:null)
-        ]}>
-          {/* Main "input" area - can be a TouchableOpacity or View.
-              If it's a TouchableOpacity with an onPress, it will take precedence
-              over RNPickerSelect's default touchable behavior, effectively
-              making the main area not open the picker UNLESS we specifically call togglePicker().
-              Here, we don't call it, making it non-opening.
-          */}
-          <View style={{
-            // backgroundColor: 'red',
-          }}>
-            <Text style={{
+        {textIconFront ? (
+          <Text
+            style={{
+              fontSize: TextsSizes.p,
+              fontWeight: "bold",
               color: BaseColors.othertexts,
-              // backgroundColor: 'red',
-              fontSize: TextsSizes.p
-            }}>
-              {/*value
-                ? items.find((item) => item.value === (defaultValue!==undefined && RNPickerSelectDefaultValue===''?defaultValue:RNPickerSelectDefaultValue))?.label
-                : placeholder*/}
-              {
-                (():string=>{
-                  const text:string = defaultValue!==undefined && RNPickerSelectDefaultValue===''?defaultValue:RNPickerSelectDefaultValue;
-
-                  // // // // // console.log('picker select items:', items);
-
-                  if(items[dropdownIndexSelected]===undefined && placeholder!=='' && placeholder!==undefined){
-                    return placeholder;
-                  }
-                  if(items.length>0 && items[dropdownIndexSelected]!==undefined && items[dropdownIndexSelected].label!==''){
-                    return items[dropdownIndexSelected].label;
-                  }
-                  if(text!=='')return text;
-                  if(text==='' && placeholder!==undefined)return placeholder;
-                  return '';
-                })()
-              }
-            </Text>
-          </View>
-
-          {/* The Arrow Icon - ONLY THIS WILL OPEN THE PICKER */}
-          <View  >
-            <Ionicons name="chevron-down" size={TextsSizes.p} color={BaseColors.othertexts} />
-          </View>
-
-        </TouchableOpacity>
-
-      </RNPickerSelect>
+              paddingRight: 3,
+            }}
+          >
+            {textIconFront}
+          </Text>
+        ) : (
+          <Ionicons
+            name={iconFront!}
+            size={TextsSizes.p}
+            color={BaseColors.othertexts}
+          />
+        )}
       </View>
-    }
-    if(typeInput==='textarea'){
-      
-      return <TextInput 
-        returnKeyType="done"
-        keyboardAppearance="dark"
-        multiline={true}
-        numberOfLines={6}
-        textAlignVertical="top"
-        keyboardType={
-          // "numeric"
-          _keyboardType()
-          
-        }
-        // (_keyboardType()==='phone-pad'?textContentType="")
-        // textContentType=""
-        secureTextEntry={isPassword===true && !passwordEyeOff}
-        value={value}
-        defaultValue={defaultValue}
-        onBlur={(text)=>{
-        
-        }}
-        onChangeText={(text)=>{
-          if(onChangeText!==undefined)
-            onChangeText(text);
-          // Alert.alert(text);
-          __CheckTheValidations(text);
-        }}
-        placeholder={placeholder!==undefined?placeholder:''}
-        placeholderTextColor={BaseColors.othertexts}
-        style={[
-          StyleZ.loginFormInput,
-          StyleZ.loginFormInput_Textarea,
-          (errorMessage!==''?{borderColor: BaseColors.danger}:null)
-        ]} />;
-    }
-    if(_keyboardType()==='phone-pad'){
-      return <TextInput 
-        returnKeyType="done"
-        keyboardAppearance="dark"
-        multiline={false}
-        readOnly={onlyRead===true}
-        keyboardType={
-          // "numeric"
-          _keyboardType()
-        }
+    ) : null;
 
-        textContentType="telephoneNumber" // iOS autofill hint
-        autoComplete="tel" // Android autofill hint
-        dataDetectorTypes="phoneNumber" // Detects phone numbers for tap-to-call
-        returnKeyType="done" // Changes the return key to 'Done'
-
-        secureTextEntry={isPassword===true && !passwordEyeOff}
-        value={value}
-        defaultValue={defaultValue}
-        onBlur={(text)=>{
-        
-        }}
-        onChangeText={(text)=>{
-          if(onChangeText!==undefined)
-            onChangeText(text);
-          // Alert.alert(text);
-          __CheckTheValidations(text);
-        }}
-        placeholder={placeholder!==undefined?placeholder:''}
-        placeholderTextColor={BaseColors.othertexts}
-        style={[
-          StyleZ.loginFormInput,
-          ( _frontIconWidth()>0?{paddingLeft: _frontIconWidth()+5}:null ),
-          (errorMessage!==''?{borderColor: BaseColors.danger}:null)
-        ]} />;
-    }
-    return <TextInput 
-      returnKeyType="done"
-      keyboardAppearance="dark"
-      multiline={false}
-      readOnly={onlyRead===true}
-      keyboardType={
-        // "numeric"
-        _keyboardType()
-      }
-      
-      secureTextEntry={isPassword===true && !passwordEyeOff}
-      value={value}
-      defaultValue={defaultValue}
-      onBlur={(text)=>{
-        if(value!==undefined && value !=='' && onChangeText!==undefined && capitalizeTheWords===true){
-          onChangeText( CapitalizeWords(value) );
-        }
-      }}
-      onChangeText={(text)=>{
-        
-        if(onChangeText!==undefined){
-          onChangeText(text);
-        }
-        set_localValue(localValue)
-        // Alert.alert(text);
-        __CheckTheValidations(text);
-      }}
-      placeholder={placeholder!==undefined?placeholder:''}
-      placeholderTextColor={BaseColors.othertexts}
+  return (
+    <View
       style={[
-        StyleZ.loginFormInput,
-        ( _frontIconWidth()>0?{paddingLeft: _frontIconWidth()+5}:null ),
-        ( onlyRead===true?StyleZ.loginFormInput_onlyRead:null ),
-        (errorMessage!==''?{borderColor: BaseColors.danger}:null)
-      ]} />;
-  }
+        StyleZ.loginFormInputHolder,
+        marginBottomInit !== undefined
+          ? { marginBottom: marginBottomInit }
+          : null,
+        onlyRead === true ? StyleZ.loginFormInputHolder_onlyRead : null,
+      ]}
+    >
+      {label ? <Text style={StyleZ.loginFormInputLabel}>{label}</Text> : null}
 
-  const _TheEyeButton = ()=>{
-    
-    return <TouchableOpacity onPress={()=>{
-      set_passwordEyeOff(!passwordEyeOff);
-    }} style={{
-      position: 'absolute',
-      right: 0,
-      top: 0,
-      height: '100%',
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingInline: 15,
-      backgroundColor: 'transparent'
-    }}>
-      <Ionicons style={{
-        color: BaseColors.othertexts,
-        fontSize: 15
-      }} name={passwordEyeOff===true?'eye-off':'eye'} />
-    </TouchableOpacity>
-  }
-
-  const _frontIconWidth = ()=>{
-    if(iconFront!==undefined || textIconFront!==undefined){
-      return BasePaddingsMargins.m35;
-    }
-    return 0;
-  }
-  const _frontIcon = ()=>{
-    if(iconFront!==undefined || textIconFront!==undefined){
-      return <View style={{
-        position: 'absolute',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center', 
-        justifyContent: 'flex-end',
-        paddingRight: BasePaddingsMargins.m5,
-        pointerEvents: 'none',
-        left: 0,
-        top:0,
-        width: _frontIconWidth(),
-        height: '100%',
-        // backgroundColor: 'red',
-        zIndex: 100,
-        // backgroundColor: 'red'
-      }}>
-        {
-          textIconFront!==undefined?
-          <Text style={{
-            fontSize: TextsSizes.p,
-            fontWeight: 'bold',
-            color: BaseColors.othertexts,
-            paddingRight: 3
-          }}>{textIconFront}</Text>
-          :
-          <Ionicons name={iconFront} size={TextsSizes.p} color={BaseColors.othertexts} />
-        }
-        
+      <View style={{ position: "relative" }}>
+        {_frontIcon()}
+        {_input()}
+        {isPassword === true ? _TheEyeButton() : null}
       </View>
-    }
-    return null;
-  }
 
-  return <View style={[
-    StyleZ.loginFormInputHolder,
-    (marginBottomInit!==undefined?{marginBottom: marginBottomInit}:null),
-    (onlyRead===true?StyleZ.loginFormInputHolder_onlyRead:null)
-  ]}>
-    {
-      label!==undefined?
-       <Text style={StyleZ.loginFormInputLabel}>{label}</Text>
-       :
-       null
-    }
-   
-    <View style={{
-      position: 'relative'
-    }}>
+      {description ? (
+        <Text
+          style={[
+            StyleZ.loginFormInputLabel,
+            {
+              fontWeight: "regular",
+              fontSize: TextsSizes.p,
+              paddingTop: BasePaddingsMargins.m5,
+              width: "100%",
+            },
+          ]}
+        >
+          {description}
+        </Text>
+      ) : null}
 
-      {
-        _frontIcon()
-      }
+      {errorMessage !== "" ? (
+        <Text style={StyleZ.LFErrorMessage}>{errorMessage}</Text>
+      ) : null}
 
-      {
-        _input()
-      }
-
-      
-      {
-        isPassword===true?
-        _TheEyeButton()
-        :
-        null
-      }
+      {/* Local bar for number/phone inputs */}
+      {needsLocalAccessory ? (
+        <InputAccessoryView nativeID={localAccessoryId}>
+          <View
+            style={{
+              backgroundColor: BaseColors.dark,
+              borderTopWidth: 1,
+              borderTopColor: BaseColors.secondary,
+              paddingHorizontal: BasePaddingsMargins.m15,
+              paddingVertical: BasePaddingsMargins.m10,
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => Keyboard.dismiss()}
+              style={{
+                paddingHorizontal: 16,
+                paddingVertical: 10,
+                backgroundColor: BaseColors.primary,
+                borderRadius: 10,
+              }}
+            >
+              <Text style={{ color: "white", fontWeight: "700", fontSize: 17 }}>
+                Done
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </InputAccessoryView>
+      ) : null}
     </View>
-    {
-      description!==undefined && description!==""
-      ?
-      <Text style={[
-        StyleZ.loginFormInputLabel,
-        {
-          fontWeight: 'regular',
-          fontSize: TextsSizes.p,
-          paddingTop: BasePaddingsMargins.m5,
-          width: '100%'
-        }
-      ]}>{description}</Text>
-      :
-      null
-    }
-    {
-      errorMessage!==''
-      ?
-      <Text style={StyleZ.LFErrorMessage}>{errorMessage}</Text>
-      :
-      null
-    }
-
-    {
-      /*onlyRead===true?
-      <View style={{
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        width: '100%',
-        height: '100%',
-        // backgroundColor: 'red'
-      }}></View>
-      :
-      null*/
-    }
-
-  </View>
+  );
 }
