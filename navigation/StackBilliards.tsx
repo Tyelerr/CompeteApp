@@ -7,31 +7,47 @@ import ScreenFargoRatedTournaments from "../screens/Billiard/ScreenFargoRatedTou
 
 const Stack = createNativeStackNavigator();
 
-const ExampleScreen = ()=>{
-  return <Text>Example screen</Text>
-}
+const ExampleScreen = () => {
+  return <Text>Example screen</Text>;
+};
 
-export default function StackBilliards({navigation, route}){
-
-
+export default function StackBilliards({ navigation, route }) {
   // const navigation = useNavigation();
   // const route = useRoute();
 
   const ArrayBilliardsScreens = [
-    {name: 'BilliardHome', component: ScreenBilliardHome,
-      header:<StackHeader 
-              title="Billiards Tournaments" 
-              subtitle="Browse all billiards tournaments by game type and location" type="centered-no-icon" />
+    {
+      name: "BilliardHome",
+      component: ScreenBilliardHome,
+      header: (
+        <StackHeader
+          title="Billiards Tournaments"
+          subtitle="Browse all billiards tournaments by game type and location"
+          type="centered-no-icon"
+        />
+      ),
     },
-    {name: 'BilliardDailyTournaments', component: ScreenDailyTournaments,
-      header:<StackHeader 
-              title="Daily Tournaments"
-              subtitle="Browse all recurring tournaments in your area" type="centered-no-icon" />
+    {
+      name: "BilliardDailyTournaments",
+      component: ScreenDailyTournaments,
+      header: (
+        <StackHeader
+          title="Daily Tournaments"
+          subtitle="Browse all recurring tournaments in your area"
+          type="centered-no-icon"
+        />
+      ),
     },
-    {name: 'BilliardFargoRated', component: ScreenFargoRatedTournaments,
-      header: <StackHeader 
-              title="Fargo Rated Tournaments" 
-              subtitle="Browse all Fargo rated tournaments and track your progress" type="centered-no-icon" />
+    {
+      name: "BilliardFargoRated",
+      component: ScreenFargoRatedTournaments,
+      header: (
+        <StackHeader
+          title="Fargo Rated Tournaments"
+          subtitle="Browse all Fargo rated tournaments and track your progress"
+          type="centered-no-icon"
+        />
+      ),
     },
     // {name: 'BilliardHome', component: ExampleScreen},
     // {name: 'BilliardHome', component: ExampleScreen},
@@ -50,28 +66,27 @@ export default function StackBilliards({navigation, route}){
     return {title: 'Billiards Tournaments', subtitle: 'Browse all billiards tournaments by game type and location'}
   }*/
 
-  return <Stack.Navigator
-    initialRouteName="BilliardHome"
-    screenOptions={
-      {
+  return (
+    <Stack.Navigator
+      initialRouteName="BilliardHome"
+      screenOptions={{
         animation: "none",
         animationDuration: 0,
         // statusBarAnimation: 'none',
-
-      }
-    }
-  >
-    {
-      ArrayBilliardsScreens.map((obj, key:number)=>{
-        return <Stack.Screen
-        options={{
-          header: ()=> obj.header
-        }}
-          key={`admin-screen-${key}`}
-          name={obj.name}
-          component={obj.component}
-        />;
-      })
-    }
-  </Stack.Navigator>
+      }}
+    >
+      {ArrayBilliardsScreens.map((obj, key: number) => {
+        return (
+          <Stack.Screen
+            options={{
+              header: () => obj.header,
+            }}
+            key={`admin-screen-${key}`}
+            name={obj.name}
+            component={obj.component}
+          />
+        );
+      })}
+    </Stack.Navigator>
+  );
 }

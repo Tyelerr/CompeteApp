@@ -1,155 +1,121 @@
+// navigation/StackHome.tsx
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { TRootStackParamList } from "./Interface";
 import { ScrollView, Text, View } from "react-native";
-// import { StackHeader } from "./StackHeader";
 import { StyleZ } from "../assets/css/styles";
-import ScreenHome from "../screens/Home/ScrenHome";
+
 import StackHeader from "./StackHeader";
+
+// Home screens
+import ScreenHome from "../screens/Home/ScrenHome";
 import ScreenHomePlayerSpotlight from "../screens/Home/ScreenHomePlayerSpotlight";
 import ScreenHomeBarOfTheMonth from "../screens/Home/ScreenHomeBarOfTheMonth";
 import ScreenHomeFeaturedPlayer from "../screens/Home/ScreenHomeFeaturedPlayer";
 import ScreenHomeFeaturedBar from "../screens/Home/ScreenHomeFeaturedBar";
-// import { Header } from "react-native/Libraries/NewAppScreen";
+
+// ✅ FAQ screen
+import ScreenFAQs from "../screens/FAQs/ScreenFAQs";
 
 // const Stack = createNativeStackNavigator<TRootStackParamList>();
 const Stack = createNativeStackNavigator();
 
-
-
-/*const homeScreen = ()=>{
-  
-  return <ScrollView style={{
-    marginInline: 16,
-    marginBlock: 5,
-    // paddingBlockEnd: 40
-  }}>
-    <View style={{
-      // paddingBlock: 20,
-      // flexDirection: 'row'
-    }}>
-      {
-      (Array(200).fill(undefined)).map((v, key)=>{
-        return <Text key={`item-key-${key}`} style={{display:'flex'}}>This will be the home page {key}</Text>;
-      })
-      }
+/* (kept from your original file; unused demo stubs) */
+const latestNews = () => {
+  return (
+    <View>
+      <Text>Those will be the latest news</Text>
     </View>
-  </ScrollView>
-}*/
+  );
+};
+const BarOfTheMonth = () => {
+  return (
+    <View>
+      <Text>Those will be the latest bar of the month</Text>
+    </View>
+  );
+};
 
-
-
-const latestNews = ()=>{
-  return <View>
-    <Text>Those will be the latest news</Text>
-  </View>
-}
-const BarOfTheMonth = ()=>{
-  return <View>
-    <Text>Those will be the latest bar of the month</Text>
-  </View>
-}
-
-export default function StackHome(){
-
+export default function StackHome() {
   const HomeScreensArr = [
-    {name:'LatestNews', component:ScreenHome},
-    {name:'PlayerSpotlight', component: ScreenHomePlayerSpotlight},
-    {name:'BarOfTheMonth', component: ScreenHomeBarOfTheMonth},
-    {name:'HomeFeaturedPlayer', component: ScreenHomeFeaturedPlayer},
-    {name:'HomeFeaturedBar', component: ScreenHomeFeaturedBar},
+    { name: "LatestNews", component: ScreenHome },
+    { name: "PlayerSpotlight", component: ScreenHomePlayerSpotlight },
+    { name: "BarOfTheMonth", component: ScreenHomeBarOfTheMonth },
+    { name: "HomeFeaturedPlayer", component: ScreenHomeFeaturedPlayer },
+    { name: "HomeFeaturedBar", component: ScreenHomeFeaturedBar },
+  ] as const;
 
-  ];
+  const HomeHeader = () => (
+    <StackHeader
+      title="Billiards Hub"
+      subtitle="Your source for the latest pool news and updates"
+      type="centered-no-icon"
+    />
+  );
 
-  return <Stack.Navigator 
-    initialRouteName="LatestNews" 
-    screenOptions={{
-      // animationEnabled: false,
-      
-      animation: "none",
-      animationDuration: 0,
-      // statusBarAnimation: 'none',
+  const FaqHeader = () => (
+    <StackHeader
+      title="Frequently Asked Questions"
+      subtitle="Find answers to common questions and get in touch with support"
+      type="centered-no-icon"
+    />
+  );
 
-      headerStyle: {
-        // height: 40
-      }
-    }} 
-  >
-
-    {
-      HomeScreensArr.map((obj, key:number)=>{
-        return <Stack.Screen key={`home-screen-${key}`} 
-          name={obj.name} component={obj.component} 
-
-          options={({navigation})=>({
-            
-            
-
-            headerShown: true,
-            // headerTintColor: 'red',
-            // header
-            
-            header: ()=> <StackHeader title="Billiards Hub" subtitle="Your source for the latest pool news and updates" type="centered-no-icon" />,
-
-            headerStyle:{
-              
-              // backgroundColor: '#09090b',
-              backgroundColor: StyleZ.colors.backgroundColor,
-              // backgroundColor: 'red',
-
-              // default height is 64px if is not set this good
-              // height: 'auto',
-              // height: 120,
-
-            
-          
-            },
-            // headerBackButtonMenuEnabled: false,
-            headerBackVisible: false, // Ensures no default back button appears on the first screen
-
-            title: 'home home',
-
-          })}
-          
-          />
-      })
-    }
-
-    {/*<Stack.Screen 
-      name="LatestNews" component={ScreenHome} 
-    
-      options={({navigation})=>({
-        
-        headerShown: true,
-        // header
-        
-        headerTitle: ()=> <StackHeader title="Billiards Hub" subtitle="Your source for the latest pool news and updates" />,
-        headerStyle:{
-          
-          // backgroundColor: '#09090b',
+  return (
+    <Stack.Navigator
+      initialRouteName="LatestNews"
+      screenOptions={{
+        animation: "none",
+        animationDuration: 0,
+        headerStyle: {
           backgroundColor: StyleZ.colors.backgroundColor,
-          // backgroundColor: 'red',
-
-          // default height is 64px if is not set this good
-          // height: 'auto',
-          height: 120,
-      
         },
-        // headerBackButtonMenuEnabled: false,
-        headerBackVisible: false, // Ensures no default back button appears on the first screen
+      }}
+    >
+      {HomeScreensArr.map((obj, key: number) => (
+        <Stack.Screen
+          key={`home-screen-${key}`}
+          name={obj.name as string}
+          component={obj.component as any}
+          options={{
+            headerShown: true,
+            header: HomeHeader,
+            headerStyle: {
+              backgroundColor: StyleZ.colors.backgroundColor,
+            },
+            // 🔒 Only hide back button on the root screen
+            headerBackVisible: obj.name === "LatestNews" ? false : true,
+            title: "home home",
+          }}
+        />
+      ))}
 
-        title: 'home home',
-
-      })}
-      
+      {/* ✅ FAQ as a push screen */}
+      <Stack.Screen
+        name="FAQ"
+        component={ScreenFAQs}
+        options={{
+          headerShown: true,
+          header: FaqHeader,
+          headerStyle: {
+            backgroundColor: StyleZ.colors.backgroundColor,
+          },
+          headerBackVisible: true,
+        }}
       />
-    <Stack.Screen
-      name="LatestNews" 
-      component={latestNews}
-      options={({navigation})=>({
-        headerShown: true,
-        title: 'Latest News'
-      })}
-      />*/}
 
-  </Stack.Navigator>
+      {/* ✅ Legacy alias so existing navigation.navigate("FAQTab") still works */}
+      <Stack.Screen
+        name="FAQTab"
+        component={ScreenFAQs}
+        options={{
+          headerShown: true,
+          header: FaqHeader,
+          headerStyle: {
+            backgroundColor: StyleZ.colors.backgroundColor,
+          },
+          headerBackVisible: true,
+        }}
+      />
+    </Stack.Navigator>
+  );
 }
